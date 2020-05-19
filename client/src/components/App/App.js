@@ -14,7 +14,6 @@ class App extends React.Component {
     fetch(`/api/list`)
       .then(response => response.json())
       .then(list => {
-        console.log(list);
         this.setState({list})
       })
       .catch(err => {
@@ -29,7 +28,7 @@ class App extends React.Component {
   render(){
     return(
       <div className = "appWrapper">
-        <List list={this.state.list}/>
+        <List list={this.state.list} fetchNewList={() => this.updateList()}/>
       </div>
     )
   }

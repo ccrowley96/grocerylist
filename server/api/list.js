@@ -32,6 +32,21 @@ router.post('/', async (req, res, next) => {
     }
 });
 
+//toggle 'checked' on item id
+router.post('/check/:id', async (req, res, next) => {
+    
+    try{
+        let item = await Item.findById(new ObjectId(req.params.id))
+        if(!item) throw  new Error()
+
+        await Item.updateOne({'_id': new ObjectId(req.params.id)}, {checked: !item.checked})
+        res.sendStatus(200);
+    } catch(err){
+        console.log(err);
+        res.sendStatus(404);
+    }
+})
+
 //DELETE item by ID
 router.delete('/:id', (req, res, next) => {
     try{

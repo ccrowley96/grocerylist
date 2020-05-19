@@ -9,6 +9,10 @@ const itemSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    checked: {
+        type: Boolean,
+        default: false
+    }
 });
 
 module.exports = mongoose.model('Item', itemSchema);

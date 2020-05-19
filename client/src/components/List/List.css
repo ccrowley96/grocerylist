@@ -30,13 +30,22 @@
     font-size: x-large;
 }
 
+.emptyListPlaceholder{
+    display: flex;
+    width: 100%;
+    height: calc(100% - 100px);
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+}
+
 .list{
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: start;
-    background-color: #3D9970;
+    /* background-color: #3D9970; */
     margin-bottom: 50px;
 
     padding: 10px 10px 10px 10px;

@@ -8,9 +8,9 @@ router.get('/', (req, res, next) => {
     Item.find({}, (err, items) => {
         if (err) {
           console.log(err);
-          res.status = 500;
-          res.send("failed to get list items");
+          res.sendStatus(500);
         } else {
+            res.status(200);
             res.json({
                 title: 'List',
                 items
@@ -26,9 +26,9 @@ router.post('/', async (req, res, next) => {
     });
     try {
         await item.save();
-        res.redirect("/");
+        res.sendStatus(200);
     } catch (err) {
-        res.redirect("/");
+        res.sendStatus(500);
     }
 });
 

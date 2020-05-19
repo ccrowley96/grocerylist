@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment-timezone';
 import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
+import AddModal from '../AddModal/AddModal';
 import isMobile from 'ismobilejs';
 import './List.scss';
 
@@ -12,7 +13,8 @@ class List extends React.Component{
         super(props);
 
         this.state = {
-            confirmOpen: false
+            confirmOpen: false,
+            addOpen: false
         };
     }
 
@@ -74,16 +76,40 @@ class List extends React.Component{
                     }}
                 />
 
+                {this.state.addOpen ? 
+                    <AddModal
+                        triggerClose={() => this.setState({addOpen: false})}
+                        addItem={(item) => this.addItem(item)}
+                    /> : null
+                }
+
+                
+
                 <div className="listFooter">
                     <div className="footerDiv">
                         <button onClick={() => this.setState({confirmOpen: true})} className="clearList">Clear List</button>
                     </div>
                     <div className="footerDiv">
-                        <button className="addItem">Add Item</button>
+                        <button onClick={() => this.setState({addOpen: true})} className="addItem">Add Item</button>
                     </div>
                 </div>
             </div>
         );
+    }
+
+    async addItem(item){
+        console.log('trying to add item: ', item);
+        await fetch('/api/list', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(item)
+        });
+
+        this.setState({addOpen: false});
+
+        this.props.fetchNewList();
     }
 
     async clearList(){

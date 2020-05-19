@@ -1,0 +1,97 @@
+.addModalBlocker{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(255,255,255, .5);
+
+    .addModal{
+        height: 50%;
+        width: 100%;
+        background-color: rgba(255,255,255, .95);
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .addTitle{
+        height: 20%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modalWrapper{
+        width: 100%;
+        height: 100%;
+    }
+
+    .formWrapper{
+        height: 60%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .addForm{
+        height: 100%;
+        width: 90%;
+        display: flex;
+        justify-content: start;
+        align-items: flex-start;
+
+        .addFormItemDesc{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            font-size: large;
+        }
+
+        .itemInput{
+            background-color: #DDDDDD;
+            font-size: x-large;
+            border-radius: 5px;
+        }
+    }
+
+    .tools{
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        width: 100%;
+        height: 20%;
+
+        .toolSection{
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button{
+            width: 80%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;;
+            font-family: 'Balsamiq Sans', cursive;
+            font-size: large;
+        }
+
+        .confirm{
+            background-color: #2ECC40;
+        }
+    
+        .cancel{
+            background-color: #FF4136;
+        }
+    }
+}
+

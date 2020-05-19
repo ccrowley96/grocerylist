@@ -1,0 +1,29 @@
+{
+  "name": "listapp",
+  "version": "1.0.0",
+  "description": "To Do / List App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "server-dev": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccrowley96/listApp.git"
+  },
+  "author": "Cory Crowley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ccrowley96/listApp/issues"
+  },
+  "homepage": "https://github.com/ccrowley96/listApp#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.14",
+    "path": "^0.12.7"
+  }
+}

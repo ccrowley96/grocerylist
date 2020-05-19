@@ -1,0 +1,11 @@
+.appWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #001f3f;
+    width: 100%;
+    height: 100vh;
+
+    /* Default font family within app */
+    font-family: 'Balsamiq Sans', cursive;
+}

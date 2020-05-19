@@ -1,6 +1,6 @@
 import React from 'react';
 import isMobile from 'ismobilejs';
-import './ListItem.css';
+import './ListItem.scss';
 
 class ListItem extends React.Component{
     constructor(props){
@@ -9,7 +9,7 @@ class ListItem extends React.Component{
 
     render(){
         return (
-            <div className={`listItemWrapper ${this.props.checked ? 'checked': ''} ${isMobile().any ? ' mobile' : ''}`}>
+            <div className={`listItemWrapper${this.props.checked ? ' checked': ''} ${isMobile().any ? ' mobile' : ''}`}>
                 <div className="listItem">
                     <div className='listContent'>
                         { this.props.checked ?

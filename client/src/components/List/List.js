@@ -1,13 +1,19 @@
 import React from 'react';
 import moment from 'moment-timezone';
 import ListItem from '../ListItem/ListItem';
-import './List.css';
+import ConfirmModal from '../ConfirmModal/ConfirmModal';
+import isMobile from 'ismobilejs';
+import './List.scss';
 
 moment().tz("America/Los_Angeles").format();
 
 class List extends React.Component{
     constructor(props){
         super(props);
+
+        this.state = {
+            confirmOpen: false
+        };
     }
 
     formatTime(date){
@@ -52,18 +58,38 @@ class List extends React.Component{
 
     render(){
         return (
-            <div className={`listWrapper`}>
+            <div className={`listWrapper${isMobile().any ? ' mobile' : ''}`}>
                 <div className="title">
                     ourList
                 </div>
 
                 {this.renderList()}
 
+                <ConfirmModal 
+                    open={this.state.confirmOpen} 
+                    triggerClose={() => this.setState({confirmOpen: false})}
+                    confirm={() => {
+                        this.clearList();
+                        this.setState({confirmOpen: false});
+                    }}
+                />
+
                 <div className="listFooter">
-                    Footer
+                    <div className="footerDiv">
+                        <button onClick={() => this.setState({confirmOpen: true})} className="clearList">Clear List</button>
+                    </div>
+                    <div className="footerDiv">
+                        <button className="addItem">Add Item</button>
+                    </div>
                 </div>
             </div>
         );
+    }
+
+    async clearList(){
+        await fetch('/api/list', {method: 'DELETE'});
+        //Update list
+        this.props.fetchNewList();
     }
 }
 

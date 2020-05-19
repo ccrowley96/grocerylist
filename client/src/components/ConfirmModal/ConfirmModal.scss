@@ -1,3 +1,5 @@
+@import '../../base_styles/colors.scss';
+
 .confirmModalBlocker{
     position: fixed;
     width: 100%;
@@ -18,6 +20,9 @@
         height: 30%;
         width: 80%;
         background-color: rgba(255,255,255, .95);
+        background-color: $orange;
+
+        border-radius: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -57,12 +62,12 @@
         }
 
         .confirm{
-            background-color: #2ECC40;
+            background-color: $green;
             border-radius: 10px;
         }
     
         .cancel{
-            background-color: #FF4136;
+            background-color: $red;
             border-radius: 10px;
         }
     }

@@ -1,3 +1,5 @@
+@import '../../base_styles/colors.scss';
+
 .listItem{
     display: flex;
     flex-direction: column;
@@ -21,8 +23,8 @@
 .listItemWrapper{
     width: 100%;
     display: flex;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     background-color: #7FDBFF;
     border-radius: 5px;
 
@@ -68,14 +70,14 @@
 
 .listTools{
     & .deleteTool{
-        background-color: #FF4136;
+        background-color: $red;
         border-radius: 10px;
     }   
 }
 
 .listTools {
     & .checkTool{
-        background-color: #01FF70;
+        background-color: $green;
         border-radius: 10px;
     }
 }

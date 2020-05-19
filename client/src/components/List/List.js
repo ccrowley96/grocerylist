@@ -24,19 +24,43 @@ class List extends React.Component{
     }
 
     populateListItems(){
-        return this.props.list.items.map(item => {
-            return (
-                <ListItem 
-                    key={item._id} 
-                    itemID={item._id} 
-                    content={item.content} 
-                    category={item.category}
-                    datetime={this.formatTime(item.date)}
-                    checked={item.checked}
-                    fetchNewList={this.props.fetchNewList}
-                />
-            )
-        })
+        if(this.props.list.items.length > 0){
+            let categoryMap = {};
+
+            for(let item of this.props.list.items){
+
+                if(item.category in categoryMap){
+                    categoryMap[item.category].push(item);
+                } else{
+                    categoryMap[item.category] = [item];
+                }
+            }
+
+            return Object.keys(categoryMap).map(category => {
+                return (
+                    <div key={category} className="categoryWrapper">
+                        <div className="categoryTitle">{category}</div>
+                        <div className="categoryContent">
+                        {
+                            categoryMap[category].map(item => {
+                                return (
+                                    <ListItem 
+                                        key={item._id} 
+                                        itemID={item._id} 
+                                        content={item.content} 
+                                        category={item.category}
+                                        datetime={this.formatTime(item.date)}
+                                        checked={item.checked}
+                                        fetchNewList={this.props.fetchNewList}
+                                    />
+                                )
+                            })
+                        }
+                        </div>
+                    </div>
+                );
+            });
+        } else{return null}
     }
 
     renderList(){

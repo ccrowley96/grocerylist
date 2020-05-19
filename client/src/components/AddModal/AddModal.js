@@ -65,7 +65,7 @@ class AddModal extends React.Component{
                                         onChange={(e) => this.handleCatChange(e)}
                                     >
                                         {groceryCategories.map((category) => {
-                                            return (<option>{category}</option>)
+                                            return (<option key={category}>{category}</option>)
                                         })}
                                     </select>
                                 </div>

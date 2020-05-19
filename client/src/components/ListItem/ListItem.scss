@@ -13,6 +13,10 @@
 .listDate{
     font-size: small;
 }
+.listCategory{
+    font-size: small;
+    margin-bottom: 10px;
+}
 
 .listItemWrapper{
     width: 100%;
@@ -65,11 +69,13 @@
 .listTools{
     & .deleteTool{
         background-color: #FF4136;
+        border-radius: 10px;
     }   
 }
 
 .listTools {
     & .checkTool{
         background-color: #01FF70;
+        border-radius: 10px;
     }
 }

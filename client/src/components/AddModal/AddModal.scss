@@ -1,5 +1,5 @@
 .addModalBlocker{
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     z-index: 2;
@@ -47,16 +47,26 @@
 
         .addFormItemDesc{
             display: flex;
-            justify-content: center;
+            justify-content: space-evenly;
             flex-direction: column;
             width: 100%;
             font-size: large;
         }
 
-        .itemInput{
+        .formItem{
             background-color: #DDDDDD;
             font-size: x-large;
             border-radius: 5px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .itemInput{
+
+        }
+
+        .selector{
+
         }
     }
 
@@ -83,6 +93,7 @@
             align-items: center;;
             font-family: 'Balsamiq Sans', cursive;
             font-size: large;
+            border-radius: 10px;
         }
 
         .confirm{

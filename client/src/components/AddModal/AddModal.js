@@ -1,4 +1,5 @@
 import React from 'react';
+import {groceryCategories} from '../../utils/utils'
 import './AddModal.scss';
 
 class AddModal extends React.Component{
@@ -7,7 +8,7 @@ class AddModal extends React.Component{
 
         this.state = {
             itemDesc: '',
-
+            itemCat: groceryCategories[0]
         }
     }
 
@@ -19,12 +20,17 @@ class AddModal extends React.Component{
         this.setState({itemDesc: event.target.value});
     }
 
+    handleCatChange(event){
+        this.setState({itemCat: event.target.value});
+    }
+
     handleSubmit(event) {
         console.log('A item was submitted: ' + this.state);
         event.preventDefault();
 
         this.props.addItem({
-            content: this.state.itemDesc
+            content: this.state.itemDesc,
+            category: this.state.itemCat
         })
 
         this.setState({itemDesc: ''});
@@ -44,13 +50,24 @@ class AddModal extends React.Component{
                                     <label>
                                         Item Description
                                     </label>
-                                    <input className="itemInput" type="text" name="itemDesc" 
+                                    <input className="formItem" type="text" name="itemDesc" 
                                         ref={(input) => { this.itemInput = input; }} 
                                         value={this.state.itemDesc} 
                                         onChange={(e) => this.handleDescChange(e)}
                                         placeholder={'oreos...'} 
                                         // TODO add random placeholder item generation
                                     />
+                                    <label>
+                                        Grocery Category (optional)
+                                    </label>
+                                    <select className = "formItem" type="text" name="itemCat"
+                                        value={this.state.itemCat} 
+                                        onChange={(e) => this.handleCatChange(e)}
+                                    >
+                                        {groceryCategories.map((category) => {
+                                            return (<option>{category}</option>)
+                                        })}
+                                    </select>
                                 </div>
                             </div>
                         </div>

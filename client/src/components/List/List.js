@@ -30,6 +30,7 @@ class List extends React.Component{
                     key={item._id} 
                     itemID={item._id} 
                     content={item.content} 
+                    category={item.category}
                     datetime={this.formatTime(item.date)}
                     checked={item.checked}
                     fetchNewList={this.props.fetchNewList}
@@ -42,13 +43,13 @@ class List extends React.Component{
         if(this.props.list){
             if(this.props.list.items.length == 0){
                 return(
-                    <div className={'emptyListPlaceholder'}>
+                    <div className={`emptyListPlaceholder${isMobile().any ? ' mobile' : ''}`}>
                         No Items Found!
                     </div>
                 )
             } else{
                 return(
-                    <div className="list">
+                    <div className={`list${isMobile().any ? ' mobile' : ''}`}>
                         {this.props.list ? this.populateListItems() : 'loading...'}
                     </div>
                 );
@@ -61,15 +62,18 @@ class List extends React.Component{
     render(){
         return (
             <div className={`listWrapper${isMobile().any ? ' mobile' : ''}`}>
+                {!isMobile().any ? 
                 <div className="title">
                     ourList
-                </div>
+                </div> : null
+                }
 
                 {this.renderList()}
 
                 <ConfirmModal 
                     open={this.state.confirmOpen} 
                     triggerClose={() => this.setState({confirmOpen: false})}
+                    message={'Do you want to clear the list?'}
                     confirm={() => {
                         this.clearList();
                         this.setState({confirmOpen: false});
@@ -83,9 +87,7 @@ class List extends React.Component{
                     /> : null
                 }
 
-                
-
-                <div className="listFooter">
+                <div className={`listFooter${isMobile().any ? ' mobile' : ''}`}>
                     <div className="footerDiv">
                         <button onClick={() => this.setState({confirmOpen: true})} className="clearList">Clear List</button>
                     </div>
@@ -93,12 +95,20 @@ class List extends React.Component{
                         <button onClick={() => this.setState({addOpen: true})} className="addItem">Add Item</button>
                     </div>
                 </div>
+                {isMobile().any ? 
+                <div className="title">
+                    ourList
+                </div> : null
+                }
             </div>
         );
     }
 
     async addItem(item){
-        console.log('trying to add item: ', item);
+        this.setState({addOpen: false});
+
+        console.log('adding item: ', item);
+        
         await fetch('/api/list', {
             method: 'POST',
             headers: {
@@ -106,8 +116,6 @@ class List extends React.Component{
             },
             body: JSON.stringify(item)
         });
-
-        this.setState({addOpen: false});
 
         this.props.fetchNewList();
     }

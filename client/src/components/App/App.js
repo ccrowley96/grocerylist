@@ -1,5 +1,6 @@
 import React from 'react';
 import List from '../List/List'
+import isMobile from 'ismobilejs';
 import './App.scss';
 
 class App extends React.Component {
@@ -15,6 +16,7 @@ class App extends React.Component {
       .then(response => response.json())
       .then(list => {
         this.setState({list})
+        console.log('fetched items: ', list)
       })
       .catch(err => {
         console.log(err);
@@ -27,7 +29,7 @@ class App extends React.Component {
 
   render(){
     return(
-      <div className = "appWrapper">
+      <div className = {`appWrapper${isMobile().any ? ' mobile' : ''}`}>
         <List list={this.state.list} fetchNewList={() => this.updateList()}/>
       </div>
     )

@@ -1,11 +1,16 @@
 .confirmModalBlocker{
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
 
     background-color: rgba(255,255,255, .5);
 
@@ -48,14 +53,17 @@
             align-items: center;;
             font-family: 'Balsamiq Sans', cursive;
             font-size: large;
+            border-radius: 10px;
         }
 
         .confirm{
             background-color: #2ECC40;
+            border-radius: 10px;
         }
     
         .cancel{
             background-color: #FF4136;
+            border-radius: 10px;
         }
     }
 }

@@ -7,6 +7,10 @@
     width: 100%;
     height: 100vh;
     position: relative;
+
+    &.mobile{
+        height: auto;
+    }
 }
 
 .title{
@@ -19,7 +23,7 @@
 }
 
 .listFooter{
-    background-color: #FFDC00;
+    background-color: #DDDDDD;
     position: absolute;
     bottom: 0px;
     display: flex;
@@ -28,6 +32,19 @@
     width: 100%;
     height: 80px;
     font-size: x-large;
+
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    
+    &.mobile{
+        bottom: unset;
+        position: fixed;
+        top: 0px;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-top-right-radius: 0px;
+        border-top-left-radius: 0px;
+    }
 
     .footerDiv{
         height:100%;
@@ -44,6 +61,8 @@
             width: 90%;
             font-family: 'Balsamiq Sans', cursive;
             font-size: large;
+
+            border-radius: 10px;
         }
     }
     .addItem{
@@ -73,4 +92,10 @@
     /* background-color: #3D9970; */
     margin-bottom: 70px;
     padding: 10px 10px 10px 10px;
+
+    &.mobile{
+        overflow-y: unset;
+        margin-bottom: 0px;
+        margin-top:80px;
+    }
 }

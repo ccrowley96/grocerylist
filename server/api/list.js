@@ -3,7 +3,7 @@ const router = express.Router();
 const Item = require('../db/models/item');
 var ObjectId = require('mongoose').Types.ObjectId; 
 
-//GET all list items
+//GET all list items --> /api/list/
 router.get('/', (req, res, next) => {
     Item.find({}, (err, items) => {
         if (err) {
@@ -22,7 +22,8 @@ router.get('/', (req, res, next) => {
 //POST new list item
 router.post('/', async (req, res, next) => {
     const item = new Item({
-        content: req.body.content
+        content: req.body.content,
+        category: req.body.category
     });
     try {
         await item.save();

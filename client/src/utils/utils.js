@@ -1,0 +1,20 @@
+exports.groceryCategories = [
+    "No Category",
+    "Baking",
+    "Beverages",
+    "Bread/Bakery",
+    "Canned Goods",
+    "Cereal/Breakfast",
+    "Condiments",
+    "Dairy/Dairy Free",
+    "Deli",
+    "Frozen Foods",
+    "Meats",
+    "Miscellaneous",
+    "Non-Food Items",
+    "Pasta/Rice",
+    "Other",
+    "Produce",
+    "Snacks",
+    "Spices"
+]

@@ -12,7 +12,7 @@ class ConfirmModal extends React.Component{
                 <div className="confirmModalBlocker">
                     <div className="confirmModal">
                         <div className="confirmSection confirmText">
-                            Do you want to clear the list?
+                            {this.props.message}
                         </div>
                         <div className="confirmSection confirmTools">
                             <div className="buttonSection">

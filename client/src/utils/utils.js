@@ -14,7 +14,7 @@ exports.groceryCategories = [
     "Pasta/Rice",
     "Produce",
     "Snacks",
-    "Sweets/Deserts",
+    "Sweets/Desserts",
     "Spices",
     "Other",
 ]

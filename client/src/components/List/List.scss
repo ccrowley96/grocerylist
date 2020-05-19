@@ -9,7 +9,8 @@
     position: relative;
 
     &.mobile{
-        height: auto;
+        height: unset;
+        min-height: -webkit-fill-available;
     }
 }
 
@@ -81,6 +82,13 @@
     justify-content: center;
     align-items: center;
     font-size: larger;
+
+    &.mobile{
+        position: fixed;
+        height: 100%;
+        top:0px;
+        bottom: 0px;
+    }
 }
 
 .list{
@@ -94,7 +102,7 @@
     padding: 10px 10px 10px 10px;
 
     &.mobile{
-        overflow-y: unset;
+        // overflow-y: unset;
         margin-bottom: 0px;
         margin-top:80px;
     }

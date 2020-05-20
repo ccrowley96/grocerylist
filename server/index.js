@@ -22,9 +22,18 @@ app.use('/api', API);
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 //Default catch all -> to index.html
-app.get('/', function(req, res) {
+app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+
+// //Default catch all -> to index.html
+// app.get('/*', function(req, res) {
+//   res.sendFile(path.join(__dirname, '../index.html'), function(err) {
+//     if (err) {
+//       res.status(500).send(err)
+//     }
+//   })
+// })
 
 //Start Listening
 app.listen(port, () => {

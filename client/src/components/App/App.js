@@ -15,6 +15,7 @@ class App extends React.Component {
     fetch(`/api/list`)
       .then(response => response.json())
       .then(list => {
+        console.log('List updated: ', list)
         this.setState({list})
       })
       .catch(err => {

@@ -49,8 +49,12 @@
     padding: 5px 5px 5px 5px;
     width: 20%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-end;
     align-items: center;
+
+    &.mobile{
+        justify-content: flex-start;
+    }
 }
 
 // Full width tool menu on mobile
@@ -66,9 +70,13 @@
 .listTools{
     .tool{
         height: 80%;
-        width: 100%;
+        // width: 100%;
         margin-right:10px;
+        margin-left: 10px;
         font-size: large;
+        &.mobile{
+            width: unset;
+        }
     }
 }
 
@@ -83,6 +91,22 @@
     & .checkTool{
         background-color: $green;
         border-radius: 10px;
+    }
+
+    .listItemToolIcon{
+        font-size: xx-large;
+        &.deleteIcon{
+            color: $red;
+            &:hover{
+                color: darken($red, 30%);
+            }
+        }
+
+        &.checkIcon{
+            &:hover{
+                color: white;
+            }
+        }
     }
 }
 

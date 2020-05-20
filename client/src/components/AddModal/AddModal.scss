@@ -63,6 +63,10 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
+
+        .formError{
+            color: $red;
+        }
     }
 
     .tools{
@@ -83,9 +87,7 @@
         button{
             width: 80%;
             height: 50px;
-           
             font-size: large;
-            
         }
     }
 }

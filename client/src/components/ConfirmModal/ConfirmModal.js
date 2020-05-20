@@ -6,29 +6,33 @@ class ConfirmModal extends React.Component{
         super(props);
     }
 
+    componentDidMount(){
+        document.body.style.overflow = 'hidden';
+        this.confirm.focus(); 
+    }
+
+    componentWillUnmount(){
+        document.body.style.overflow = 'unset';
+    }
+
     render(){
-        if(this.props.open){
-            return(
-                <div className="confirmModalBlocker">
-                    <div className="confirmModal">
-                        <div className="confirmSection confirmText">
-                            {this.props.message}
+        return(
+            <div className="confirmModalBlocker">
+                <div className="confirmModal">
+                    <div className="confirmSection confirmText">
+                        {this.props.message}
+                    </div>
+                    <div className="confirmSection confirmTools">
+                        <div className="buttonSection">
+                            <button onClick={() => this.props.confirm()} className="green" ref={(input) => { this.confirm = input; }}>Confirm</button>
                         </div>
-                        <div className="confirmSection confirmTools">
-                            <div className="buttonSection">
-                                <button onClick={() => this.props.confirm()} className="green">Confirm</button>
-                            </div>
-                            <div className="buttonSection">
-                                <button onClick={() => this.props.triggerClose()} className="red">Cancel</button>
-                            </div>
+                        <div className="buttonSection">
+                            <button onClick={() => this.props.triggerClose()} className="red">Cancel</button>
                         </div>
                     </div>
                 </div>
-            );
-        } else{
-            return null;
-        }
-        
+            </div>
+        );
     }
 }
 

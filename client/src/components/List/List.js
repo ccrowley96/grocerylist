@@ -117,16 +117,17 @@ class List extends React.Component{
                 }
 
                 {this.renderList()}
-
-                <ConfirmModal 
-                    open={this.state.confirmOpen} 
-                    triggerClose={() => this.setState({confirmOpen: false})}
-                    message={'Do you want to clear the list?'}
-                    confirm={() => {
-                        this.clearList();
-                        this.setState({confirmOpen: false});
-                    }}
-                />
+                
+                {this.state.confirmOpen ? 
+                    <ConfirmModal
+                        triggerClose={() => this.setState({confirmOpen: false})}
+                        message={'Do you want to clear the list?'}
+                        confirm={() => {
+                            this.clearList();
+                            this.setState({confirmOpen: false});
+                        }}
+                    /> : null
+                }
 
                 {this.state.edit.open ? 
                     <AddModal

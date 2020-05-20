@@ -36,8 +36,6 @@ router.post('/', async (req, res, next) => {
 
 // UPDATE item by ID
 router.put('/:id', async (req, res, next) => {
-
-    console.log('hit edit endpoint', req.body.content);
     let id = req.params.id;
 
     const itemUpdate = {

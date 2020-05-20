@@ -17,14 +17,23 @@ class AddModal extends React.Component{
                 itemCat: groceryCategories[0]
             }
         }
+
+        this.state.formError = '';
     }
 
     componentDidMount(){
+        document.body.style.overflow = 'hidden';
         this.itemInput.focus(); 
-     }
+    }
+
+    componentWillUnmount(){
+        document.body.style.overflow = 'unset';
+    }
 
     handleDescChange(event) {
-        this.setState({itemDesc: event.target.value});
+        let formError = this.state.formError
+        if(event.target.value != '') formError = '';
+        this.setState({itemDesc: event.target.value, formError});
     }
 
     handleCatChange(event){
@@ -33,6 +42,11 @@ class AddModal extends React.Component{
 
     handleSubmit(event) {
         event.preventDefault();
+
+        if(this.state.itemDesc == ''){
+            this.setState({formError: 'Description cannot be empty'})
+            return;
+        }
 
         this.props.addItem({
             content: this.state.itemDesc,
@@ -75,6 +89,7 @@ class AddModal extends React.Component{
                                             return (<option key={category}>{category}</option>)
                                         })}
                                     </select>
+                                    <div className ="formError">{this.state.formError}</div>
                                 </div>
                             </div>
                         </div>

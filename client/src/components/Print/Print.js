@@ -28,7 +28,7 @@ class Print extends React.Component{
 
     render(){
         if(!this.state.list) return (<div>loading...</div>);
-        if(this.state.list.items.length == 0) return(<div>No items found</div>)
+        if(this.state.list.items.length === 0) return(<div>No items found</div>)
 
         let categoryMap = {};
         for(let item of this.state.list.items){

@@ -66,7 +66,7 @@ class List extends React.Component{
 
     renderList(){
         if(this.props.list){
-            if(this.props.list.items.length == 0){
+            if(this.props.list.items.length === 0){
                 return(
                     <div className={`emptyListPlaceholder`}>
                         No Items Found!

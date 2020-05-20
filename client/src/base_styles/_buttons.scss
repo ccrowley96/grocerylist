@@ -17,11 +17,11 @@
     border-radius: 10px;
 
     &:hover{
-        background-color: darken($btn-color, 6%);
+        background-color: darken($btn-color, 15%);
     }
 
     &:active{
-        background-color: darken($btn-color, 6%);
+        background-color: darken($btn-color, 15%);
         outline: 0;
     }
 }

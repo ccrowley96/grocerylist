@@ -2,9 +2,6 @@ import React from 'react';
 import './ConfirmModal.scss';
 
 class ConfirmModal extends React.Component{
-    constructor(props){
-        super(props);
-    }
 
     componentDidMount(){
         document.body.style.overflow = 'hidden';

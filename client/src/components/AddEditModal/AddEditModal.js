@@ -32,7 +32,7 @@ class AddEditModal extends React.Component{
 
     handleDescChange(event) {
         let formError = this.state.formError
-        if(event.target.value != '') formError = '';
+        if(event.target.value !== '') formError = '';
         this.setState({itemDesc: event.target.value, formError});
     }
 
@@ -43,7 +43,7 @@ class AddEditModal extends React.Component{
     handleSubmit(event) {
         event.preventDefault();
 
-        if(this.state.itemDesc == ''){
+        if(this.state.itemDesc === ''){
             this.setState({formError: 'Description cannot be empty'})
             return;
         }

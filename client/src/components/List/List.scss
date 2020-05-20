@@ -56,11 +56,12 @@
             &.mobile{
                 width: 80%;
             }
-            .printIcon{
-                font-size: x-large;
-            }
         }
     }
+}
+
+.btnIcon{
+    font-size: x-large;
 }
 
 .listFooter{
@@ -98,6 +99,17 @@
             height: 70%;
             width: 90%;
             font-size: large;
+
+            &.mobile{
+                justify-content: space-evenly;
+            }
+
+            .btnIcon{
+                margin-left: 20px;
+                &.mobile{
+                    margin-left: 0px;
+                }
+            }
         }
     }
 }

@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 
 // Connect to Mongo DB
-mongoose.connect(process.env.MONGO_CONNECT, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.MONGO_CONNECT, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+
+//mongoose.set('useFindAndModify', false);
 
 const db = mongoose.connection;
 //Check connection

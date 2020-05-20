@@ -16,7 +16,6 @@ class App extends React.Component {
       .then(response => response.json())
       .then(list => {
         this.setState({list})
-        console.log('fetched items: ', list)
       })
       .catch(err => {
         console.log(err);
@@ -28,7 +27,6 @@ class App extends React.Component {
   }
 
   handlePrintClick(){
-    console.log('print clicked');
     window.open('/print');
   }
 

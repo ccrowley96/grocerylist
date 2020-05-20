@@ -16,7 +16,6 @@ class Print extends React.Component{
           .then(response => response.json())
           .then(list => {
             this.setState({list})
-            console.log('fetched list: ', list)
           })
           .catch(err => {
             console.log(err);

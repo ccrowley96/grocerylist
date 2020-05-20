@@ -29,6 +29,28 @@ router.post('/', async (req, res, next) => {
         await item.save();
         res.sendStatus(200);
     } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+});
+
+// UPDATE item by ID
+router.put('/:id', async (req, res, next) => {
+
+    console.log('hit edit endpoint', req.body.content);
+    let id = req.params.id;
+
+    const itemUpdate = {
+        content: req.body.content,
+        category: req.body.category,
+        date: new Date()
+    };
+
+    try{
+        await Item.findByIdAndUpdate(new ObjectId(id), itemUpdate);
+        res.sendStatus(200);
+    } catch(err){
+        console.log(err);
         res.sendStatus(500);
     }
 });

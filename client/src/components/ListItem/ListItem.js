@@ -1,14 +1,16 @@
 import React from 'react';
 import isMobile from 'ismobilejs';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
+import {GrEdit} from 'react-icons/gr';
 import './ListItem.scss';
+import AddModal from '../AddModal/AddModal';
 
 class ListItem extends React.Component{
     constructor(props){
         super(props);
 
         this.state = {
-            confirmOpen: false,
+            confirmOpen: false
         };
     }
 
@@ -32,9 +34,10 @@ class ListItem extends React.Component{
                             <strike>{this.props.content}</strike>
                             : this.props.content
                         }
+                        <div className={`editBtn${isMobile().any ? ' mobile': ''}`}>
+                            <GrEdit onClick={() => this.props.edit({content: this.props.content, category: this.props.category, id: this.props.itemID})}/>
+                        </div>
                     </div>
-                    {/* <div className ='listDate'>{this.props.datetime}</div>
-                    <div className ='listCategory'>Category: {this.props.category}</div> */}
                 </div>
                 <div className="listTools">
                     <button onClick={() => this.setState({confirmOpen: true})} className="tool red">delete</button>

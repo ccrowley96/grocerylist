@@ -5,10 +5,17 @@ import './AddModal.scss';
 class AddModal extends React.Component{
     constructor(props){
         super(props);
-
-        this.state = {
-            itemDesc: '',
-            itemCat: groceryCategories[0]
+        
+        if(this.props.populate){
+            this.state = {
+                itemDesc: props.populate.content,
+                itemCat: props.populate.category
+            }
+        } else{
+            this.state = {
+                itemDesc: '',
+                itemCat: groceryCategories[0]
+            }
         }
     }
 
@@ -25,7 +32,6 @@ class AddModal extends React.Component{
     }
 
     handleSubmit(event) {
-        console.log('A item was submitted: ' + this.state);
         event.preventDefault();
 
         this.props.addItem({
@@ -42,7 +48,7 @@ class AddModal extends React.Component{
                 <div className="addModal">
                     <form className="modalWrapper" onSubmit={(e) => this.handleSubmit(e)}>
                         <div className="addTitle">
-                            Add Item
+                            {this.props.context}
                         </div>
                         <div className ="formWrapper">
                             <div className="addForm" onSubmit={(e) => this.handleSubmit(e)}>
@@ -55,6 +61,7 @@ class AddModal extends React.Component{
                                         value={this.state.itemDesc} 
                                         onChange={(e) => this.handleDescChange(e)}
                                         placeholder={'oreos...'} 
+                                        maxLength={40}
                                         // TODO add random placeholder item generation
                                     />
                                     <label>
@@ -73,7 +80,7 @@ class AddModal extends React.Component{
                         </div>
                         <div className="tools">
                             <div className="toolSection">
-                                <button type="submit" value="Submit" className="green">Add Item</button>
+                                <button type="submit" value="Submit" className="green">{this.props.context}</button>
                             </div>
                             <div className="toolSection">
                                 <button onClick={() => this.props.triggerClose()} className="red">Cancel</button>

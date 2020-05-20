@@ -4,7 +4,8 @@ import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddModal from '../AddModal/AddModal';
 import isMobile from 'ismobilejs';
-import {AiOutlinePrinter} from 'react-icons/ai'
+import {AiOutlinePrinter, AiOutlineDelete} from 'react-icons/ai'
+import {GrAdd} from 'react-icons/gr';
 import './List.scss';
 
 moment().tz("America/Los_Angeles").format();
@@ -15,7 +16,8 @@ class List extends React.Component{
 
         this.state = {
             confirmOpen: false,
-            addOpen: false
+            addOpen: false,
+            edit: {open: false, data: null}
         };
     }
 
@@ -53,6 +55,9 @@ class List extends React.Component{
                                         datetime={this.formatTime(item.date)}
                                         checked={item.checked}
                                         fetchNewList={this.props.fetchNewList}
+                                        edit={(data) => {
+                                            this.setState({edit: {open: true, data}})
+                                        }}
                                     />
                                 )
                             })
@@ -97,7 +102,7 @@ class List extends React.Component{
                         onClick={() => this.props.handlePrintClick()}
                     >
                         <div>Print List</div> 
-                        <AiOutlinePrinter className="printIcon"/> 
+                        <AiOutlinePrinter className="btnIcon"/> 
                     </button>
                 </div>
             </div>
@@ -123,19 +128,36 @@ class List extends React.Component{
                     }}
                 />
 
-                {this.state.addOpen ? 
+                {this.state.edit.open ? 
                     <AddModal
+                        context={'Edit Item'}
+                        populate={this.state.edit.data}
+                        triggerClose={() => this.setState({edit: {open: false, data: null}})}
+                        addItem={(item) => this.editItem(item)}
+                    /> : null
+                }
+
+                {
+                    this.state.addOpen ?
+                    <AddModal
+                        context={'Add Item'}
                         triggerClose={() => this.setState({addOpen: false})}
-                        addItem={(item) => this.addItem(item)}
+                        addItem={(item) => this.props.addItem(item)}
                     /> : null
                 }
 
                 <div className={`listFooter${isMobile().any ? ' mobile' : ''}`}>
                     <div className="footerDiv">
-                        <button onClick={() => this.setState({confirmOpen: true})} className="red">Clear List</button>
+                        <button onClick={() => this.setState({confirmOpen: true})} className={`red${isMobile().any ? ' mobile' : ''}`}>
+                            <div>Clear List</div> 
+                            <AiOutlineDelete className={`btnIcon${isMobile().any ? ' mobile' : ''}`}/> 
+                        </button>
                     </div>
                     <div className="footerDiv">
-                        <button onClick={() => this.setState({addOpen: true})} className="green">Add Item</button>
+                        <button onClick={() => this.setState({addOpen: true})} className={`green${isMobile().any ? ' mobile' : ''}`}>
+                            <div>Add Item</div> 
+                            <GrAdd className={`btnIcon${isMobile().any ? ' mobile' : ''}`}/> 
+                        </button>
                     </div>
                 </div>
                 {isMobile().any ? 
@@ -148,10 +170,24 @@ class List extends React.Component{
     async addItem(item){
         this.setState({addOpen: false});
 
-        console.log('adding item: ', item);
-        
         await fetch('/api/list', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(item)
+        });
+
+        this.props.fetchNewList();
+    }
+
+    async editItem(item){
+
+        let itemID = this.state.edit.data.id;
+        this.setState({edit: {open: false, data: null}});
+
+        await fetch(`/api/list/${itemID}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },

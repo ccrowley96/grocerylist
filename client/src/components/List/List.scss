@@ -5,16 +5,11 @@
     display: flex;
     flex-direction: column;
     background-color: white;
-    
     min-width: 300px;
     width: 100%;
-    height: 100vh;
     position: relative;
-
-    &.mobile{
-        height: unset;
-        min-height: -webkit-fill-available;
-    }
+    height: unset;
+    min-height: -webkit-fill-available;
 }
 
 .titleBarWrapper{
@@ -38,24 +33,16 @@
     .print{
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-        margin-right: 30px;
         height: 100%;
         width: 100%;
-
-        &.mobile{
-            margin-right: 0px;
-            justify-content: center;
-        }
+        margin-right: 0px;
+        justify-content: center;
 
         button{
             height: 50%;
-            width: 200px;
             font-size: large;
             justify-content: space-evenly;
-            &.mobile{
-                width: 80%;
-            }
+            width: 80%;
         }
     }
 }
@@ -66,28 +53,20 @@
 
 .listFooter{
     background-color: #DDDDDD;
-    position: absolute;
-    bottom: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 80px;
     font-size: x-large;
-
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    bottom: unset;
+    position: fixed;
+    top: 0px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
     
-    &.mobile{
-        bottom: unset;
-        position: fixed;
-        top: 0px;
-        border-bottom-right-radius: 10px;
-        border-bottom-left-radius: 10px;
-        border-top-right-radius: 0px;
-        border-top-left-radius: 0px;
-    }
-
     .footerDiv{
         height:100%;
         width:100%;
@@ -98,17 +77,11 @@
         button{
             height: 70%;
             width: 90%;
-            font-size: large;
-
-            &.mobile{
-                justify-content: space-evenly;
-            }
+            font-size: large; 
+            justify-content: space-evenly;
 
             .btnIcon{
-                margin-left: 20px;
-                &.mobile{
-                    margin-left: 0px;
-                }
+                margin-left: 0px;
             }
         }
     }
@@ -117,17 +90,13 @@
 .emptyListPlaceholder{
     display: flex;
     width: 100%;
-    height: calc(100% - 120px);
     justify-content: center;
     align-items: center;
     font-size: larger;
-
-    &.mobile{
-        position: fixed;
-        height: 100%;
-        top:0px;
-        bottom: 0px;
-    }
+    position: fixed;
+    height: 100%;
+    top:0px;
+    bottom: 0px;
 }
 
 .list{
@@ -136,15 +105,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: start;
-    /* background-color: #3D9970; */
-    margin-bottom: 70px;
     padding: 10px 10px 10px 10px;
-
-    &.mobile{
-        // overflow-y: unset;
-        margin-bottom: 0px;
-        margin-top:80px;
-    }
+    margin-bottom: 0px;
+    margin-top:80px;
 
     .categoryWrapper{
         width: 100%;

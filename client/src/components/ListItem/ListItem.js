@@ -1,5 +1,4 @@
 import React from 'react';
-import isMobile from 'ismobilejs';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import {GrEdit} from 'react-icons/gr';
 import {AiFillDelete, AiFillCheckCircle} from 'react-icons/ai';
@@ -18,7 +17,7 @@ class ListItem extends React.Component{
 
     render(){
         return (
-            <div className={`listItemWrapper${this.props.item.checked ? ' checked': ''} ${isMobile().any ? ' mobile' : ''}`}>
+            <div className={`listItemWrapper${this.props.item.checked ? ' checked': ''} `}>
                 {this.state.confirmOpen ? 
                     <ConfirmModal 
                         triggerClose={() => this.setState({confirmOpen: false})}
@@ -36,7 +35,7 @@ class ListItem extends React.Component{
                             <strike>{this.props.item.content}</strike>
                             : this.props.item.content
                         }
-                        <div className={`editBtn${isMobile().any ? ' mobile': ''}`}>
+                        <div className={`editBtn`}>
                             <GrEdit onClick={() => {
                                 let {content, category, _id} = this.props.item;
                                 this.props.edit({content, category, _id});
@@ -45,10 +44,10 @@ class ListItem extends React.Component{
                         </div>
                     </div>
                 </div>
-                <div className={`listToolsWrapper${isMobile().any ? ' mobile': ''}`}>
+                <div className={`listToolsWrapper`}>
                     <div className = "listTools">
-                        <div onClick={() => this.setState({confirmOpen: true})} className={`tool${isMobile().any ? ' mobile': ''}`}><AiFillDelete className="listItemToolIcon deleteIcon"/></div>
-                        <div onClick={() => !this.state.checkPending ? this.clickCheck() : null} className={`tool${isMobile().any ? ' mobile': ''}`}>
+                        <div onClick={() => this.setState({confirmOpen: true})} className={`tool`}><AiFillDelete className="listItemToolIcon deleteIcon"/></div>
+                        <div onClick={() => !this.state.checkPending ? this.clickCheck() : null} className={`tool`}>
                             {this.props.item.checked ? <AiFillCheckCircle className="listItemToolIcon checkIcon"/> : <MdRadioButtonUnchecked className="listItemToolIcon checkIcon"/>}
                         </div>
                     </div>

@@ -3,7 +3,6 @@ import moment from 'moment-timezone';
 import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddEditModal from '../AddEditModal/AddEditModal';
-import isMobile from 'ismobilejs';
 import {AiOutlinePrinter, AiOutlineDelete} from 'react-icons/ai'
 import {GrAdd} from 'react-icons/gr';
 import './List.scss';
@@ -69,13 +68,13 @@ class List extends React.Component{
         if(this.props.list){
             if(this.props.list.items.length == 0){
                 return(
-                    <div className={`emptyListPlaceholder${isMobile().any ? ' mobile' : ''}`}>
+                    <div className={`emptyListPlaceholder`}>
                         No Items Found!
                     </div>
                 )
             } else{
                 return(
-                    <div className={`list${isMobile().any ? ' mobile' : ''}`}>
+                    <div className={`list`}>
                         {this.props.list ? this.populateListItems() : 'loading...'}
                     </div>
                 );
@@ -94,7 +93,7 @@ class List extends React.Component{
 
                 <div className="print">
                     <button 
-                        className={`yellow printBtn${isMobile().any ? ' mobile' : ''}`}
+                        className={`yellow printBtn`}
                         onClick={() => this.props.handlePrintClick()}
                     >
                         <div>Print List</div> 
@@ -107,11 +106,7 @@ class List extends React.Component{
 
     render(){
         return (
-            <div className={`listWrapper${isMobile().any ? ' mobile' : ''}`}>
-                {!isMobile().any ? 
-                    this.renderTitleBar() : null
-                }
-
+            <div className={`listWrapper`}>
                 {this.renderList()}
                 
                 {this.state.confirmOpen ? 
@@ -143,23 +138,23 @@ class List extends React.Component{
                     /> : null
                 }
 
-                <div className={`listFooter${isMobile().any ? ' mobile' : ''}`}>
+                <div className={`listFooter`}>
                     <div className="footerDiv">
-                        <button onClick={() => this.setState({confirmOpen: true})} className={`red${isMobile().any ? ' mobile' : ''}`}>
+                        <button onClick={() => this.setState({confirmOpen: true})} className={`red`}>
                             <div>Clear List</div> 
-                            <AiOutlineDelete className={`btnIcon${isMobile().any ? ' mobile' : ''}`}/> 
+                            <AiOutlineDelete className={`btnIcon`}/> 
                         </button>
                     </div>
                     <div className="footerDiv">
-                        <button onClick={() => this.setState({addOpen: true})} className={`green${isMobile().any ? ' mobile' : ''}`}>
+                        <button onClick={() => this.setState({addOpen: true})} className={`green`}>
                             <div>Add Item</div> 
-                            <GrAdd className={`btnIcon${isMobile().any ? ' mobile' : ''}`}/> 
+                            <GrAdd className={`btnIcon`}/> 
                         </button>
                     </div>
                 </div>
-                {isMobile().any ? 
-                    this.renderTitleBar() : null
-                }
+              
+                {this.renderTitleBar() }
+                
             </div>
         );
     }

@@ -41,7 +41,8 @@ router.put('/:id', async (req, res, next) => {
     const itemUpdate = {
         content: req.body.content,
         category: req.body.category,
-        date: new Date()
+        date: new Date(),
+        edited: true
     };
 
     try{

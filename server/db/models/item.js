@@ -16,6 +16,10 @@ const itemSchema = mongoose.Schema({
     checked: {
         type: Boolean,
         default: false
+    },
+    edited: {
+        type: Boolean,
+        default: false
     }
 });
 

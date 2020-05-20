@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment-timezone';
 import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
-import AddModal from '../AddModal/AddModal';
+import AddEditModal from '../AddEditModal/AddEditModal';
 import isMobile from 'ismobilejs';
 import {AiOutlinePrinter, AiOutlineDelete} from 'react-icons/ai'
 import {GrAdd} from 'react-icons/gr';
@@ -130,7 +130,7 @@ class List extends React.Component{
                 }
 
                 {this.state.edit.open ? 
-                    <AddModal
+                    <AddEditModal
                         context={'Edit Item'}
                         populate={this.state.edit.data}
                         triggerClose={() => this.setState({edit: {open: false, data: null}})}
@@ -140,7 +140,7 @@ class List extends React.Component{
 
                 {
                     this.state.addOpen ?
-                    <AddModal
+                    <AddEditModal
                         context={'Add Item'}
                         triggerClose={() => this.setState({addOpen: false})}
                         addItem={(item) => this.addItem(item)}

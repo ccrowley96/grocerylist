@@ -49,11 +49,7 @@ class List extends React.Component{
                                 return (
                                     <ListItem 
                                         key={item._id} 
-                                        itemID={item._id} 
-                                        content={item.content} 
-                                        category={item.category}
-                                        datetime={this.formatTime(item.date)}
-                                        checked={item.checked}
+                                        item={{...item, date: this.formatTime(item.date)}}
                                         fetchNewList={this.props.fetchNewList}
                                         edit={(data) => {
                                             this.setState({edit: {open: true, data}})
@@ -183,8 +179,7 @@ class List extends React.Component{
     }
 
     async editItem(item){
-
-        let itemID = this.state.edit.data.id;
+        let itemID = this.state.edit.data._id;
         this.setState({edit: {open: false, data: null}});
 
         await fetch(`/api/list/${itemID}`, {

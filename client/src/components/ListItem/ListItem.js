@@ -18,11 +18,11 @@ class ListItem extends React.Component{
 
     render(){
         return (
-            <div className={`listItemWrapper${this.props.checked ? ' checked': ''} ${isMobile().any ? ' mobile' : ''}`}>
+            <div className={`listItemWrapper${this.props.item.checked ? ' checked': ''} ${isMobile().any ? ' mobile' : ''}`}>
                 {this.state.confirmOpen ? 
                     <ConfirmModal 
                         triggerClose={() => this.setState({confirmOpen: false})}
-                        message={`Do you want to delete: ${this.props.content}?`}
+                        message={`Do you want to delete: ${this.props.item.content}?`}
                         confirm={() => {
                             this.clickDelete();
                             this.setState({confirmOpen: false});
@@ -32,19 +32,31 @@ class ListItem extends React.Component{
                 
                 <div className="listItem">
                     <div className='listContent'>
-                        { this.props.checked ?
-                            <strike>{this.props.content}</strike>
-                            : this.props.content
+                        { this.props.item.checked ?
+                            <strike>{this.props.item.content}</strike>
+                            : this.props.item.content
                         }
                         <div className={`editBtn${isMobile().any ? ' mobile': ''}`}>
-                            <GrEdit onClick={() => this.props.edit({content: this.props.content, category: this.props.category, id: this.props.itemID})}/>
+                            <GrEdit onClick={() => {
+                                let {content, category, _id} = this.props.item;
+                                this.props.edit({content, category, _id});
+                            }}
+                            />
                         </div>
                     </div>
                 </div>
-                <div className={`listTools${isMobile().any ? ' mobile': ''}`}>
-                    <div onClick={() => this.setState({confirmOpen: true})} className={`tool${isMobile().any ? ' mobile': ''}`}><AiFillDelete className="listItemToolIcon deleteIcon"/></div>
-                    <div onClick={() => !this.state.checkPending ? this.clickCheck() : null} className={`tool${isMobile().any ? ' mobile': ''}`}>
-                        {this.props.checked ? <AiFillCheckCircle className="listItemToolIcon checkIcon"/> : <MdRadioButtonUnchecked className="listItemToolIcon checkIcon"/>}
+                <div className={`listToolsWrapper${isMobile().any ? ' mobile': ''}`}>
+                    <div className = "listTools">
+                        <div onClick={() => this.setState({confirmOpen: true})} className={`tool${isMobile().any ? ' mobile': ''}`}><AiFillDelete className="listItemToolIcon deleteIcon"/></div>
+                        <div onClick={() => !this.state.checkPending ? this.clickCheck() : null} className={`tool${isMobile().any ? ' mobile': ''}`}>
+                            {this.props.item.checked ? <AiFillCheckCircle className="listItemToolIcon checkIcon"/> : <MdRadioButtonUnchecked className="listItemToolIcon checkIcon"/>}
+                        </div>
+                    </div>
+                    <div className = "listInfo">
+                        <div className ="itemDate">
+                            {this.props.item.date}
+                            {this.props.item.edited ? <p className="edited">(edited)</p> : null}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,14 +65,14 @@ class ListItem extends React.Component{
 
     async clickCheck(){
         this.setState({checkPending: true});
-        await fetch(`/api/list/check/${this.props.itemID}`,{method: 'POST'});
+        await fetch(`/api/list/check/${this.props.item._id}`,{method: 'POST'});
         this.setState({checkPending: false});
         //fetch updated list
         this.props.fetchNewList();
     }
 
     async clickDelete(){
-        await fetch(`/api/list/${this.props.itemID}`,{method: 'DELETE'});
+        await fetch(`/api/list/${this.props.item._id}`,{method: 'DELETE'});
         //fetch updated list
         this.props.fetchNewList();
     }

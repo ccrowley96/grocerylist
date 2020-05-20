@@ -142,7 +142,7 @@ class List extends React.Component{
                     <AddModal
                         context={'Add Item'}
                         triggerClose={() => this.setState({addOpen: false})}
-                        addItem={(item) => this.props.addItem(item)}
+                        addItem={(item) => this.addItem(item)}
                     /> : null
                 }
 

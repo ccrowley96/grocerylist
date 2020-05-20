@@ -1,0 +1,36 @@
+.printWrapper{
+    padding: 20px 20px 20px 20px;
+    font-family: 'Balsamiq Sans', cursive;
+
+    .listTitle{
+        font-size: x-large;
+        display: flex;
+        align-items:center;
+
+        .dateTime{
+            text-decoration: underline;
+            padding-left: 20px;
+        }
+    }
+}
+
+.printDataWrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .categoryWrapper{
+        margin-top:20px;
+        width: 50%;
+    }
+
+    .categoryTitle{
+        text-decoration: underline;
+        font-size: x-large;
+    }
+
+    .categoryContent{
+        font-size: large;
+        margin-left: 20px;
+    }
+}

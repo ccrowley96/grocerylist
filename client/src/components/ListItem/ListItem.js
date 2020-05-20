@@ -33,12 +33,12 @@ class ListItem extends React.Component{
                             : this.props.content
                         }
                     </div>
-                    <div className ='listDate'>{this.props.datetime}</div>
-                    <div className ='listCategory'>Category: {this.props.category}</div>
+                    {/* <div className ='listDate'>{this.props.datetime}</div>
+                    <div className ='listCategory'>Category: {this.props.category}</div> */}
                 </div>
                 <div className="listTools">
-                    <button onClick={() => this.setState({confirmOpen: true})} className="tool deleteTool">delete</button>
-                    <button onClick={() => this.clickCheck()} className="tool checkTool">
+                    <button onClick={() => this.setState({confirmOpen: true})} className="tool red">delete</button>
+                    <button onClick={() => this.clickCheck()} className="tool green">
                         {this.props.checked ? 'uncheck' : 'check'}
                     </button>
                 </div>

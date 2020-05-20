@@ -1,4 +1,5 @@
 @import '../../base_styles/colors.scss';
+@import '../../base_styles/buttons';
 
 .listItem{
     display: flex;
@@ -9,7 +10,11 @@
 }
 
 .listContent{
-    font-size: larger;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: x-large;
+    height: 100%;
 }
 
 .listDate{
@@ -58,11 +63,7 @@
 .listTools{
     .tool{
         height: 80%;
-        display: flex;
-        justify-content: center;
-        align-items: center;;
         width: 100%;
-        font-family: 'Balsamiq Sans', cursive;
         margin-right:10px;
         font-size: large;
     }

@@ -1,0 +1,50 @@
+@import './colors';
+
+@mixin btn-theme($btn-color){
+    background-color: $btn-color;
+    border-color: darken($btn-color, 20%);
+    font-family: 'Balsamiq Sans', cursive;
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    //Flex display
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+
+    &:hover{
+        background-color: darken($btn-color, 6%);
+    }
+
+    &:active{
+        background-color: darken($btn-color, 6%);
+        outline: 0;
+    }
+}
+
+@mixin trans($val...) {
+    -webkit-transition: $val;
+    -moz-transition: $val; 
+    -o-transition: $val; 
+    transition: $val; 
+}
+
+.red{
+    @include btn-theme($red);
+}
+
+.green{
+    @include btn-theme($green);
+}
+
+.blue{
+    @include btn-theme($blue);
+}
+
+.yellow{
+    @include btn-theme($yellow);
+}

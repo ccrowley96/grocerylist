@@ -4,6 +4,7 @@ import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddModal from '../AddModal/AddModal';
 import isMobile from 'ismobilejs';
+import {AiOutlinePrinter} from 'react-icons/ai'
 import './List.scss';
 
 moment().tz("America/Los_Angeles").format();
@@ -83,13 +84,31 @@ class List extends React.Component{
         }
     }
 
+    renderTitleBar(){
+        return (
+            <div className="titleBarWrapper">
+                <div className="title">
+                    ourList
+                </div>
+
+                <div className="print">
+                    <button 
+                        className={`yellow printBtn${isMobile().any ? ' mobile' : ''}`}
+                        onClick={() => this.props.handlePrintClick()}
+                    >
+                        <div>Print List</div> 
+                        <AiOutlinePrinter className="printIcon"/> 
+                    </button>
+                </div>
+            </div>
+        )
+    }
+
     render(){
         return (
             <div className={`listWrapper${isMobile().any ? ' mobile' : ''}`}>
                 {!isMobile().any ? 
-                <div className="title">
-                    ourList
-                </div> : null
+                    this.renderTitleBar() : null
                 }
 
                 {this.renderList()}
@@ -113,16 +132,14 @@ class List extends React.Component{
 
                 <div className={`listFooter${isMobile().any ? ' mobile' : ''}`}>
                     <div className="footerDiv">
-                        <button onClick={() => this.setState({confirmOpen: true})} className="clearList">Clear List</button>
+                        <button onClick={() => this.setState({confirmOpen: true})} className="red">Clear List</button>
                     </div>
                     <div className="footerDiv">
-                        <button onClick={() => this.setState({addOpen: true})} className="addItem">Add Item</button>
+                        <button onClick={() => this.setState({addOpen: true})} className="green">Add Item</button>
                     </div>
                 </div>
                 {isMobile().any ? 
-                <div className="title">
-                    ourList
-                </div> : null
+                    this.renderTitleBar() : null
                 }
             </div>
         );

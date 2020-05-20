@@ -53,22 +53,7 @@
         button{
             width: 80%;
             height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;;
-            font-family: 'Balsamiq Sans', cursive;
             font-size: large;
-            border-radius: 10px;
-        }
-
-        .confirm{
-            background-color: $green;
-            border-radius: 10px;
-        }
-    
-        .cancel{
-            background-color: $red;
-            border-radius: 10px;
         }
     }
 }

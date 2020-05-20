@@ -1,4 +1,5 @@
-@import '../../base_styles/colors.scss';
+@import '../../base_styles/colors';
+@import '../../base_styles/buttons';
 
 .listWrapper{
     display: flex;
@@ -16,13 +17,50 @@
     }
 }
 
-.title{
+.titleBarWrapper{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: row;
     width: 100%;
-    height: 50px;
-    font-size: x-large;
+    height: 100px;
+    
+
+    .title{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        font-size: x-large;
+    }
+    
+    .print{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-right: 30px;
+        height: 100%;
+        width: 100%;
+
+        &.mobile{
+            margin-right: 0px;
+            justify-content: center;
+        }
+
+        button{
+            height: 50%;
+            width: 200px;
+            font-size: large;
+            justify-content: space-evenly;
+            &.mobile{
+                width: 80%;
+            }
+            .printIcon{
+                font-size: x-large;
+            }
+        }
+    }
 }
 
 .listFooter{
@@ -58,22 +96,9 @@
 
         button{
             height: 70%;
-            display: flex;
-            justify-content: center;
-            align-items: center;;
             width: 90%;
-            font-family: 'Balsamiq Sans', cursive;
             font-size: large;
-
-            border-radius: 10px;
         }
-    }
-    .addItem{
-        background-color: $green;
-    }
-
-    .clearList{
-        background-color: $red;
     }
 }
 

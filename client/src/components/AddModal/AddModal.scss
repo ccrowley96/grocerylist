@@ -63,14 +63,6 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
-
-        .itemInput{
-
-        }
-
-        .selector{
-
-        }
     }
 
     .tools{
@@ -91,20 +83,9 @@
         button{
             width: 80%;
             height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;;
-            font-family: 'Balsamiq Sans', cursive;
+           
             font-size: large;
-            border-radius: 10px;
-        }
-
-        .confirm{
-            background-color: $green;
-        }
-    
-        .cancel{
-            background-color: $red;
+            
         }
     }
 }

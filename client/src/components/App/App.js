@@ -27,10 +27,19 @@ class App extends React.Component {
     this.updateList();
   }
 
+  handlePrintClick(){
+    console.log('print clicked');
+    window.open('/print');
+  }
+
   render(){
     return(
       <div className = {`appWrapper${isMobile().any ? ' mobile' : ''}`}>
-        <List list={this.state.list} fetchNewList={() => this.updateList()}/>
+        <List 
+          list={this.state.list} 
+          fetchNewList={() => this.updateList()}
+          handlePrintClick={() => this.handlePrintClick()}
+        />
       </div>
     )
   }

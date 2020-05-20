@@ -16,10 +16,10 @@ class ConfirmModal extends React.Component{
                         </div>
                         <div className="confirmSection confirmTools">
                             <div className="buttonSection">
-                                <button onClick={() => this.props.confirm()} className="confirm">Confirm</button>
+                                <button onClick={() => this.props.confirm()} className="green">Confirm</button>
                             </div>
                             <div className="buttonSection">
-                                <button onClick={() => this.props.triggerClose()} className="cancel">Cancel</button>
+                                <button onClick={() => this.props.triggerClose()} className="red">Cancel</button>
                             </div>
                         </div>
                     </div>

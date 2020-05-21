@@ -12,13 +12,15 @@ class ListItem extends React.Component{
         this.state = {
             confirmOpen: false,
             checkPending: false,
-            itemChecked: props.item.checked,
+            itemChecked: false,
         };
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.item.checked != prevState.itemChecked){
-            return ({itemChecked: nextProps.item.checked})
+        // Ensure that prop has actually changed before overwriting local state
+        if(nextProps.item.checked != prevState.itemChecked && 
+            prevState.prevPropCheck != nextProps.item.checked){
+            return {itemChecked: nextProps.item.checked}
         }
         return null;
     }
@@ -71,8 +73,20 @@ class ListItem extends React.Component{
     }
 
     async clickCheck(){
-        this.setState(prevState => ({checkPending: true, itemChecked: !prevState.itemChecked}));
-        await fetch(`/api/list/check/${this.props.item._id}`,{method: 'POST'});
+        let newCheckVal = !this.state.itemChecked;
+        this.setState((prevState, prevProps) => ({
+            checkPending: true, 
+            itemChecked: !prevState.itemChecked, 
+            prevPropCheck: prevProps.item.checked})
+        );
+
+        await fetch(`/api/list/check/${this.props.item._id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({checked: newCheckVal})
+        })
         this.setState({checkPending: false});
         //fetch updated list
         this.props.fetchNewList();

@@ -11,13 +11,21 @@ class ListItem extends React.Component{
 
         this.state = {
             confirmOpen: false,
-            checkPending: false
+            checkPending: false,
+            itemChecked: props.item.checked,
         };
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.item.checked != prevState.itemChecked){
+            return ({itemChecked: nextProps.item.checked})
+        }
+        return null;
     }
 
     render(){
         return (
-            <div className={`listItemWrapper${this.props.item.checked ? ' checked': ''} `}>
+            <div className={`listItemWrapper${this.state.itemChecked ? ' checked': ''} `}>
                 {this.state.confirmOpen ? 
                     <ConfirmModal 
                         triggerClose={() => this.setState({confirmOpen: false})}
@@ -31,7 +39,7 @@ class ListItem extends React.Component{
                 
                 <div className="listItem">
                     <div className='listContent'>
-                        { this.props.item.checked ?
+                        { this.state.itemChecked ?
                             <strike>{this.props.item.content}</strike>
                             : this.props.item.content
                         }
@@ -48,7 +56,7 @@ class ListItem extends React.Component{
                     <div className = "listTools">
                         <div onClick={() => this.setState({confirmOpen: true})} className={`tool`}><AiFillDelete className="listItemToolIcon deleteIcon"/></div>
                         <div onClick={() => !this.state.checkPending ? this.clickCheck() : null} className={`tool`}>
-                            {this.props.item.checked ? <AiFillCheckCircle className="listItemToolIcon checkIcon"/> : <MdRadioButtonUnchecked className="listItemToolIcon checkIcon"/>}
+                            {this.state.itemChecked ? <AiFillCheckCircle className="listItemToolIcon checkIcon"/> : <MdRadioButtonUnchecked className="listItemToolIcon checkIcon"/>}
                         </div>
                     </div>
                     <div className = "listInfo">
@@ -63,7 +71,7 @@ class ListItem extends React.Component{
     }
 
     async clickCheck(){
-        this.setState({checkPending: true});
+        this.setState(prevState => ({checkPending: true, itemChecked: !prevState.itemChecked}));
         await fetch(`/api/list/check/${this.props.item._id}`,{method: 'POST'});
         this.setState({checkPending: false});
         //fetch updated list

@@ -36,19 +36,21 @@
         height: 100%;
         width: 100%;
         margin-right: 0px;
-        justify-content: center;
+        justify-content: flex-end;
+        padding-right: 20px;
 
         button{
             height: 50%;
             font-size: large;
-            justify-content: space-evenly;
-            width: 80%;
+            justify-content: center;
+            width: 160px;
         }
     }
 }
 
 .btnIcon{
     font-size: x-large;
+    padding-left:20px;
 }
 
 .listFooter{
@@ -78,7 +80,7 @@
             height: 70%;
             width: 90%;
             font-size: large; 
-            justify-content: space-evenly;
+            justify-content: center;
 
             .btnIcon{
                 margin-left: 0px;

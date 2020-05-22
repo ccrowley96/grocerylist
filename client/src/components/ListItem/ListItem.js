@@ -79,8 +79,8 @@ class ListItem extends React.Component{
             itemChecked: !prevState.itemChecked, 
             prevPropCheck: prevProps.item.checked})
         );
-
-        await fetch(`/api/list/check/${this.props.item._id}`, {
+        
+        await fetch(`/api/room/${this.props.roomId}/list/${this.props.item._id}/check`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ class ListItem extends React.Component{
     }
 
     async clickDelete(){
-        await fetch(`/api/list/${this.props.item._id}`,{method: 'DELETE'});
+        await fetch(`/api/room/${this.props.roomId}/list/${this.props.item._id}`,{method: 'DELETE'});
         //fetch updated list
         this.props.fetchNewList();
     }

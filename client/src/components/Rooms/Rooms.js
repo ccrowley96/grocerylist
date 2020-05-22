@@ -33,7 +33,7 @@ class Rooms extends React.Component{
     async deleteRoom(roomId){
         await fetch(`/api/room/${roomId}`, {method: 'DELETE'});
         let storageToSet = JSON.parse(localStorage.getItem('rooms'));
-        storageToSet = storageToSet.filter(localstorage_roomId => localstorage_roomId != roomId)
+        storageToSet = storageToSet.filter(localstorage_roomId => localstorage_roomId !== roomId)
         localStorage.setItem('rooms', JSON.stringify(storageToSet));
         this.updateRooms();
     }

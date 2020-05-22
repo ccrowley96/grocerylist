@@ -21,13 +21,19 @@
     height: 100px;
     
 
-    .title{
+    .roomsToolWrapper{
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100%;
         width: 100%;
         font-size: x-large;
+        button{
+            height: 50%;
+            font-size: large;
+            justify-content: center;
+            width: 160px;
+        }
     }
     
     .print{
@@ -84,6 +90,7 @@
 
             .btnIcon{
                 margin-left: 0px;
+                padding-left: 0px;
             }
         }
     }

@@ -1,9 +1,10 @@
 import React from 'react';
 import moment from 'moment-timezone';
+import {withRouter} from 'react-router-dom';
 import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddEditModal from '../AddEditModal/AddEditModal';
-import {AiOutlinePrinter, AiOutlineDelete} from 'react-icons/ai'
+import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList} from 'react-icons/ai'
 import {GrAdd} from 'react-icons/gr';
 import './List.scss';
 
@@ -26,10 +27,10 @@ class List extends React.Component{
     }
 
     populateListItems(){
-        if(this.props.list.items.length > 0){
+        if(this.props.list.list.length > 0){
             let categoryMap = {};
 
-            for(let item of this.props.list.items){
+            for(let item of this.props.list.list){
 
                 if(item.category in categoryMap){
                     categoryMap[item.category].push(item);
@@ -48,6 +49,7 @@ class List extends React.Component{
                                 return (
                                     <ListItem 
                                         key={item._id} 
+                                        roomId={this.props.roomId}
                                         item={{...item, date: this.formatTime(item.date)}}
                                         fetchNewList={this.props.fetchNewList}
                                         edit={(data) => {
@@ -66,7 +68,7 @@ class List extends React.Component{
 
     renderList(){
         if(this.props.list){
-            if(this.props.list.items.length === 0){
+            if(this.props.list.list.length === 0){
                 return(
                     <div className={`emptyListPlaceholder`}>
                         No Items Found!
@@ -87,10 +89,6 @@ class List extends React.Component{
     renderTitleBar(){
         return (
             <div className="titleBarWrapper">
-                <div className="title">
-                    ourList
-                </div>
-
                 <div className="print">
                     <button 
                         className={`yellow printBtn`}
@@ -141,13 +139,16 @@ class List extends React.Component{
                 <div className={`listFooter`}>
                     <div className="footerDiv">
                         <button onClick={() => this.setState({confirmOpen: true})} className={`red`}>
-                            <div>Clear List</div> 
                             <AiOutlineDelete className={`btnIcon`}/> 
                         </button>
                     </div>
                     <div className="footerDiv">
+                            <button className="roomsButton yellow" onClick={() => {this.props.history.push('/rooms');}}>
+                                <AiOutlineUnorderedList className={`btnIcon`}/> 
+                            </button>
+                    </div>
+                    <div className="footerDiv">
                         <button onClick={() => this.setState({addOpen: true})} className={`green`}>
-                            <div>Add Item</div> 
                             <GrAdd className={`btnIcon`}/> 
                         </button>
                     </div>
@@ -162,7 +163,7 @@ class List extends React.Component{
     async addItem(item){
         this.setState({addOpen: false});
 
-        await fetch('/api/list', {
+        await fetch(`/api/room/${this.props.roomId}/list`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -177,7 +178,7 @@ class List extends React.Component{
         let itemID = this.state.edit.data._id;
         this.setState({edit: {open: false, data: null}});
 
-        await fetch(`/api/list/${itemID}`, {
+        await fetch(`/api/room/${this.props.roomId}/list/${itemID}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -189,10 +190,10 @@ class List extends React.Component{
     }
 
     async clearList(){
-        await fetch('/api/list', {method: 'DELETE'});
+        await fetch(`/api/room/${this.props.roomId}/list`, {method: 'DELETE'});
         //Update list
         this.props.fetchNewList();
     }
 }
 
-export default List;
+export default withRouter(List);

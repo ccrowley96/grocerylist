@@ -18,8 +18,8 @@ class ListItem extends React.Component{
 
     static getDerivedStateFromProps(nextProps, prevState){
         // Ensure that prop has actually changed before overwriting local state
-        if(nextProps.item.checked != prevState.itemChecked && 
-            prevState.prevPropCheck != nextProps.item.checked){
+        if(nextProps.item.checked !== prevState.itemChecked && 
+            prevState.prevPropCheck !== nextProps.item.checked){
             return {itemChecked: nextProps.item.checked}
         }
         return null;

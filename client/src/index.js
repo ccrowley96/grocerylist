@@ -5,8 +5,9 @@ import {
   Switch, Route
 } from 'react-router-dom';
 import './index.scss';
-import App from './components/App/App';
+import ListContainer from './components/ListContainer/ListContainer';
 import Print from './components/Print/Print'
+import Rooms from './components/Rooms/Rooms';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,8 +16,11 @@ ReactDOM.render(
           <Route path="/print">
             <Print />
           </Route>
+          <Route path="/rooms">
+            <Rooms />
+          </Route>
           <Route path="/">
-            <App />
+            <ListContainer />
           </Route>
       </Switch>
     </Router>

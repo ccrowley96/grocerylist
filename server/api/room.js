@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const randomstring = require('randomstring');
 const {Item, Room } = require('../db/db_index');
+const {validateRoom, validateItem} = require('./middleware');
 
 var ObjectId = require('mongoose').Types.ObjectId; 
 
@@ -112,213 +113,122 @@ router.post('/:id/changeName', async (req, res, next) => {
 })
 
 /* --------------- LIST ROUTING --------------- */
-
 //GET all list items from room
-router.get('/:id/list', async (req, res, next) => {
-    let roomId;
-    try{
-        roomId = req.params.id;
-    } catch(err){
-        res.status(400);
-        res.send('Missing or incorrect id query parameter');
-    }
-
+router.get('/:id/list', validateRoom, async (req, res, next) => {
+    let roomId = req.params.id;
     let room = await Room.findById(new ObjectId(roomId));
-    if(room){
-        let list = room.roomList;
+    let list = room.roomList;
 
-        res.status(200);
-        res.json({
-            title: 'List',
-            list
-        });
-
-    } else{
-        res.status(404);
-        res.send(`Room ID: ${roomId} not found`)
-    }
+    res.status(200);
+    res.json({
+        title: 'List',
+        list
+    });
 });
 
 //POST new list item
-router.post('/:id/list', async (req, res, next) => {
-    let roomId;
-    try{
-        roomId = req.params.id;
-    } catch(err){
+router.post('/:id/list', validateRoom, async (req, res, next) => {
+    let roomId = req.params.id;;
+    
+    if(!req.body.content || !req.body.category){
         res.status(400);
-        res.send('Missing or incorrect id query parameter');
+        res.send('Incorrect request body (see category and content)');
+        return;
     }
-
-    let room = await Room.findById(new ObjectId(roomId));
-    if(room){
-        if(!req.body.content || !req.body.category){
-            res.status(400);
-            res.send('Incorrect request body (see category and content)');
-            return;
-        }
-            
-        // Create new item
-        const item = new Item({
-            content: req.body.content,
-            category: req.body.category
-        });
-        try {
-            await Room.findByIdAndUpdate(new ObjectId(roomId),
-                {$push: {roomList: item}}
-            )
-            res.sendStatus(200);
-        } catch (err) {
-            console.log(err);
-            res.sendStatus(500);
-        }
-    } else{
-        res.status(404);
-        res.send(`Room ID: ${roomId} not found`)
+        
+    // Create new item
+    const item = new Item({
+        content: req.body.content,
+        category: req.body.category
+    });
+    try {
+        await Room.findByIdAndUpdate(new ObjectId(roomId),
+            {$push: {roomList: item}}
+        )
+        res.sendStatus(200);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
     }
 });
 
 // UPDATE item by ID
-router.put('/:id/list/:item_id', async (req, res, next) => {
-    let roomId;
-    let itemId;
-    try{
-        roomId = req.params.id;
-        itemId = req.params.item_id;
-    } catch(err){
-        res.status(400);
-        res.send('Missing or incorrect id query parameter(s)');
-    }
-
-    let room = await Room.findById(new ObjectId(roomId));
-    let item = room.roomList.map(el => el._id = String(el._id)).indexOf(itemId);
+router.put('/:id/list/:item_id', validateRoom, validateItem, async (req, res, next) => {
+    let roomId = req.params.id;
+    let itemId = req.params.item_id;
     
-    if(room && item != -1){
-        if(!req.body.content || !req.body.category){
-            res.status(400);
-            res.send('Incorrect request body (see category and content)');
-            return;
-        }
-
-        try{
-            await Room.findOneAndUpdate({'_id': new ObjectId(roomId), 'roomList._id': new ObjectId(itemId)},
-                {$set: {
-                    "roomList.$.content": req.body.content, 
-                    "roomList.$.category": req.body.category,
-                    "roomList.$.edited": true,
-                    "roomList.$.date": new Date(),
-                }}
-            )
-            res.sendStatus(200);
-        } catch(err){
-            console.log(err);
-            res.sendStatus(500);
-        }
-
-    } else{
-        res.status(404);
-        res.send(`Room ID: ${roomId} not found or Item ID: ${itemId} not found`)
+    if(!req.body.content || !req.body.category){
+        res.status(400);
+        res.send('Incorrect request body (body needs category and content)');
+        return;
+    }
+    try{
+        await Room.findOneAndUpdate({'_id': new ObjectId(roomId), 'roomList._id': new ObjectId(itemId)},
+            {$set: {
+                "roomList.$.content": req.body.content, 
+                "roomList.$.category": req.body.category,
+                "roomList.$.edited": true,
+                "roomList.$.date": new Date(),
+            }}
+        )
+        res.sendStatus(200);
+    } catch(err){
+        console.log(err);
+        res.sendStatus(500);
     }
 });
 
 //toggle 'checked' on item id
-router.post('/:id/list/:item_id/check', async (req, res, next) => {
-    let checked;
-    let roomId;
-    let itemId;
-    try{
-        roomId = req.params.id;
-        itemId = req.params.item_id;
-    } catch(err){
+router.post('/:id/list/:item_id/check', validateRoom, validateItem, async (req, res, next) => {
+    let roomId = req.params.id;
+    let itemId = req.params.item_id;
+    
+    if(typeof req.body.checked != 'boolean'){
         res.status(400);
-        res.send('Missing or incorrect id query parameter(s)');
+        res.send('Incorrect request body (checked: boolean) must be in body');
+        return;
     }
 
-    let room = await Room.findById(new ObjectId(roomId));
-    let item = room.roomList.map(el => el._id = String(el._id)).indexOf(itemId);
-    
-    if(room && item != -1){
-        if(typeof req.body.checked != 'boolean'){
-            res.status(400);
-            res.send('Incorrect request body (checked: boolean) must be in body');
-            return;
-        }
-        checked = req.body.checked;
-
-        // Toggle checked
-        try{
-            await Room.findOneAndUpdate({'_id': new ObjectId(roomId), 'roomList._id': new ObjectId(itemId)},
-                {$set: {"roomList.$.checked": checked}}
-            )
-            res.sendStatus(200);
-        } catch(err){
-            console.log(err);
-            res.sendStatus(500);
-        }
-    } else{
-        res.status(404);
-        res.send(`Room ID: ${roomId} not found or Item ID: ${itemId} not found`)
+    // Toggle checked
+    try{
+        await Room.findOneAndUpdate({'_id': new ObjectId(roomId), 'roomList._id': new ObjectId(itemId)},
+            {$set: {"roomList.$.checked": req.body.checked}}
+        )
+        res.sendStatus(200);
+    } catch(err){
+        console.log(err);
+        res.sendStatus(500);
     }
 })
 
 //DELETE item by ID
-router.delete('/:id/list/:item_id', async (req, res, next) => {
-    let roomId;
-    let itemId;
+router.delete('/:id/list/:item_id', validateRoom, async (req, res, next) => {
+    let roomId = req.params.id;
+    let itemId = req.params.item_id;
+
     try{
-        roomId = req.params.id;
-        itemId = req.params.item_id;
+        await Room.updateOne({"_id": new ObjectId(roomId)}, {
+            "$pull": {"roomList" : {"_id": new ObjectId(itemId)}}
+        })
+        res.sendStatus(200);
     } catch(err){
-        res.status(400);
-        res.send('Missing or incorrect id query parameter(s)');
-    }
-
-    let room = await Room.findById(new ObjectId(roomId));
-    
-    if(room){
-        try{
-            await Room.update({"_id": new ObjectId(roomId)}, {
-                "$pull": {"roomList" : {"_id": new ObjectId(itemId)}}
-            })
-            res.sendStatus(200);
-        } catch(err){
-            console.log(err);
-            res.sendStatus(500);
-        }
-
-    } else{
-        res.status(404);
-        res.send(`Room ID: ${roomId} not found or Item ID: ${itemId} not found`)
+        console.log(err);
+        res.sendStatus(500);
     }
 });
 
 //DELETE all items (clear list)
-router.delete('/:id/list', async (req, res, next) => {
-
-    let roomId;
+router.delete('/:id/list', validateRoom, async (req, res, next) => {
+    let roomId = req.params.id;
     
     try{
-        roomId = req.params.id;
+        await Room.updateOne({"_id": new ObjectId(roomId)}, {
+            "$set": {"roomList" : []}
+        })
+        res.sendStatus(200);
     } catch(err){
-        res.status(400);
-        res.send('Missing or incorrect id query parameter(s)');
-    }
-
-    let room = await Room.findById(new ObjectId(roomId));
-    
-    if(room){
-        try{
-            await Room.update({"_id": new ObjectId(roomId)}, {
-                "$set": {"roomList" : []}
-            })
-            res.sendStatus(200);
-        } catch(err){
-            console.log(err);
-            res.sendStatus(500);
-        }
-
-    } else{
-        res.status(404);
-        res.send(`Room ID: ${roomId} not found`)
+        console.log(err);
+        res.sendStatus(500);
     }
 });
 

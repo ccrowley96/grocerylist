@@ -6,7 +6,9 @@ class Rooms extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            rooms: null
+            rooms: null,
+            joinRoomVal: '',
+            joinRoomInfo: ''
         }
     }
 
@@ -38,7 +40,7 @@ class Rooms extends React.Component{
         this.updateRooms();
     }
 
-    joinRoom(roomId){
+    joinMyRoom(roomId){
         //Set activeRoom in local storage
         let storageToSet = roomId;
         localStorage.setItem('activeRoom', JSON.stringify(storageToSet));
@@ -46,16 +48,40 @@ class Rooms extends React.Component{
         this.props.history.push('/');
     }
 
+    handleJoinInputChange(e){
+        this.setState({joinRoomVal: e.target.value});
+    }
+
     render(){
         return(
         <div className="roomsWrapper">
-            <h1>Rooms</h1>
+            <h2>Create New Room</h2>
             <button 
                 className="green createRoom"
                 onClick={() => this.createRoom()}
             >
                     Create room
                 </button>
+            <h2>Join Room</h2>
+            <div className="joinRoomWrapper">
+                <div className="joinRoomButtonWrapper">
+                    <button className="green joinRoomButton">
+                        Join Room
+                    </button>
+                </div>
+                <div className="joinRoomInputWrapper">
+                    <input 
+                        type="text" 
+                        value={this.state.joinRoomVal} 
+                        onChange={(e) => this.handleJoinInputChange(e)}
+                        className="joinRoomInput"
+                    >
+                    </input>
+                </div>
+            </div>
+
+            <div className="joinRoomInfo">{this.state.joinRoomInfo}</div>
+
             <h2>My Rooms</h2>
             {this.state.rooms ? this.state.rooms.map(roomId => {
                 return(
@@ -63,15 +89,17 @@ class Rooms extends React.Component{
                     <div className="roomName">
                         {roomId}
                     </div>
-                    <div className="roomDelete">
-                        <button onClick={() => this.deleteRoom(roomId)} className="red">
-                            Delete
-                        </button>
-                    </div>
-                    <div className="roomJoin">
-                        <button onClick={() => this.joinRoom(roomId)} className="green">
-                            Join
-                        </button>
+                    <div className="roomTools">
+                        <div className="roomDelete">
+                            <button onClick={() => this.deleteRoom(roomId)} className="red">
+                                Delete
+                            </button>
+                        </div>
+                        <div className="roomJoin">
+                            <button onClick={() => this.joinMyRoom(roomId)} className="green">
+                                Join
+                            </button>
+                        </div>
                     </div>
                 </div>
                 )

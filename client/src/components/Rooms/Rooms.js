@@ -135,7 +135,7 @@ class Rooms extends React.Component{
                             type="text" 
                             value={this.state.joinRoomVal} 
                             onChange={(e) => this.handleJoinInputChange(e)}
-                            placeholder={"Enter list code..."}
+                            placeholder={"list id..."}
                             className="joinRoomInput"
                             maxLength={6}
                         >

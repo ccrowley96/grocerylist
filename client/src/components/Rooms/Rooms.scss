@@ -3,36 +3,40 @@
 .roomsWrapper{
     padding: 10px 10px 10px 10px;
     font-family: 'Balsamiq Sans', cursive;
+    overflow-y: scroll;
     
     h1, h2, h3, h4{
         font-weight: 100;
     }
 }
 
+.createRoomWrapper{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    button{
+        height:  50px;;
+    }
+    margin-bottom: 20px;
+}
+
+.roomToolIcon{
+    padding-left: 10px;
+}
+
 .roomTopToolbarWrapper{
     display: flex;
-    .roomToolIcon{
-        padding-left: 10px;
-    }
-    .createRoomWrapper{
-        width: 30%;
-        display: flex;
-        justify-content: flex-start;
-        button{
-            height: 100%;
-        }
-    }
 
     .joinRoomWrapper{
         height: 50px;
-        width: 70%;
+        width: 100%;
         display: flex;
         justify-content: flex-end;
         .joinRoomButtonWrapper{
             width: auto;
             max-width: 30%;
             display: flex;
-            padding-left: 20px;
+            padding-left: 40px;
             justify-content: flex-end;
             button{
                 height: 100%;
@@ -44,7 +48,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
-            width: 100px;
+            width: 150px;
             .joinRoomInput{
                 background-color: lighten($gray, 20%);
                 width: 100%;

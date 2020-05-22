@@ -120,22 +120,14 @@ class Rooms extends React.Component{
         return(
         <div className="roomsWrapper">
             <div className="roomTopToolbarWrapper">
-                <div className="createRoomWrapper">
-                    <button 
-                        className="green createRoom"
-                        onClick={() => this.createRoom()}
-                    >
-                        Create
-                        <RiPlayListAddLine className="roomToolIcon"/>
-                    </button>
-                </div>
+                
                 <div className="joinRoomWrapper">
                     <div className="joinRoomInputWrapper">
                         <input 
                             type="text" 
                             value={this.state.joinRoomVal} 
                             onChange={(e) => this.handleJoinInputChange(e)}
-                            placeholder={"list id..."}
+                            placeholder={"Enter code..."}
                             className="joinRoomInput"
                             maxLength={6}
                         >
@@ -153,7 +145,7 @@ class Rooms extends React.Component{
             
             <h2>My Lists</h2>
             { 
-                this.state.rooms ? this.state.rooms.map(room => {
+                (this.state.rooms && this.state.rooms.length !== 0) ? this.state.rooms.map(room => {
                     return (
                         <RoomItem 
                             key={room.roomId}
@@ -162,8 +154,17 @@ class Rooms extends React.Component{
                             deleteRoom={this.deleteRoom.bind(this)}
                         />
                     )
-                }) : null 
+                }) : <div>No Rooms found!</div> 
             }   
+            <div className="createRoomWrapper">
+                    <button 
+                        className="green createRoom"
+                        onClick={() => this.createRoom()}
+                    >
+                        Create Room
+                        <RiPlayListAddLine className="roomToolIcon"/>
+                    </button>
+                </div>
         </div>
         )
     }

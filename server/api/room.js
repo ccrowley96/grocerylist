@@ -82,6 +82,40 @@ router.post('/getMatchingIds', async (req, res, next) => {
     }
 });
 
+// Fetch room by room code- (used to fetch rooms by room code stored in local storage)
+router.post('/getRoomByCode', async (req, res, next) => {
+    // pull ids from body id []
+    let roomCode;
+    try{
+        roomCode = req.body.roomCode;
+    } catch(err){
+        res.status(400);
+        res.send('Missing or incorrect roomCode in body');
+    }
+    
+    let matchingRooms = [];
+    // fetch matching ids from db and return those rooms
+    try{
+        let match = await Room.findOne({roomCode})
+        if(match){
+            res.status(200);
+            res.json({
+                title: 'Rooms',
+                match
+            });
+        } else{
+            res.status(404);
+            res.json({
+                title: 'Rooms',
+                match: null
+            })
+        }
+    } catch(err){
+        console.log(err);
+        res.sendStatus(500);
+    }
+});
+
 // Update Room Name
 router.post('/:id/changeName', async (req, res, next) => {
     let roomId;

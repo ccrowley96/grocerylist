@@ -9,37 +9,60 @@
     }
 }
 
-.joinRoomWrapper
-{
+.roomTopToolbarWrapper{
     display: flex;
-    .joinRoomButtonWrapper{
+    .roomToolIcon{
+        padding-left: 10px;
+    }
+    .createRoomWrapper{
         width: 30%;
         display: flex;
         justify-content: flex-start;
         button{
             height: 100%;
-            width: 120px;
-            font-size: large;
         }
     }
-    .joinRoomInputWrapper{
-        display: flex;
-        justify-content: center;
+
+    .joinRoomWrapper{
+        height: 50px;
         width: 70%;
-        padding-left: 20px;
-        .joinRoomInput{
-            background-color: lighten($gray, 20%);
-            width: 100%;
-            height: 30px;
-            font-size: x-large;
+        display: flex;
+        justify-content: flex-end;
+        .joinRoomButtonWrapper{
+            width: auto;
+            max-width: 30%;
+            display: flex;
+            padding-left: 20px;
+            justify-content: flex-end;
+            button{
+                height: 100%;
+                width: 120px;
+                font-size: large;
+            }
+        }
+        .joinRoomInputWrapper{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: 70%;
+            .joinRoomInput{
+                background-color: lighten($gray, 20%);
+                width: 100%;
+                height: 30px;
+                font-size: x-large;
+                border-radius: 5px;
+            }
         }
     }
-}
-.joinRoomInfo{
-    height: 40px;
-    display: flex;
-    align-items: center;
-    color: $red;
+    .joinRoomInfo{
+        position: absolute;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        color: $red;
+        padding-left: 10px;
+        // top: 60px;
+    }
 }
 
 .createRoom{
@@ -60,19 +83,47 @@
     height: 40px;
     border-style: solid;
     border-color:black;
+    border-width: 1px;
     padding:5px 5px 5px 5px;
     border-radius: 5px;
     margin-bottom:20px;
+    background-color: $lightBlue;
+
+    &:hover{
+        background-color: darken($lightBlue, 20%);
+    }
+    
     .roomName{
-        width: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100%;
+        width: 90%;
+        padding-left: 10px;
+        
     }
     .roomTools{
-        width: 30%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100%;
+        width: 10%;
         display: flex;
         justify-content: flex-end;
-    }
-    button{
-        margin-left: 10px;
-        height: 40px;
+
+        .roomDelete{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 50px;
+            .deleteIcon{
+                font-size: xx-large;
+                color: $red;
+                &:hover{
+                    color: darken($red, 30%);
+                }
+            }
+        }
     }
 }

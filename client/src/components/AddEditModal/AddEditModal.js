@@ -75,7 +75,7 @@ class AddEditModal extends React.Component{
                                         value={this.state.itemDesc} 
                                         onChange={(e) => this.handleDescChange(e)}
                                         placeholder={'oreos...'} 
-                                        maxLength={40}
+                                        maxLength={140}
                                         // TODO add random placeholder item generation
                                     />
                                     <label>

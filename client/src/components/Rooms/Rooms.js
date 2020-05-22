@@ -1,5 +1,8 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
+import {RiPlayListAddLine} from 'react-icons/ri';
+import {AiOutlineTag, AiFillDelete, AiOutlineUnorderedList} from 'react-icons/ai';
+import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import './Rooms.scss';
 
 class Rooms extends React.Component{
@@ -8,16 +11,45 @@ class Rooms extends React.Component{
         this.state = {
             rooms: null,
             joinRoomVal: '',
-            joinRoomInfo: ''
+            joinRoomInfo: '',
+            confirmOpen: false
         }
     }
 
     componentDidMount() {
-        this.updateRooms();
+        //Validate rooms
+        this.validateRooms();
     }
 
     updateRooms(){
         this.setState({rooms: JSON.parse(localStorage.getItem('rooms'))});
+    }
+
+    async validateRooms(){
+        let localRooms = JSON.parse(localStorage.getItem('rooms'))
+        let activeRoom = JSON.parse(localStorage.getItem('activeRoom'));
+
+        if(localRooms){
+            let ids = localRooms.map(room => room.roomId);
+            let payload = {ids}
+            // Hit backend with IDs found in local storage
+            let response = await fetch('/api/room/getMatchingIds', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+            let roomsValidated = await response.json();
+            let filteredLocalRooms = localRooms.filter(room => roomsValidated.matchingRooms.findIndex(matchID => room.roomId === matchID._id) !== -1)
+            if(activeRoom){
+                let activeRoomOk = roomsValidated.matchingRooms.findIndex(matchID => matchID === activeRoom.roomId) !== -1;
+                if(!activeRoomOk) localStorage.setItem('activeRoom', null);
+            }
+            // Update local storage
+            localStorage.setItem('rooms', JSON.stringify(filteredLocalRooms));
+        }
+        this.updateRooms();
     }
 
     async createRoom(){
@@ -25,8 +57,8 @@ class Rooms extends React.Component{
         let room = await response.json();
         let storageToSet = JSON.parse(localStorage.getItem('rooms'));
 
-        if(storageToSet) storageToSet.push(room.id);
-        else storageToSet = [room.id]
+        if(storageToSet) storageToSet.push({roomId: room.id, roomCode: room.roomCode});
+        else storageToSet = [{roomId: room.id, roomCode: room.roomCode}]
 
         localStorage.setItem('rooms', JSON.stringify(storageToSet));
         this.updateRooms();
@@ -35,79 +67,143 @@ class Rooms extends React.Component{
     async deleteRoom(roomId){
         await fetch(`/api/room/${roomId}`, {method: 'DELETE'});
         let storageToSet = JSON.parse(localStorage.getItem('rooms'));
-        storageToSet = storageToSet.filter(localstorage_roomId => localstorage_roomId !== roomId)
+        storageToSet = storageToSet.filter(localstorage_room => localstorage_room.roomId !== roomId)
         localStorage.setItem('rooms', JSON.stringify(storageToSet));
         this.updateRooms();
     }
 
-    joinMyRoom(roomId){
+    joinMyRoom(roomId, roomCode){
         //Set activeRoom in local storage
-        let storageToSet = roomId;
+        let storageToSet = {roomId, roomCode};
         localStorage.setItem('activeRoom', JSON.stringify(storageToSet));
         // Link to List App
         this.props.history.push('/');
     }
 
+    async joinRemoteRoom(){
+        this.setState({joinRoomVal: ''});
+        // Check if room exists in database
+        let response = await fetch('/api/room/getRoomByCode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({roomCode: this.state.joinRoomVal})
+        });
+        let roomValidated = await response.json();
+        if(roomValidated.match == null){
+            //Flag room not found
+            this.setState({joinRoomInfo: 'List not found'});
+        } else{
+
+            let storageToSet = JSON.parse(localStorage.getItem('rooms'));
+            let roomId = roomValidated.match._id, roomCode = roomValidated.match.roomCode;
+
+            // Ignore if room already in localStorage
+            if(storageToSet && storageToSet.findIndex(room => room.roomId === roomId) !== -1)
+                return;
+
+            if(storageToSet) storageToSet.push({roomId, roomCode});
+            else storageToSet = [{roomId, roomCode}]
+
+            localStorage.setItem('rooms', JSON.stringify(storageToSet));
+            console.log("List Joined", roomValidated.match);
+            this.updateRooms();
+        }
+    }
+
     handleJoinInputChange(e){
-        this.setState({joinRoomVal: e.target.value});
+        this.setState({joinRoomVal: e.target.value, joinRoomInfo: ''});
     }
 
     render(){
         return(
         <div className="roomsWrapper">
-            <h2>Create New Room</h2>
-            <button 
-                className="green createRoom"
-                onClick={() => this.createRoom()}
-            >
-                    Create room
-                </button>
-            <h2>Join Room</h2>
-            <div className="joinRoomWrapper">
-                <div className="joinRoomButtonWrapper">
-                    <button className="green joinRoomButton">
-                        Join Room
+            <div className="roomTopToolbarWrapper">
+                <div className="createRoomWrapper">
+                    <button 
+                        className="green createRoom"
+                        onClick={() => this.createRoom()}
+                    >
+                        Create
+                        <RiPlayListAddLine className="roomToolIcon"/>
                     </button>
                 </div>
-                <div className="joinRoomInputWrapper">
-                    <input 
-                        type="text" 
-                        value={this.state.joinRoomVal} 
-                        onChange={(e) => this.handleJoinInputChange(e)}
-                        className="joinRoomInput"
-                    >
-                    </input>
+                <div className="joinRoomWrapper">
+                    <div className="joinRoomInputWrapper">
+                        <input 
+                            type="text" 
+                            value={this.state.joinRoomVal} 
+                            onChange={(e) => this.handleJoinInputChange(e)}
+                            placeholder={"Enter list code..."}
+                            className="joinRoomInput"
+                            maxLength={6}
+                        >
+                        </input>
+                        <div className="joinRoomInfo">{this.state.joinRoomInfo}</div>
+                    </div>
+                    <div className="joinRoomButtonWrapper">
+                        <button className="green joinRoomButton" onClick={() => this.joinRemoteRoom()}>
+                            Join
+                            <AiOutlineTag className="roomToolIcon"/>
+                        </button>
+                    </div>
                 </div>
             </div>
-
-            <div className="joinRoomInfo">{this.state.joinRoomInfo}</div>
-
-            <h2>My Rooms</h2>
-            {this.state.rooms ? this.state.rooms.map(roomId => {
-                return(
-                <div key={roomId} className="roomWrapper">
-                    <div className="roomName">
-                        {roomId}
-                    </div>
-                    <div className="roomTools">
-                        <div className="roomDelete">
-                            <button onClick={() => this.deleteRoom(roomId)} className="red">
-                                Delete
-                            </button>
-                        </div>
-                        <div className="roomJoin">
-                            <button onClick={() => this.joinMyRoom(roomId)} className="green">
-                                Join
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                )
-            }): null}
+            
+            <h2>My Lists</h2>
+            { 
+                this.state.rooms ? this.state.rooms.map(room => {
+                    return (
+                        <RoomItem 
+                            key={room.roomId}
+                            room={room} 
+                            joinMyRoom={this.joinMyRoom.bind(this)}
+                            deleteRoom={this.deleteRoom.bind(this)}
+                        />
+                    )
+                }) : null 
+            }   
         </div>
         )
     }
+}
 
+class RoomItem extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            confirmOpen: false
+        }
+    }
+
+    render(){
+        return(
+            <div key={this.props.room.roomId} className="roomWrapper">
+                <div className="roomName" onClick={() => this.props.joinMyRoom(this.props.room.roomId, this.props.room.roomCode)}>
+                    {this.props.room.roomCode}
+                </div>
+                <div className="roomTools">
+                    <div className="roomDelete">
+                        <div onClick={() => this.setState({confirmOpen: true})} className="deleteBtn">
+                            <AiFillDelete className="deleteIcon"/>
+                        </div>
+                    </div>
+                </div>
+
+                {this.state.confirmOpen ? 
+                    <ConfirmModal 
+                        triggerClose={() => this.setState({confirmOpen: false})}
+                        message={`Do you want to delete: ${this.props.room.roomCode}?`}
+                        confirm={() => {
+                            this.props.deleteRoom(this.props.room.roomId);
+                            this.setState({confirmOpen: false});
+                        }}
+                    /> : null
+                }
+            </div>
+        )
+    }
 }
 
 export default withRouter(Rooms);

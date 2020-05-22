@@ -1,4 +1,5 @@
 import React from 'react';
+import {withRouter} from 'react-router-dom';
 import List from '../List/List'
 import './ListContainer.scss';
 
@@ -7,15 +8,22 @@ class App extends React.Component {
     super(props);
     this.state = {
       list: null,
-      activeRoom: null
+      activeRoomID: null,
+      activeRoomCode: null
     }
   }
 
   updateList(inititalRoomId = null){
-    let roomId = inititalRoomId ? inititalRoomId : this.state.activeRoom;
+    let roomId = inititalRoomId ? inititalRoomId : this.state.activeRoomID;
 
     fetch(`/api/room/${roomId}/list`)
-      .then(response => response.json())
+      .then(response => {
+        if(response.status !== 200){
+          this.props.history.push('/rooms');
+          throw new Error('Room not found');
+        }
+        else return response.json()
+      })
       .then(list => {
         this.setState({list})
       })
@@ -25,10 +33,13 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    let roomId = JSON.parse(localStorage.getItem('activeRoom'));
-    this.setState({activeRoom: roomId});
-
-    this.updateList(roomId);
+    if(JSON.parse(localStorage.getItem('activeRoom')) == null){
+      this.props.history.push('/rooms');
+    } else{
+      let {roomId, roomCode} = JSON.parse(localStorage.getItem('activeRoom'));
+      this.setState({activeRoomID: roomId, activeRoomCode: roomCode});
+      this.updateList(roomId);
+    }
   }
 
   handlePrintClick(){
@@ -39,7 +50,8 @@ class App extends React.Component {
     return(
       <div className = {`appWrapper`}>
         <List
-          roomId={this.state.activeRoom} 
+          roomId={this.state.activeRoomID} 
+          roomCode={this.state.activeRoomCode}
           list={this.state.list} 
           fetchNewList={() => this.updateList()}
           handlePrintClick={() => this.handlePrintClick()}
@@ -49,4 +61,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

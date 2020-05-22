@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom';
 import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddEditModal from '../AddEditModal/AddEditModal';
-import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList} from 'react-icons/ai'
+import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag} from 'react-icons/ai'
 import {GrAdd} from 'react-icons/gr';
 import './List.scss';
 
@@ -153,6 +153,9 @@ class List extends React.Component{
                         </button>
                     </div>
                 </div>
+                <div className="roomCodeWrapper">
+                    <div className="roomCode"><AiOutlineTag className="roomCodeIcon"/>List Code: {this.props.roomCode} </div>
+                </div>
               
                 {this.renderTitleBar() }
                 
@@ -162,6 +165,8 @@ class List extends React.Component{
 
     async addItem(item){
         this.setState({addOpen: false});
+
+        console.log(this.props.roomId);
 
         await fetch(`/api/room/${this.props.roomId}/list`, {
             method: 'POST',

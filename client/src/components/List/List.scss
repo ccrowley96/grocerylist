@@ -12,6 +12,27 @@
     min-height: -webkit-fill-available;
 }
 
+.roomCodeWrapper{
+    position: absolute;
+    z-index: 1;
+    padding-top: 10px;
+    top: 80px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: x-large;
+    .roomCode{
+        text-decoration: underline;
+        display: flex;
+        align-items: center;
+    }
+    .roomCodeIcon{
+        padding-right: 10px;
+    }
+}
+
 .titleBarWrapper{
     display: flex;
     align-items: center;
@@ -70,6 +91,7 @@
     bottom: unset;
     position: fixed;
     top: 0px;
+    z-index: 2;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     border-top-right-radius: 0px;
@@ -116,7 +138,7 @@
     justify-content: flex-start;
     padding: 10px 10px 10px 10px;
     margin-bottom: 0px;
-    margin-top:80px;
+    margin-top:120px;
 
     .categoryWrapper{
         width: 100%;

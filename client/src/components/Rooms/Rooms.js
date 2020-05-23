@@ -47,7 +47,6 @@ class Rooms extends React.Component{
                 let activeRoomOk = roomsValidated.matchingRooms.findIndex(matchID => matchID === activeRoom.roomId) !== -1;
                 if(!activeRoomOk) localStorage.setItem('activeRoom', null);
             }
-            console.log(filteredLocalRooms);
 
             // Change local room names
             filteredLocalRooms = filteredLocalRooms.map(localRoom => {

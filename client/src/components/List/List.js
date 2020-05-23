@@ -21,6 +21,37 @@ class List extends React.Component{
             edit: {open: false, data: null},
             editNameOpen: false
         };
+        this.hotKeyListener = this.hotKeyListener.bind(this);
+    }
+
+    hotKeyListener(event){
+        let addKeyCodes = [65, 32,13];
+        let closeKeyCodes = [27];
+
+        let {confirmOpen, addOpen, edit, editNameOpen} = this.state;
+        let modalOpen = confirmOpen || addOpen || edit.open || editNameOpen;
+        if(addKeyCodes.includes(event.keyCode) && !modalOpen){
+            event.preventDefault();
+            this.setState({addOpen: true})
+        }
+        else if(closeKeyCodes.includes(event.keyCode)){
+            this.setState({
+                confirmOpen: false, 
+                addOpen: false, 
+                edit: {open: false, data: null},
+                editNameOpen: false
+            })
+        }
+    }
+
+    componentDidMount(){
+        //Start hot key listeners
+        document.addEventListener('keydown', this.hotKeyListener)
+    }
+
+    componentWillUnmount(){
+        //Remove hot key listeners
+        document.removeEventListener('keydown', this.hotKeyListener);
     }
 
     formatTime(date){

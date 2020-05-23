@@ -37,7 +37,6 @@ class App extends React.Component {
     if(JSON.parse(localStorage.getItem('activeRoom')) == null){
       this.props.history.push('/rooms');
     } else{
-      
       let {roomId, roomCode, roomName} = JSON.parse(localStorage.getItem('activeRoom'));
       this.setState({activeRoomID: roomId, activeRoomCode: roomCode, activeRoomName: roomName});
       this.updateList(roomId);
@@ -49,6 +48,7 @@ class App extends React.Component {
   }
 
   render(){
+    if(!this.state.activeRoomID|| !this.state.activeRoomCode || !this.state.activeRoomName) return null;
     return(
       <div className = {`appWrapper`}>
         <List

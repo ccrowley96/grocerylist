@@ -9,7 +9,8 @@ class App extends React.Component {
     this.state = {
       list: null,
       activeRoomID: null,
-      activeRoomCode: null
+      activeRoomCode: null,
+      activeRoomName: null
     }
   }
 
@@ -36,8 +37,9 @@ class App extends React.Component {
     if(JSON.parse(localStorage.getItem('activeRoom')) == null){
       this.props.history.push('/rooms');
     } else{
-      let {roomId, roomCode} = JSON.parse(localStorage.getItem('activeRoom'));
-      this.setState({activeRoomID: roomId, activeRoomCode: roomCode});
+      
+      let {roomId, roomCode, roomName} = JSON.parse(localStorage.getItem('activeRoom'));
+      this.setState({activeRoomID: roomId, activeRoomCode: roomCode, activeRoomName: roomName});
       this.updateList(roomId);
     }
   }
@@ -52,6 +54,7 @@ class App extends React.Component {
         <List
           roomId={this.state.activeRoomID} 
           roomCode={this.state.activeRoomCode}
+          roomName={this.state.activeRoomName}
           list={this.state.list} 
           fetchNewList={() => this.updateList()}
           handlePrintClick={() => this.handlePrintClick()}

@@ -24,6 +24,15 @@
     padding-left: 10px;
 }
 
+.roomCode{
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    .roomCodeIcon{
+        padding-right: 10px;
+    }
+}
+
 .roomTopToolbarWrapper{
     display: flex;
 
@@ -102,16 +111,15 @@
         align-items: center;
         justify-content: flex-start;
         height: 100%;
-        width: 90%;
+        width: 65%;
         padding-left: 10px;
-        
+        padding-right: 10px;
     }
     .roomTools{
         display: flex;
         align-items: center;
-        justify-content: flex-start;
         height: 100%;
-        width: 10%;
+        width: 35%;
         display: flex;
         justify-content: flex-end;
 

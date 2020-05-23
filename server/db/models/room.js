@@ -8,7 +8,8 @@ const roomSchema = mongoose.Schema({
     },
     roomName: {
         type: String,
-        default: 'Shopping List'
+        default: 'New List',
+        required: true
     },
     createdAt: {
         type: Date,

@@ -13,7 +13,12 @@ router.post('/', async (req, res, next) => {
     let roomCodeCheck = null;
     let roomCode = null;
     do{
-        roomCode = randomstring.generate(6).toLowerCase();
+        roomCode = randomstring.generate({
+            length: 6,
+            charset: 'alphabetic',
+            readable: true,
+            capitalization: 'lowercase'
+        }).toLowerCase();
         roomCodeCheck = await Room.find({roomCode: roomCode});
     } while(roomCodeCheck.length !== 0);
 
@@ -24,7 +29,7 @@ router.post('/', async (req, res, next) => {
         let roomCreated = await room.save();
         res.status(200);
         res.json({
-            title: 'Room',
+            name: roomCreated.roomName,
             roomCode: roomCode,
             id: roomCreated._id
         });

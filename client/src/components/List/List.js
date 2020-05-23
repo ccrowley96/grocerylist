@@ -4,9 +4,11 @@ import {withRouter} from 'react-router-dom';
 import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddEditModal from '../AddEditModal/AddEditModal';
-import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag} from 'react-icons/ai'
+import EditNameModal from '../EditNameModal/EditNameModal';
+import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag, AiOutlineEdit} from 'react-icons/ai'
 import {GrAdd} from 'react-icons/gr';
 import './List.scss';
+import { RiUserSettingsLine } from 'react-icons/ri';
 
 moment().tz("America/Los_Angeles").format();
 
@@ -17,7 +19,8 @@ class List extends React.Component{
         this.state = {
             confirmOpen: false,
             addOpen: false,
-            edit: {open: false, data: null}
+            edit: {open: false, data: null},
+            editNameOpen: false
         };
     }
 
@@ -87,15 +90,25 @@ class List extends React.Component{
     }
 
     renderTitleBar(){
+        let empty = this.props.list && this.props.list.list.length === 0;
         return (
-            <div className="titleBarWrapper">
-                <div className="print">
+            <div className={`titleBarWrapper${empty ? ' empty': ''}`}>
+                {!empty ? <div className="print">
                     <button 
                         className={`yellow printBtn`}
                         onClick={() => this.props.handlePrintClick()}
                     >
                         <div>Print List</div> 
                         <AiOutlinePrinter className="btnIcon"/> 
+                    </button>
+                </div> : null}
+                <div className={"changeName"}>
+                    <button 
+                        className={`yellow changeNameBtn`}
+                        onClick={() => this.setState({editNameOpen: true})}
+                    >
+                        <div>Edit Name</div> 
+                        <AiOutlineEdit className="btnIcon"/> 
                     </button>
                 </div>
             </div>
@@ -126,6 +139,15 @@ class List extends React.Component{
                         addItem={(item) => this.editItem(item)}
                     /> : null
                 }
+
+                {this.state.editNameOpen ? 
+                    <EditNameModal
+                        context={'Edit List Name'}
+                        populate={true}
+                        triggerClose={() => this.setState({editNameOpen: false})}
+                        confirm={(name) => this.updateRoomName(name)}
+                    /> : null
+                    }
 
                 {
                     this.state.addOpen ?
@@ -166,8 +188,6 @@ class List extends React.Component{
     async addItem(item){
         this.setState({addOpen: false});
 
-        console.log(this.props.roomId);
-
         await fetch(`/api/room/${this.props.roomId}/list`, {
             method: 'POST',
             headers: {
@@ -198,6 +218,36 @@ class List extends React.Component{
         await fetch(`/api/room/${this.props.roomId}/list`, {method: 'DELETE'});
         //Update list
         this.props.fetchNewList();
+    }
+
+    async updateRoomName(roomName){
+        this.setState({editNameOpen: false});
+        // Change room name in db
+        let response = await fetch(`/api/room/${this.props.roomId}/changeName`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({roomName: roomName})
+        });
+        if(response.status === 200){
+            //Change name OK, change name in localStorage
+            let storageToSet = JSON.parse(localStorage.getItem('rooms'));
+            let activeRoomToSet = JSON.parse(localStorage.getItem('activeRoom'));
+            if(storageToSet && activeRoomToSet){
+                activeRoomToSet.roomName = roomName;
+
+                //Find name and change in (rooms)
+                storageToSet = storageToSet.map(room => {
+                    if(room.roomId === this.props.roomId)
+                        return {...room, roomName};
+                    else
+                        return room;
+                })
+                localStorage.setItem('rooms', JSON.stringify(storageToSet));
+                localStorage.setItem('activeRoom', JSON.stringify(activeRoomToSet));
+            }
+        }
     }
 }
 

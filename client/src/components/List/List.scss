@@ -41,6 +41,11 @@
     width: 100%;
     height: 100px;
     
+    &.empty{
+        position: absolute;
+        top: 150px;
+    }
+    
 
     .roomsToolWrapper{
         display: flex;
@@ -63,14 +68,33 @@
         height: 100%;
         width: 100%;
         margin-right: 0px;
+        justify-content: flex-start;
+        padding-left: 20px;
+
+        button{
+            padding-left: 20px;
+            height: 50%;
+            font-size: medium;
+            justify-content: center;
+            max-width: 160px;
+        }
+    }
+
+    .changeName{
+        display: flex;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        margin-right: 0px;
         justify-content: flex-end;
         padding-right: 20px;
 
         button{
+            padding-left: 20px;
             height: 50%;
-            font-size: large;
+            font-size: medium;
             justify-content: center;
-            width: 160px;
+            max-width: 160px;
         }
     }
 }

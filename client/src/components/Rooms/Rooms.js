@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {RiPlayListAddLine} from 'react-icons/ri';
-import {AiOutlineTag, AiFillDelete, AiOutlineUnorderedList} from 'react-icons/ai';
+import {AiOutlineTag, AiFillDelete} from 'react-icons/ai';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import './Rooms.scss';
 
@@ -57,8 +57,8 @@ class Rooms extends React.Component{
         let room = await response.json();
         let storageToSet = JSON.parse(localStorage.getItem('rooms'));
 
-        if(storageToSet) storageToSet.push({roomId: room.id, roomCode: room.roomCode});
-        else storageToSet = [{roomId: room.id, roomCode: room.roomCode}]
+        if(storageToSet) storageToSet.push({roomId: room.id, roomCode: room.roomCode, roomName: room.name});
+        else storageToSet = [{roomId: room.id, roomCode: room.roomCode, roomName: room.name}]
 
         localStorage.setItem('rooms', JSON.stringify(storageToSet));
         this.updateRooms();
@@ -72,9 +72,9 @@ class Rooms extends React.Component{
         this.updateRooms();
     }
 
-    joinMyRoom(roomId, roomCode){
+    joinMyRoom(roomId, roomCode, roomName){
         //Set activeRoom in local storage
-        let storageToSet = {roomId, roomCode};
+        let storageToSet = {roomId, roomCode, roomName};
         localStorage.setItem('activeRoom', JSON.stringify(storageToSet));
         // Link to List App
         this.props.history.push('/');
@@ -149,6 +149,7 @@ class Rooms extends React.Component{
                     return (
                         <RoomItem 
                             key={room.roomId}
+                            roomName={room.roomName}
                             room={room} 
                             joinMyRoom={this.joinMyRoom.bind(this)}
                             deleteRoom={this.deleteRoom.bind(this)}
@@ -181,10 +182,14 @@ class RoomItem extends React.Component{
     render(){
         return(
             <div key={this.props.room.roomId} className="roomWrapper">
-                <div className="roomName" onClick={() => this.props.joinMyRoom(this.props.room.roomId, this.props.room.roomCode)}>
-                    {this.props.room.roomCode}
+                <div className="roomName" onClick={() => this.props.joinMyRoom(this.props.room.roomId, this.props.room.roomCode, this.props.room.roomName)}>
+                    {this.props.room.roomName}
                 </div>
                 <div className="roomTools">
+                    <div className="roomCode">
+                        <AiOutlineTag className="roomCodeIcon"/>
+                        {this.props.room.roomCode}
+                    </div>
                     <div className="roomDelete">
                         <div onClick={() => this.setState({confirmOpen: true})} className="deleteBtn">
                             <AiFillDelete className="deleteIcon"/>

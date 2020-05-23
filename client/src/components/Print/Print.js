@@ -11,8 +11,8 @@ class Print extends React.Component{
         }
     }
 
-    updateList(){
-        fetch(`/api/list`)
+    updateList(roomId){
+        fetch(`/api/room/${roomId}/list`)
           .then(response => response.json())
           .then(list => {
             this.setState({list})
@@ -23,15 +23,21 @@ class Print extends React.Component{
     }
     
     componentDidMount() {
-        this.updateList();
+        if(JSON.parse(localStorage.getItem('activeRoom')) == null){
+            this.props.history.push('/rooms');
+          } else{
+            let {roomId, roomCode, roomName} = JSON.parse(localStorage.getItem('activeRoom'));
+            this.setState({activeRoomID: roomId, activeRoomCode: roomCode, activeRoomName: roomName});
+            this.updateList(roomId);
+        }
     }
 
     render(){
         if(!this.state.list) return (<div>loading...</div>);
-        if(this.state.list.items.length === 0) return(<div>No items found</div>)
+        if(this.state.list.list.length === 0) return(<div>No items found</div>)
 
         let categoryMap = {};
-        for(let item of this.state.list.items){
+        for(let item of this.state.list.list){
             if(item.category in categoryMap){
                 categoryMap[item.category].push(item);
             } else{

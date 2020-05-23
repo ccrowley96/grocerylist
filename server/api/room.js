@@ -87,7 +87,7 @@ router.post('/getMatchingIds', async (req, res, next) => {
     }
 });
 
-// Fetch room by room code- (used to fetch rooms by room code stored in local storage)
+// Fetch room by room code - (used to fetch rooms by room code stored in local storage)
 router.post('/getRoomByCode', async (req, res, next) => {
     // pull ids from body id []
     let roomCode;

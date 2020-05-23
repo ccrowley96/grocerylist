@@ -15,21 +15,43 @@
 .roomCodeWrapper{
     position: absolute;
     z-index: 1;
-    padding-top: 10px;
+    padding-top: 20px;
     top: 80px;
     height: 30px;
     display: flex;
-    justify-content: center;
     align-items: center;
     width: 100%;
     font-size: x-large;
-    .roomCode{
-        text-decoration: underline;
+    .roomName{
+        padding-left: 20px;
+        width: 70%;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
         display: flex;
         align-items: center;
+        &:hover{
+            text-decoration: underline;
+        }
+        .btnIcon{
+            padding-left: unset;
+            padding-left: 10px;
+            font-size: large;
+        }
+    }
+    .roomCode{
+        width: 30%;
+        padding-right: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
     }
     .roomCodeIcon{
         padding-right: 10px;
+    }
+
+    @media screen and (max-width: 425px) {
+        font-size: large;
     }
 }
 
@@ -68,8 +90,8 @@
         height: 100%;
         width: 100%;
         margin-right: 0px;
-        justify-content: flex-start;
-        padding-left: 20px;
+        justify-content: flex-end;
+        padding-right: 20px;
 
         button{
             padding-left: 20px;
@@ -162,7 +184,7 @@
     justify-content: flex-start;
     padding: 10px 10px 10px 10px;
     margin-bottom: 0px;
-    margin-top:120px;
+    margin-top:150px;
 
     .categoryWrapper{
         width: 100%;

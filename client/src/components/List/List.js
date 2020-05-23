@@ -6,9 +6,8 @@ import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddEditModal from '../AddEditModal/AddEditModal';
 import EditNameModal from '../EditNameModal/EditNameModal';
 import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag, AiOutlineEdit} from 'react-icons/ai'
-import {GrAdd} from 'react-icons/gr';
+import {GrAdd,GrEdit} from 'react-icons/gr';
 import './List.scss';
-import { RiUserSettingsLine } from 'react-icons/ri';
 
 moment().tz("America/Los_Angeles").format();
 
@@ -102,15 +101,6 @@ class List extends React.Component{
                         <AiOutlinePrinter className="btnIcon"/> 
                     </button>
                 </div> : null}
-                <div className={"changeName"}>
-                    <button 
-                        className={`yellow changeNameBtn`}
-                        onClick={() => this.setState({editNameOpen: true})}
-                    >
-                        <div>Edit Name</div> 
-                        <AiOutlineEdit className="btnIcon"/> 
-                    </button>
-                </div>
             </div>
         )
     }
@@ -176,7 +166,10 @@ class List extends React.Component{
                     </div>
                 </div>
                 <div className="roomCodeWrapper">
-                    <div className="roomCode"><AiOutlineTag className="roomCodeIcon"/>List Code: {this.props.roomCode} </div>
+                    <div className="roomName" onClick={() => this.setState({editNameOpen: true})}>
+                        {JSON.parse(localStorage.getItem('activeRoom')).roomName}<GrEdit className="btnIcon"/> 
+                    </div>
+                    <div className="roomCode"><AiOutlineTag className="roomCodeIcon"/>{this.props.roomCode} </div>
                 </div>
               
                 {this.renderTitleBar() }
@@ -248,6 +241,7 @@ class List extends React.Component{
                 localStorage.setItem('activeRoom', JSON.stringify(activeRoomToSet));
             }
         }
+        this.setState({}); //trigger re-update to refresh name
     }
 }
 

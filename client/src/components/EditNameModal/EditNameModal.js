@@ -64,7 +64,7 @@ class EditNameModal extends React.Component{
                                         value={this.state.roomName} 
                                         onChange={(e) => this.handleNameChange(e)}
                                         placeholder={'Enter room name...'} 
-                                        maxLength={40}
+                                        maxLength={21}
                                     />
                                     <div className ="formError">{this.state.formError}</div>
                                 </div>

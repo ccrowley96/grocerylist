@@ -41,11 +41,20 @@ class Rooms extends React.Component{
                 body: JSON.stringify(payload)
             });
             let roomsValidated = await response.json();
+            // Filter out missing IDs
             let filteredLocalRooms = localRooms.filter(room => roomsValidated.matchingRooms.findIndex(matchID => room.roomId === matchID._id) !== -1)
             if(activeRoom){
                 let activeRoomOk = roomsValidated.matchingRooms.findIndex(matchID => matchID === activeRoom.roomId) !== -1;
                 if(!activeRoomOk) localStorage.setItem('activeRoom', null);
             }
+            console.log(filteredLocalRooms);
+
+            // Change local room names
+            filteredLocalRooms = filteredLocalRooms.map(localRoom => {
+                let remoteName = roomsValidated.matchingRooms.find(room => room._id === localRoom.roomId).roomName
+                localRoom.roomName = remoteName;
+                return localRoom;
+            })
             // Update local storage
             localStorage.setItem('rooms', JSON.stringify(filteredLocalRooms));
         }
@@ -162,7 +171,7 @@ class Rooms extends React.Component{
                         className="green createRoom"
                         onClick={() => this.createRoom()}
                     >
-                        Create Room
+                        Create List
                         <RiPlayListAddLine className="roomToolIcon"/>
                     </button>
                 </div>

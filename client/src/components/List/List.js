@@ -8,6 +8,7 @@ import AddEditModal from '../AddEditModal/AddEditModal';
 import EditNameModal from '../EditNameModal/EditNameModal';
 import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag} from 'react-icons/ai'
 import {GrAdd,GrEdit} from 'react-icons/gr';
+import {FiShare} from 'react-icons/fi';
 import isMobile from 'ismobilejs';
 import './List.scss';
 
@@ -130,8 +131,12 @@ class List extends React.Component{
                             </button>
                             Adds item to your list
                         </div>
-                        <div className="tips tip"><i>Click  <AiOutlineTag style={{paddingLeft: '5px'}}/> to share this list</i></div>
+                        <div className="tips tip" style={{marginTop: '10px'}}><i>Click  <AiOutlineTag style={{paddingLeft: '5px'}}/> to share this list</i></div>
                         <div className="tips tip"><i>Click  <GrEdit style={{paddingLeft: '5px'}}/> to change this list's name</i></div>
+                        <div className="tips tip" style={{display: `${!isMobile().any ? 'none': 'initial'}`}}>
+                            <FiShare className={`btnIcon`} style={{paddingRight: '5px'}}/> 
+                            Add this app to your home screen
+                        </div>
                         <div className={`desktopHotkeys${isMobile().any ? ' mobile' : ''}`}>
                             <div className="tips title"><b><u>Hotkeys</u></b></div>
                             <div className="tips tip"><i><b>'space'</b> or <b>'enter'</b> creates a new item</i></div>

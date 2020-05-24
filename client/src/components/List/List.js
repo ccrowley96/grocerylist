@@ -112,7 +112,24 @@ class List extends React.Component{
                     <div className={`emptyListPlaceholder`}>
                         <div className="noItems">No Items Found!</div>
                         <div className="tips title"><b><u>Info</u></b></div>
-                        <div className="tips tip"><i>Click the green + to add to your list</i></div>
+                        <div className="tips tip">
+                            <button className="red" disabled={true}>
+                                <AiOutlineDelete className={`btnIcon`}/> 
+                            </button>
+                            Delete all items on list
+                        </div>
+                        <div className="tips tip">
+                            <button className="yellow" disabled={true}>
+                                <AiOutlineUnorderedList className={`btnIcon`}/> 
+                            </button>
+                            Shows all of your lists
+                        </div>
+                        <div className="tips tip">
+                            <button className="green" disabled={true}>
+                                <GrAdd className={`btnIcon`}/> 
+                            </button>
+                            Adds item to your list
+                        </div>
                         <div className="tips tip"><i>Click  <AiOutlineTag style={{paddingLeft: '5px'}}/> to share this list</i></div>
                         <div className="tips tip"><i>Click  <GrEdit style={{paddingLeft: '5px'}}/> to change this list's name</i></div>
                         <div className={`desktopHotkeys${isMobile().any ? ' mobile' : ''}`}>

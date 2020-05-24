@@ -20,6 +20,13 @@
         background-color: darken($btn-color, 15%);
     }
 
+    &:disabled{
+        color: initial;
+        &:hover{
+            background-color:$btn-color;
+        }
+    }
+
     &:active{
         background-color: darken($btn-color, 15%);
         outline: 0;

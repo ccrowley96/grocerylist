@@ -206,10 +206,25 @@
             text-decoration: underline;
         }
         &.tip{
+            display: flex;
+            justify-content: center;
             padding-top: 5px;
+            button{
+                margin-right: 5px;
+                border-radius: 3px;
+            }
+            .btnIcon{
+                font-size: medium;
+                padding: unset;
+            }
         }
         @media screen and (max-width: 425px) {
             font-size: small;
+            &.tip{
+                .btnIcon{
+                    font-size: small;
+                }
+            }
         }
     }
 }

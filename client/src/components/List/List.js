@@ -104,7 +104,11 @@ class List extends React.Component{
             if(this.props.list.list.length === 0){
                 return(
                     <div className={`emptyListPlaceholder`}>
-                        No Items Found!
+                        <div>No Items Found!</div>
+                        <div className="tips"><b>Info</b></div>
+                        <div className="tips"><i>Press the green + to add to your list</i></div>
+                        <div className="tips"><b>Hotkeys</b></div>
+                        <div className="tips"><i><b>'space'</b> or <b>'enter'</b> creates a new item</i></div>
                     </div>
                 )
             } else{

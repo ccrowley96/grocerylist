@@ -163,7 +163,7 @@ class Rooms extends React.Component{
                             deleteRoom={this.deleteRoom.bind(this)}
                         />
                     )
-                }) : <div>No Rooms found!</div> 
+                }) : <div>No Lists found!</div> 
             }   
             <div className="createRoomWrapper">
                     <button 
@@ -173,7 +173,8 @@ class Rooms extends React.Component{
                         Create List
                         <RiPlayListAddLine className="roomToolIcon"/>
                     </button>
-                </div>
+            </div>
+            <p><i>Note: Lists expire in 30 days if they are not used</i></p>
         </div>
         )
     }

@@ -17,8 +17,21 @@ class Rooms extends React.Component{
     }
 
     componentDidMount() {
-        //Validate rooms
-        this.validateRooms();
+        const {params} = this.props.match;
+        if('roomCode' in params){
+            let join = async() => {
+                let roomCode = params.roomCode;
+                if(roomCode.length === 6){
+                    this.setState({joinRoomVal: roomCode});
+                    await this.joinRemoteRoom(roomCode);
+                }
+                this.validateRooms();
+            }
+            join();
+        } else{
+            //Validate rooms
+            this.validateRooms();
+        }
     }
 
     updateRooms(){
@@ -88,15 +101,15 @@ class Rooms extends React.Component{
         this.props.history.push('/');
     }
 
-    async joinRemoteRoom(){
-        this.setState({joinRoomVal: ''});
+    async joinRemoteRoom(roomCode = null){
+        let remoteRoomCode = roomCode ? roomCode : this.state.joinRoomVal;
         // Check if room exists in database
         let response = await fetch('/api/room/getRoomByCode', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({roomCode: this.state.joinRoomVal})
+            body: JSON.stringify({roomCode: remoteRoomCode})
         });
         let roomValidated = await response.json();
         if(roomValidated.match == null){
@@ -120,64 +133,72 @@ class Rooms extends React.Component{
             console.log("List Joined", roomValidated.match);
             this.updateRooms();
         }
+        this.setState({joinRoomVal: ''});
     }
 
     handleJoinInputChange(e){
         this.setState({joinRoomVal: e.target.value, joinRoomInfo: ''});
     }
 
+    handleSubmit(event) {
+        event.preventDefault();
+
+        this.joinRemoteRoom()
+    }
+
     render(){
         return(
-        <div className="roomsWrapper">
-            <div className="roomTopToolbarWrapper">
-                
-                <div className="joinRoomWrapper">
-                    <div className="joinRoomInputWrapper">
-                        <input 
-                            type="text" 
-                            value={this.state.joinRoomVal} 
-                            onChange={(e) => this.handleJoinInputChange(e)}
-                            placeholder={"Enter code..."}
-                            className="joinRoomInput"
-                            maxLength={6}
-                        >
-                        </input>
-                        <div className="joinRoomInfo">{this.state.joinRoomInfo}</div>
-                    </div>
-                    <div className="joinRoomButtonWrapper">
-                        <button className="green joinRoomButton" onClick={() => this.joinRemoteRoom()}>
-                            Join
-                            <AiOutlineTag className="roomToolIcon"/>
-                        </button>
-                    </div>
+            <div className="roomsWrapper">
+                <div className="roomTopToolbarWrapper">
+                    <form onSubmit={(e) => this.handleSubmit(e)} className="joinRoomForm">
+                        <div className="joinRoomWrapper">
+                            <div className="joinRoomInputWrapper">
+                                <input 
+                                    type="text" 
+                                    value={this.state.joinRoomVal} 
+                                    onChange={(e) => this.handleJoinInputChange(e)}
+                                    placeholder={"Enter code..."}
+                                    className="joinRoomInput"
+                                    maxLength={6}
+                                >
+                                </input>
+                                <div className="joinRoomInfo">{this.state.joinRoomInfo}</div>
+                            </div>
+                            <div className="joinRoomButtonWrapper">
+                                <button className="green joinRoomButton" type="submit" value="Submit">
+                                    Join
+                                    <AiOutlineTag className="roomToolIcon"/>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+                
+                <h2>My Lists</h2>
+                { 
+                    (this.state.rooms && this.state.rooms.length !== 0) ? this.state.rooms.map(room => {
+                        return (
+                            <RoomItem 
+                                key={room.roomId}
+                                roomName={room.roomName}
+                                room={room} 
+                                joinMyRoom={this.joinMyRoom.bind(this)}
+                                deleteRoom={this.deleteRoom.bind(this)}
+                            />
+                        )
+                    }) : <div>No Lists found!</div> 
+                }   
+                <div className="createRoomWrapper">
+                        <button 
+                            className="green createRoom"
+                            onClick={() => this.createRoom()}
+                        >
+                            Create List
+                            <RiPlayListAddLine className="roomToolIcon"/>
+                        </button>
+                </div>
+                <p><i>Note: Lists will expire in 30 days if not used</i></p>
             </div>
-            
-            <h2>My Lists</h2>
-            { 
-                (this.state.rooms && this.state.rooms.length !== 0) ? this.state.rooms.map(room => {
-                    return (
-                        <RoomItem 
-                            key={room.roomId}
-                            roomName={room.roomName}
-                            room={room} 
-                            joinMyRoom={this.joinMyRoom.bind(this)}
-                            deleteRoom={this.deleteRoom.bind(this)}
-                        />
-                    )
-                }) : <div>No Lists found!</div> 
-            }   
-            <div className="createRoomWrapper">
-                    <button 
-                        className="green createRoom"
-                        onClick={() => this.createRoom()}
-                    >
-                        Create List
-                        <RiPlayListAddLine className="roomToolIcon"/>
-                    </button>
-            </div>
-            <p><i>Note: Lists expire in 30 days if they are not used</i></p>
-        </div>
         )
     }
 }
@@ -192,7 +213,7 @@ class RoomItem extends React.Component{
 
     render(){
         return(
-            <div key={this.props.room.roomId} className="roomWrapper">
+            <div key={this.props.room.roomId} className="roomWrapper" tabIndex={0}>
                 <div className="roomName" onClick={() => this.props.joinMyRoom(this.props.room.roomId, this.props.room.roomCode, this.props.room.roomName)}>
                     {this.props.room.roomName}
                 </div>

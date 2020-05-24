@@ -1,12 +1,13 @@
 import React from 'react';
 import moment from 'moment-timezone';
 import {withRouter} from 'react-router-dom';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddEditModal from '../AddEditModal/AddEditModal';
 import EditNameModal from '../EditNameModal/EditNameModal';
 import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag, AiOutlineEdit} from 'react-icons/ai'
-import {GrAdd,GrEdit} from 'react-icons/gr';
+import {GrAdd,GrEdit, GrCopy} from 'react-icons/gr';
 import './List.scss';
 
 moment().tz("America/Los_Angeles").format();
@@ -19,7 +20,8 @@ class List extends React.Component{
             confirmOpen: false,
             addOpen: false,
             edit: {open: false, data: null},
-            editNameOpen: false
+            editNameOpen: false,
+            copied: false
         };
         this.hotKeyListener = this.hotKeyListener.bind(this);
     }
@@ -34,13 +36,16 @@ class List extends React.Component{
             event.preventDefault();
             this.setState({addOpen: true})
         }
-        else if(closeKeyCodes.includes(event.keyCode)){
+        else if(modalOpen && closeKeyCodes.includes(event.keyCode)){
             this.setState({
                 confirmOpen: false, 
                 addOpen: false, 
                 edit: {open: false, data: null},
                 editNameOpen: false
             })
+        }
+        else if(!modalOpen && closeKeyCodes.includes(event.keyCode)){
+            this.props.history.push('/rooms');
         }
     }
 
@@ -104,11 +109,15 @@ class List extends React.Component{
             if(this.props.list.list.length === 0){
                 return(
                     <div className={`emptyListPlaceholder`}>
-                        <div>No Items Found!</div>
-                        <div className="tips"><b>Info</b></div>
-                        <div className="tips"><i>Press the green + to add to your list</i></div>
-                        <div className="tips"><b>Hotkeys</b></div>
-                        <div className="tips"><i><b>'space'</b> or <b>'enter'</b> creates a new item</i></div>
+                        <div className="noItems">No Items Found!</div>
+                        <div className="tips title"><b><u>Info</u></b></div>
+                        <div className="tips tip"><i>Click the green + to add to your list</i></div>
+                        <div className="tips tip"><i>Click  <AiOutlineTag style={{paddingLeft: '5px'}}/> to share this list</i></div>
+                        <div className="tips tip"><i>Click  <GrEdit style={{paddingLeft: '5px'}}/> to change this list's name</i></div>
+                        <div className="tips title"><b><u>Hotkeys</u></b></div>
+                        <div className="tips tip"><i><b>'space'</b> or <b>'enter'</b> creates a new item</i></div>
+                        <div className="tips tip"><i><b>'esc'</b> closes pop-up menu (if open)</i></div>
+                        <div className="tips tip"><i><b>'esc'</b> returns to list menu</i></div>
                     </div>
                 )
             } else{
@@ -204,7 +213,18 @@ class List extends React.Component{
                     <div className="roomName" onClick={() => this.setState({editNameOpen: true})}>
                         {JSON.parse(localStorage.getItem('activeRoom')).roomName}<GrEdit className="btnIcon"/> 
                     </div>
-                    <div className="roomCode"><AiOutlineTag className="roomCodeIcon"/>{this.props.roomCode} </div>
+                    <CopyToClipboard 
+                        text={`${window.location.href}rooms/${this.props.roomCode}`}
+                        onCopy={() => {
+                            this.setState({copied: true})
+                            setTimeout(() => {this.setState({copied: false})}, 2000);
+                        }}
+                    >
+                        <div className="roomCode">
+                            <AiOutlineTag className="roomCodeIcon"/>{this.props.roomCode}
+                        </div>
+                    </CopyToClipboard>
+                    {this.state.copied ? <div className="copiedFlag">Room Link Copied.</div> : null}
                 </div>
               
                 {this.renderTitleBar() }

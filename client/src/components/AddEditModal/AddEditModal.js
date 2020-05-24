@@ -65,7 +65,7 @@ class AddEditModal extends React.Component{
                             {this.props.context}
                         </div>
                         <div className ="formWrapper">
-                            <div className="addForm" onSubmit={(e) => this.handleSubmit(e)}>
+                            <div className="addForm">
                                 <div className="addFormItemDesc">
                                     <label>
                                         Item Description

@@ -16,6 +16,9 @@ ReactDOM.render(
           <Route path="/print">
             <Print />
           </Route>
+          <Route path="/rooms/:roomCode">
+            <Rooms />
+          </Route>
           <Route path="/rooms">
             <Rooms />
           </Route>

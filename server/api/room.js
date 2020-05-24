@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const randomstring = require('randomstring');
 const {Item, Room } = require('../db/db_index');
-const {validateRoom, validateItem} = require('./middleware');
+const {validateRoom, validateItem, updateExpireTime, secondsUntilExpire} = require('./middleware');
 
 var ObjectId = require('mongoose').Types.ObjectId; 
 
@@ -22,7 +22,9 @@ router.post('/', async (req, res, next) => {
         roomCodeCheck = await Room.find({roomCode: roomCode});
     } while(roomCodeCheck.length !== 0);
 
-    let room = new Room({roomCode});
+    // Set expire time to 60 seconds
+    let expireAt = new Date(Date.now() + secondsUntilExpire);
+    let room = new Room({roomCode, expireAt});
 
     // Save new room using roomCode
     try {
@@ -76,6 +78,13 @@ router.post('/getMatchingIds', async (req, res, next) => {
             let match = await Room.findById(new ObjectId(id))
             if(match) matchingRooms.push(match);
         }
+
+        // Update expireAt on all matching rooms to current time + expireTime
+        for(let room of matchingRooms){
+            let expireAt = new Date(Date.now() + secondsUntilExpire);
+            await Room.updateOne({"_id": new ObjectId(room._id.toString())}, {expireAt: expireAt});
+        }
+
         res.status(200);
         res.json({
             title: 'Rooms',
@@ -122,7 +131,7 @@ router.post('/getRoomByCode', async (req, res, next) => {
 });
 
 // Update Room Name
-router.post('/:id/changeName', async (req, res, next) => {
+router.post('/:id/changeName', updateExpireTime, async (req, res, next) => {
     let roomId;
     let roomName;
     try{

@@ -15,7 +15,14 @@ const roomSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    expireAt: {
+        type: Date,
+        required: true
+  },
     roomList: [Item]
 });
+
+// Expire at the time indicated by the expireAt field
+roomSchema.index({ expireAt: 1 }, { expireAfterSeconds : 0 });
 
 module.exports = mongoose.model('Room', roomSchema);

@@ -105,14 +105,16 @@ class Rooms extends React.Component{
         } else{
 
             let storageToSet = JSON.parse(localStorage.getItem('rooms'));
-            let roomId = roomValidated.match._id, roomCode = roomValidated.match.roomCode;
+            let roomId = roomValidated.match._id, 
+                roomCode = roomValidated.match.roomCode,
+                roomName = roomValidated.match.roomName;
 
             // Ignore if room already in localStorage
             if(storageToSet && storageToSet.findIndex(room => room.roomId === roomId) !== -1)
                 return;
 
-            if(storageToSet) storageToSet.push({roomId, roomCode});
-            else storageToSet = [{roomId, roomCode}]
+            if(storageToSet) storageToSet.push({roomId, roomCode, roomName});
+            else storageToSet = [{roomId, roomCode, roomName}]
 
             localStorage.setItem('rooms', JSON.stringify(storageToSet));
             console.log("List Joined", roomValidated.match);

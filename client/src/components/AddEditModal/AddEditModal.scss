@@ -12,9 +12,12 @@
     background-color: rgba(255,255,255, .5);
 
     .addEditModal{
-        height: 50%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        height: auto;
         width: 100%;
         background-color: rgba(255,255,255, .95);
+        background-color: red;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -28,6 +31,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding-bottom: 20px;
     }
 
     .modalWrapper{
@@ -36,10 +40,12 @@
     }
 
     .formWrapper{
-        height: 60%;
+        height: auto;
         width: 100%;
         display: flex;
         justify-content: center;
+        padding-bottom: 20px;
+
     }
     .addForm{
         height: 100%;
@@ -74,7 +80,7 @@
         justify-content: center;
         flex-direction: row;
         width: 100%;
-        height: 20%;
+        height: auto;
 
         .toolSection{
             width: 50%;

@@ -12,8 +12,10 @@ class Rooms extends React.Component{
             rooms: null,
             joinRoomVal: '',
             joinRoomInfo: '',
-            confirmOpen: false
+            confirmOpen: false,
+            note: ''
         }
+        this.noteTimeout = null;
     }
 
     componentDidMount() {
@@ -32,6 +34,12 @@ class Rooms extends React.Component{
             //Validate rooms
             this.validateRooms();
         }
+
+        this.displayNotes();
+    }
+
+    componentWillUnmount(){
+        clearTimeout(this.noteTimeout);
     }
 
     updateRooms(){
@@ -146,6 +154,34 @@ class Rooms extends React.Component{
         this.joinRemoteRoom()
     }
 
+    async displayNotes(){
+        //Note: Lists will expire in 30 days if not used
+        let notes = [
+            'Lists will expire in 30 days if not used',
+            'Add this app to your phone homescreen from the browser menu',
+            'Share a 6 letter code to invite someone to your list',
+            'Adding a grocery category to list items makes shopping easier!',
+            'You can print your lists - this will organize all items by category',
+            'Careful: deleting a list also deletes the list for anyone who has access',
+            'Copy a list link and send it to friends.  They will automatically have access.'
+        ]
+        // Shuffle notes and add empty final note
+        notes = (notes.sort(() => Math.random() - .5))
+        notes.push('');
+
+        let noteInterval = 7000;
+        this.setState({note: notes[0]})
+
+        for(let note of notes.slice(1)){
+            await new Promise((res, rej) => {
+                this.noteTimeout = setTimeout(() => {
+                    this.setState({note})
+                    res(note);
+                }, noteInterval)
+            })
+        }
+    }
+
     render(){
         return(
             <div className="roomsWrapper">
@@ -197,7 +233,9 @@ class Rooms extends React.Component{
                             <RiPlayListAddLine className="roomToolIcon"/>
                         </button>
                 </div>
-                <p><i>Note: Lists will expire in 30 days if not used</i></p>
+                <div className="notes">
+                    <p><i>{this.state.note}</i></p>
+                </div>
             </div>
         )
     }

@@ -10,6 +10,14 @@
     }
 }
 
+.notes{
+    display: flex;
+    justify-content: center;
+    p{
+        text-align: center;
+    }
+}
+
 .createRoomWrapper{
     width: 100%;
     display: flex;

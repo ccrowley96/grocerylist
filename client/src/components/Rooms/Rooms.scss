@@ -106,6 +106,7 @@
 }
 
 .roomWrapper{
+    position: relative;
     font-size: large;
     display: flex;
     align-items: center;
@@ -117,6 +118,13 @@
     border-radius: 5px;
     margin-bottom:20px;
     background-color: $lightBlue;
+
+    .joinRoomClickRegion{
+        position: absolute;
+        width: calc(100% - 50px);
+        height: 100%;
+        margin-left: -5px;
+    }
 
     &:hover{
         background-color: darken($lightBlue, 20%);

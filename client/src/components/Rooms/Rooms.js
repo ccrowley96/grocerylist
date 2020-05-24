@@ -252,7 +252,10 @@ class RoomItem extends React.Component{
     render(){
         return(
             <div key={this.props.room.roomId} className="roomWrapper" tabIndex={0}>
-                <div className="roomName" onClick={() => this.props.joinMyRoom(this.props.room.roomId, this.props.room.roomCode, this.props.room.roomName)}>
+                <div className="joinRoomClickRegion"
+                    onClick={() => this.props.joinMyRoom(this.props.room.roomId, this.props.room.roomCode, this.props.room.roomName)}>
+                </div>
+                <div className="roomName" >
                     {this.props.room.roomName}
                 </div>
                 <div className="roomTools">
@@ -266,7 +269,6 @@ class RoomItem extends React.Component{
                         </div>
                     </div>
                 </div>
-
                 {this.state.confirmOpen ? 
                     <ConfirmModal 
                         triggerClose={() => this.setState({confirmOpen: false})}

@@ -185,6 +185,11 @@
     height: 100%;
     top:0px;
     bottom: 0px;
+    .desktopHotkeys{
+        &.mobile{
+            display: none;
+        }
+    }
     .noItems{
         font-size: x-large;
     }

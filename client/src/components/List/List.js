@@ -6,8 +6,9 @@ import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddEditModal from '../AddEditModal/AddEditModal';
 import EditNameModal from '../EditNameModal/EditNameModal';
-import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag, AiOutlineEdit} from 'react-icons/ai'
-import {GrAdd,GrEdit, GrCopy} from 'react-icons/gr';
+import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag} from 'react-icons/ai'
+import {GrAdd,GrEdit} from 'react-icons/gr';
+import isMobile from 'ismobilejs';
 import './List.scss';
 
 moment().tz("America/Los_Angeles").format();
@@ -114,10 +115,12 @@ class List extends React.Component{
                         <div className="tips tip"><i>Click the green + to add to your list</i></div>
                         <div className="tips tip"><i>Click  <AiOutlineTag style={{paddingLeft: '5px'}}/> to share this list</i></div>
                         <div className="tips tip"><i>Click  <GrEdit style={{paddingLeft: '5px'}}/> to change this list's name</i></div>
-                        <div className="tips title"><b><u>Hotkeys</u></b></div>
-                        <div className="tips tip"><i><b>'space'</b> or <b>'enter'</b> creates a new item</i></div>
-                        <div className="tips tip"><i><b>'esc'</b> closes pop-up menu (if open)</i></div>
-                        <div className="tips tip"><i><b>'esc'</b> returns to list menu</i></div>
+                        <div className={`desktopHotkeys${isMobile().any ? ' mobile' : ''}`}>
+                            <div className="tips title"><b><u>Hotkeys</u></b></div>
+                            <div className="tips tip"><i><b>'space'</b> or <b>'enter'</b> creates a new item</i></div>
+                            <div className="tips tip"><i><b>'esc'</b> closes pop-up menu (if open)</i></div>
+                            <div className="tips tip"><i><b>'esc'</b> returns to list menu</i></div>
+                        </div>
                     </div>
                 )
             } else{

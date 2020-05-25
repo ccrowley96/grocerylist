@@ -39,8 +39,10 @@
         hyphens: auto;
         display: flex;
         align-items: center;
-        &:hover{
-            text-decoration: underline;
+        @media (hover: hover){
+            &:hover{
+                text-decoration: underline;
+            }
         }
         .btnIcon{
             padding-left: unset;
@@ -54,9 +56,11 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        
         &:hover{
             text-decoration: underline;
         }
+        
     }
     .roomCodeIcon{
         padding-right: 10px;

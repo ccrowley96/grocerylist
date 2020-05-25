@@ -16,8 +16,10 @@
     align-items: center;
     border-radius: 10px;
 
-    &:hover{
-        background-color: darken($btn-color, 15%);
+    @media (hover: hover){
+        &:hover{
+            background-color: darken($btn-color, 15%);
+        }
     }
 
     &:disabled{

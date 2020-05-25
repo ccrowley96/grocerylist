@@ -105,14 +105,18 @@
         font-size: xx-large;
         &.deleteIcon{
             color: $red;
-            &:hover{
-                color: darken($red, 30%);
+            @media (hover: hover){
+                &:hover{
+                    color: darken($red, 30%);
+                }
             }
         }
 
         &.checkIcon{
-            &:hover{
-                color: white;
+            @media (hover: hover){
+                &:hover{
+                    color: white;
+                }
             }
         }
     }
@@ -129,8 +133,10 @@
 
     font-size: large;
 
-    &:hover{
-        background-color: darken($lightBlue, 6%);
+    @media (hover: hover){
+        &:hover{
+            background-color: darken($lightBlue, 6%);
+        }
     }
 
     margin-left: 0px;

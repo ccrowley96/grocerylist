@@ -24,7 +24,6 @@ class Rooms extends React.Component{
             let join = async() => {
                 let roomCode = params.roomCode;
                 if(roomCode.length === 6){
-                    this.setState({joinRoomVal: roomCode});
                     await this.joinRemoteRoom(roomCode);
                 }
                 this.validateRooms();
@@ -138,7 +137,6 @@ class Rooms extends React.Component{
             else storageToSet = [{roomId, roomCode, roomName}]
 
             localStorage.setItem('rooms', JSON.stringify(storageToSet));
-            console.log("List Joined", roomValidated.match);
             this.updateRooms();
         }
         this.setState({joinRoomVal: ''});

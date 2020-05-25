@@ -15,6 +15,10 @@
     }
 }
 
+.joinRoomForm{
+    margin-left: auto;
+}
+
 .notes{
     display: flex;
     justify-content: center;
@@ -50,6 +54,20 @@
     display: flex;
     margin-bottom: 30px;
     justify-content: flex-end;
+
+    .designedBy{
+        display: flex;
+        align-items: center;
+        a{
+            color: $blue;
+            &:hover{
+                color: darken($blue, 20%)
+            }
+        }
+        @media screen and (max-width: 440px){
+            display: none;
+        }
+    }
 
     .joinRoomWrapper{
         height: 50px;

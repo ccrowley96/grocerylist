@@ -184,6 +184,7 @@ class Rooms extends React.Component{
         return(
             <div className="roomsWrapper">
                 <div className="roomTopToolbarWrapper">
+                    <div className="designedBy">Designed By &nbsp;<a href="https://corycrowley.me" target="_blank"> Cory</a></div>
                     <form onSubmit={(e) => this.handleSubmit(e)} className="joinRoomForm">
                         <div className="joinRoomWrapper">
                             <div className="joinRoomInputWrapper">

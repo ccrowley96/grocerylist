@@ -208,7 +208,7 @@ class Rooms extends React.Component{
                     </form>
                 </div>
                 
-                <h2>My Lists</h2>
+                <h2>Grocery Lists</h2>
                 { 
                     (this.state.rooms && this.state.rooms.length !== 0) ? this.state.rooms.map(room => {
                         return (

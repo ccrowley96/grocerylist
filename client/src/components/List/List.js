@@ -239,7 +239,7 @@ class List extends React.Component{
                         {JSON.parse(localStorage.getItem('activeRoom')).roomName}<GrEdit className="btnIcon"/> 
                     </div>
                     <CopyToClipboard 
-                        text={`${window.location.href}rooms/${this.props.roomCode}`}
+                        text={`${process.env.NODE_ENV === 'development' ? window.location.href : 'https://www.grocerylist.us/'}rooms/${this.props.roomCode}`}
                         onCopy={() => {
                             this.setState({copied: true})
                             setTimeout(() => {this.setState({copied: false})}, 2000);

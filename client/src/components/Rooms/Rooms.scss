@@ -66,8 +66,16 @@
                 }
             }
         }
-        @media screen and (max-width: 440px){
-            display: none;
+        &.mobile{
+            position: absolute;
+            right: 15px;
+            top: 96px;
+        }
+        @media screen and (max-width: 465px){
+           //small width disp
+            position: absolute;
+            right: 15px;
+            top: 96px;
         }
     }
 

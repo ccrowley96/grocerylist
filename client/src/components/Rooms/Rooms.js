@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom';
 import {RiPlayListAddLine} from 'react-icons/ri';
 import {AiOutlineTag, AiFillDelete} from 'react-icons/ai';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
+import isMobile from 'ismobilejs';
 import './Rooms.scss';
 
 class Rooms extends React.Component{
@@ -184,7 +185,7 @@ class Rooms extends React.Component{
         return(
             <div className="roomsWrapper">
                 <div className="roomTopToolbarWrapper">
-                    <div className="designedBy">Designed By &nbsp;<a href="https://corycrowley.me" target="_blank"> Cory</a></div>
+                    <div className={`designedBy${isMobile().any ? ' mobile' : ''}`}>Designed By &nbsp;<a href="https://corycrowley.me" target="_blank"> Cory</a></div>
                     <form onSubmit={(e) => this.handleSubmit(e)} className="joinRoomForm">
                         <div className="joinRoomWrapper">
                             <div className="joinRoomInputWrapper">

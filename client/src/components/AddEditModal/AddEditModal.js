@@ -8,13 +8,20 @@ class AddEditModal extends React.Component{
         
         if(this.props.populate){
             this.state = {
-                itemDesc: props.populate.content,
-                itemCat: props.populate.category
+                itemDesc: props.populate.content
+            }
+            if(!(groceryCategories.includes(props.populate.category))){
+                this.state['itemCat'] = 'Other';
+                this.state['customCat'] = props.populate.category
+            } else{
+                this.state['itemCat'] = props.populate.category;
+                this.state['customCat'] = '';
             }
         } else{
             this.state = {
                 itemDesc: '',
-                itemCat: groceryCategories[0]
+                itemCat: groceryCategories[0],
+                customCat: ''
             }
         }
 
@@ -40,6 +47,10 @@ class AddEditModal extends React.Component{
         this.setState({itemCat: event.target.value});
     }
 
+    handleCustomChange(event){
+        this.setState({customCat: event.target.value});
+    }
+
     handleSubmit(event) {
         event.preventDefault();
 
@@ -47,13 +58,23 @@ class AddEditModal extends React.Component{
             this.setState({formError: 'Description cannot be empty'})
             return;
         }
+        if(this.state.itemCat === 'Other'){
+            if(this.state.customCat === ''){
+                this.setState({formError: 'Custom category cannot be empty'})
+                return;
+            }
+            this.props.addItem({
+                content: this.state.itemDesc,
+                category: this.state.customCat
+            })
+        } else{
+            this.props.addItem({
+                content: this.state.itemDesc,
+                category: this.state.itemCat
+            })
+        }
 
-        this.props.addItem({
-            content: this.state.itemDesc,
-            category: this.state.itemCat
-        })
-
-        this.setState({itemDesc: ''});
+        this.setState({itemDesc: '', customCat: ''});
     }
 
     render(){
@@ -89,6 +110,21 @@ class AddEditModal extends React.Component{
                                             return (<option key={category}>{category}</option>)
                                         })}
                                     </select>
+                                    {
+                                        this.state.itemCat === 'Other' ? 
+                                            <div>
+                                                <label>
+                                                    Custom Category
+                                                </label>
+                                                <input className="formItem customCategory" type="text" name="customCat"
+                                                    value={this.state.customCat} 
+                                                    onChange={(e) => this.handleCustomChange(e)}
+                                                    placeholder={'Other'}
+                                                    maxLength={26}
+                                                />
+                                            </div>
+                                        : null
+                                    }
                                     <div className ="formError">{this.state.formError}</div>
                                 </div>
                             </div>

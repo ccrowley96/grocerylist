@@ -1,5 +1,6 @@
 import React from 'react';
 import {formatTime} from '../../utils/utils';
+import {FiCheck} from 'react-icons/fi';
 import './Print.scss';
 
 class Print extends React.Component{
@@ -54,7 +55,7 @@ class Print extends React.Component{
                             {categoryMap[category].map(item => {
                                 return (
                                     <div className={`${item.checked ? 'checked': ''}`} key={item._id}>
-                                        -{item.content}
+                                        -{item.content} <FiCheck className='checkMark'/>
                                     </div>
                                 )
                             })}

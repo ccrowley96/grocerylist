@@ -1,3 +1,5 @@
+@import '../../base_styles/colors.scss';
+
 .printWrapper{
     padding: 20px 20px 20px 20px;
     font-family: 'Balsamiq Sans', cursive;
@@ -21,7 +23,12 @@
 
     .categoryWrapper{
         margin-top:20px;
-        width: 50%;
+        width: calc(50% - 20px);
+        padding-left: 10px;
+        padding-right:10px;
+        @media screen and (max-width: 480px) {
+            width: 100%;
+        }
     }
 
     .categoryTitle{
@@ -32,9 +39,19 @@
     .categoryContent{
         font-size: large;
         margin-left: 20px;
+        .checkMark{
+            display: none;
+            font-size: x-large;
+            position: absolute;
+            padding-left:10px;
+            // color: $red;
+        }
 
         .checked{
             text-decoration: line-through;
+            .checkMark{
+                display: initial;
+            }
         }
     }
 }

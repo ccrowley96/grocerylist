@@ -249,6 +249,26 @@ router.post('/:id/list/:item_id/check', validateRoom, validateItem, async (req, 
     }
 })
 
+//toggle 'check all' on room
+router.post('/:id/list/checkAll', validateRoom, async (req, res, next) => {
+    let roomId = req.params.id;
+
+    if(req.body.checked === undefined || typeof req.body.checked != 'boolean'){
+        res.status(400);
+        res.send('Incorrect request body (checked: boolean) must be in body');
+        return;
+    }
+
+    try{
+        await Room.updateMany({'_id': new ObjectId(roomId)},
+            {$set: {"roomList.$[].checked": req.body.checked}});
+            res.sendStatus(200);
+    } catch(err){
+        console.log(err);
+        res.sendStatus(500);
+    }
+});
+
 //DELETE item by ID
 router.delete('/:id/list/:item_id', validateRoom, async (req, res, next) => {
     let roomId = req.params.id;

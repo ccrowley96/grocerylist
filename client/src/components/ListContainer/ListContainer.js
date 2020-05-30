@@ -10,7 +10,8 @@ class App extends React.Component {
       list: null,
       activeRoomID: null,
       activeRoomCode: null,
-      activeRoomName: null
+      activeRoomName: null,
+      checkAll: false
     }
   }
 
@@ -26,7 +27,13 @@ class App extends React.Component {
         else return response.json()
       })
       .then(list => {
-        this.setState({list})
+        //Find check state
+        console.log(list.list)
+        let numChecked = list.list.reduce((acc, cur) => acc += cur.checked ? 1 : 0, 0);
+        console.log(numChecked);
+        let checkAll = numChecked > Math.ceil(list.list.length / 2);
+        console.log(checkAll);
+        this.setState({list, checkAll})
       })
       .catch(err => {
         console.log(err);
@@ -47,6 +54,19 @@ class App extends React.Component {
     window.open('/print');
   }
 
+  async handleCheckAllClick(){
+    let onClickCheckState = !this.state.checkAll;
+    this.setState(prevState => ({checkAll: !prevState.checkAll}));
+    await fetch(`/api/room/${this.state.activeRoomID}/list/checkAll`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({checked: onClickCheckState})
+    });
+    this.updateList();
+  }
+
   render(){
     if(!this.state.activeRoomID|| !this.state.activeRoomCode || !this.state.activeRoomName) return null;
     return(
@@ -56,8 +76,10 @@ class App extends React.Component {
           roomCode={this.state.activeRoomCode}
           roomName={this.state.activeRoomName}
           list={this.state.list} 
+          checkAll={this.state.checkAll}
           fetchNewList={() => this.updateList()}
           handlePrintClick={() => this.handlePrintClick()}
+          handleCheckAllClick={() => this.handleCheckAllClick()}
         />
       </div>
     )

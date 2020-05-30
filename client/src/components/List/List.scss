@@ -94,6 +94,7 @@
     }
     
     &.empty{
+        display:none;
         position: absolute;
         top: 150px;
     }
@@ -112,23 +113,58 @@
             width: 160px;
         }
     }
-    
-    .print{
+
+    .titleButtonWrap{
         display: flex;
         align-items: center;
         height: 100%;
-        width: 100%;
+        width: 50%;
         margin-right: 0px;
-        justify-content: flex-end;
-        @media screen and (max-width: 800px){
-            padding-right: 20px;
-        }
+        
         button{
-            padding-left: 20px;
-            height: 50%;
+            height: 50px;
             font-size: medium;
-            justify-content: center;
+            width:100%;
             max-width: 160px;
+            padding:0px;
+            display: flex;
+            padding-right: 5px;
+        }
+
+        .buttonTxt{
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+        }
+
+        .buttonIconWrap{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 50px;
+                width:20%;
+                padding:0px !important;
+            .buttonIcon{
+                font-size: x-large;
+            }
+        }
+
+        &.checkAll{
+            justify-content: flex-start; 
+            padding-right:10px;
+            @media screen and (max-width: 800px){
+                padding-left: 20px;
+            }
+        }
+
+        &.print{
+            justify-content: flex-end; 
+            padding-left:10px;
+            @media screen and (max-width: 800px){
+                padding-right: 20px;
+            }
         }
     }
 

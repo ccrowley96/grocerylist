@@ -15,6 +15,18 @@ app.use(cors({credentials: true, origin: true}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// HTTPS Redirect for production
+if (process.env.NODE_ENV !== 'dev') {
+  app.enable('trust proxy');
+  app.use((req, res, next) => {
+      if (req.secure) {
+          next();
+      } else {
+          res.redirect('https://' + req.headers.host + req.url);
+      }
+  });
+}
+
 //API Endpoint Router
 app.use('/api', API);
 

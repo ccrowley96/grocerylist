@@ -52,7 +52,11 @@ class Print extends React.Component{
                     <div className="categoryTitle">{category}</div>
                         <div className="categoryContent">
                             {categoryMap[category].map(item => {
-                                return (<div key={item._id}>-{item.content}</div>)
+                                return (
+                                    <div className={`${item.checked ? 'checked': ''}`} key={item._id}>
+                                        -{item.content}
+                                    </div>
+                                )
                             })}
                         </div>
                     </div>

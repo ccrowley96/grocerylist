@@ -32,5 +32,9 @@
     .categoryContent{
         font-size: large;
         margin-left: 20px;
+
+        .checked{
+            text-decoration: line-through;
+        }
     }
 }

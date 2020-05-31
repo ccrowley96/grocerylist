@@ -237,23 +237,34 @@ class List extends React.Component{
 
                 <div className={`listFooter`}>
                     <div className="footerDiv">
-                        <button onClick={() => this.setState({confirmOpen: true})} className={`red`}>
+                        <button onClick={() => this.setState({confirmOpen: true})} 
+                            className={`red`}
+                            title={'Clear all items from this list'}
+                        >
                             <AiOutlineDelete className={`btnIcon`}/> 
                         </button>
                     </div>
                     <div className="footerDiv">
-                            <button className="roomsButton yellow" onClick={() => {this.props.history.push('/rooms');}}>
+                            <button className="roomsButton yellow" 
+                                onClick={() => {this.props.history.push('/rooms');}}
+                                title={'View all lists'}
+                            >
                                 <AiOutlineUnorderedList className={`btnIcon`}/> 
                             </button>
                     </div>
                     <div className="footerDiv">
-                        <button onClick={() => this.setState({addOpen: true})} className={`green`}>
+                        <button onClick={() => this.setState({addOpen: true})} 
+                            className={`green`}
+                            title={'Add item to this list'}
+                        >
                             <GrAdd className={`btnIcon`}/> 
                         </button>
                     </div>
                 </div>
                 <div className="roomCodeWrapper">
-                    <div className="roomName" onClick={() => this.setState({editNameOpen: true})}>
+                    <div className="roomName" onClick={() => this.setState({editNameOpen: true})}
+                        title={'Edit list name'}
+                    >
                         {JSON.parse(localStorage.getItem('activeRoom')).roomName}<GrEdit className="btnIcon"/> 
                     </div>
                     <CopyToClipboard 
@@ -263,7 +274,7 @@ class List extends React.Component{
                             setTimeout(() => {this.setState({copied: false})}, 2000);
                         }}
                     >
-                        <div className="roomCode">
+                        <div className="roomCode" title={'Copy sharable list URL'}>
                             <AiOutlineTag className="roomCodeIcon"/>{this.props.roomCode}
                         </div>
                     </CopyToClipboard>

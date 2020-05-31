@@ -27,12 +27,10 @@ class App extends React.Component {
         else return response.json()
       })
       .then(list => {
-        //Find check state
-        console.log(list.list)
+        //Find check state for check / uncheck all button
         let numChecked = list.list.reduce((acc, cur) => acc += cur.checked ? 1 : 0, 0);
-        console.log(numChecked);
-        let checkAll = numChecked >= Math.ceil(list.list.length / 2);
-        console.log(checkAll);
+        let prevCheckAll = this.state.checkAll;
+        let checkAll = numChecked === list.list.length / 2 ? prevCheckAll : numChecked >= Math.ceil(list.list.length / 2);
         this.setState({list, checkAll})
       })
       .catch(err => {

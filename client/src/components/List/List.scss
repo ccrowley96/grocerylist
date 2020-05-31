@@ -157,6 +157,12 @@
             @media screen and (max-width: 800px){
                 padding-left: 20px;
             }
+
+            .checkBtn{
+                &:disabled{
+                    background-color: darken($yellow, 10%);
+                }
+            }
         }
 
         &.print{

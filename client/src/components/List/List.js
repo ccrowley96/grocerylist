@@ -167,8 +167,9 @@ class List extends React.Component{
             <div className={`titleBarWrapper${empty ? ' empty': ''}`}>
                 <div className="titleButtonWrap checkAll">
                     <button 
-                        className={`yellow`}
+                        className={`yellow checkBtn`}
                         onClick={() => this.props.handleCheckAllClick()}
+                        disabled={this.props.checkDisabled}
                     >
                         <div className={'buttonTxt'}>{this.props.checkAll ? 'Uncheck All' : 'Check All'}</div> 
                         <div className={'buttonIconWrap'}>

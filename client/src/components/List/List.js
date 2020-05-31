@@ -28,6 +28,7 @@ class List extends React.Component{
             copied: false
         };
         this.hotKeyListener = this.hotKeyListener.bind(this);
+        this.checkAfterDelay = this.checkAfterDelay.bind(this);
     }
 
     hotKeyListener(event){
@@ -69,10 +70,10 @@ class List extends React.Component{
     }
 
     populateListItems(){
-        if(this.props.list.list.length > 0){
+        if(this.props.list.length > 0){
             let categoryMap = {};
 
-            for(let item of this.props.list.list){
+            for(let item of this.props.list){
 
                 if(item.category in categoryMap){
                     categoryMap[item.category].push(item);
@@ -97,6 +98,7 @@ class List extends React.Component{
                                         edit={(data) => {
                                             this.setState({edit: {open: true, data}})
                                         }}
+                                        clickCheck={(id, checkVal) => this.clickCheck(id, checkVal)}
                                     />
                                 )
                             })
@@ -110,7 +112,7 @@ class List extends React.Component{
 
     renderList(){
         if(this.props.list){
-            if(this.props.list.list.length === 0){
+            if(this.props.list.length === 0){
                 return(
                     <div className={`emptyListPlaceholder`}>
                         <div className="noItems">No Items Found!</div>
@@ -160,7 +162,7 @@ class List extends React.Component{
     }
 
     renderTitleBar(){
-        let empty = this.props.list && this.props.list.list.length === 0;
+        let empty = this.props.list && this.props.list.length === 0;
         return (
             <div className={`titleBarWrapper${empty ? ' empty': ''}`}>
                 <div className="titleButtonWrap checkAll">
@@ -271,6 +273,35 @@ class List extends React.Component{
                 
             </div>
         );
+    }
+
+    async clickCheck(itemId, checkVal){
+        let updatedList = this.props.list;
+        updatedList = updatedList.map(item => {
+            if(item._id === itemId){
+                item.checked = checkVal;
+            }
+            return item;
+        })
+
+        //Set temporary check state
+        this.setState({list: updatedList})
+        await fetch(`/api/room/${this.props.roomId}/list/${itemId}/check`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({checked: checkVal})
+        })
+        //fetch updated list
+        // Fetch new list after delay
+        clearTimeout(this.state.delayedCheck);
+        let delayedCheck = setTimeout(this.checkAfterDelay, 2000)
+        this.setState({delayedCheck});
+    }
+
+    checkAfterDelay(){
+        this.props.fetchNewList();
     }
 
     async addItem(item){

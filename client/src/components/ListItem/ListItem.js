@@ -10,26 +10,13 @@ class ListItem extends React.Component{
         super(props);
 
         this.state = {
-            confirmOpen: false,
-            checkPending: false,
-            itemChecked: false,
+            confirmOpen: false
         };
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState){
-        // Ensure that prop has actually changed before overwriting local state
-        // console.log(`${nextProps.item._id} - \tnextProps.item.checked: ${nextProps.item.checked}\n\tprevState.prevPropCheck: ${prevState.prevPropCheck}\n\tnextProps.item.checked: ${nextProps.item.checked}`)
-        if(nextProps.item.checked !== prevState.itemChecked || 
-            prevState.prevPropCheck !== nextProps.item.checked){
-                console.log('triggering getDerivedState, checked: ', nextProps.item.checked)
-            return {itemChecked: nextProps.item.checked}
-        }
-        return null;
     }
 
     render(){
         return (
-            <div className={`listItemWrapper${this.state.itemChecked ? ' checked': ''} `}>
+            <div className={`listItemWrapper${this.props.item.checked ? ' checked': ''} `}>
                 {this.state.confirmOpen ? 
                     <ConfirmModal 
                         triggerClose={() => this.setState({confirmOpen: false})}
@@ -43,7 +30,7 @@ class ListItem extends React.Component{
                 
                 <div className="listItem">
                     <div className='listContent'>
-                        { this.state.itemChecked ?
+                        { this.props.item.checked ?
                             <strike>{this.props.item.content}</strike>
                             : this.props.item.content
                         }
@@ -59,8 +46,8 @@ class ListItem extends React.Component{
                 <div className={`listToolsWrapper`}>
                     <div className = "listTools">
                         <div onClick={() => this.setState({confirmOpen: true})} className={`tool`}><AiFillDelete className="listItemToolIcon deleteIcon"/></div>
-                        <div onClick={() => !this.state.checkPending ? this.clickCheck() : null} className={`tool`}>
-                            {this.state.itemChecked ? <AiFillCheckCircle className="listItemToolIcon checkIcon"/> : <MdRadioButtonUnchecked className="listItemToolIcon checkIcon"/>}
+                        <div onClick={() => this.props.clickCheck(this.props.item._id, !this.props.item.checked)} className={`tool`}>
+                            {this.props.item.checked ? <AiFillCheckCircle className="listItemToolIcon checkIcon"/> : <MdRadioButtonUnchecked className="listItemToolIcon checkIcon"/>}
                         </div>
                     </div>
                     <div className = "listInfo">
@@ -74,25 +61,7 @@ class ListItem extends React.Component{
         );
     }
 
-    async clickCheck(){
-        let newCheckVal = !this.state.itemChecked;
-        this.setState((prevState, prevProps) => ({
-            checkPending: true, 
-            itemChecked: !prevState.itemChecked, 
-            prevPropCheck: prevProps.item.checked})
-        );
-        
-        await fetch(`/api/room/${this.props.roomId}/list/${this.props.item._id}/check`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({checked: newCheckVal})
-        })
-        this.setState({checkPending: false});
-        //fetch updated list
-        this.props.fetchNewList();
-    }
+    
 
     async clickDelete(){
         await fetch(`/api/room/${this.props.roomId}/list/${this.props.item._id}`,{method: 'DELETE'});

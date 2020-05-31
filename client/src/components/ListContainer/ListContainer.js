@@ -31,7 +31,7 @@ class App extends React.Component {
         console.log(list.list)
         let numChecked = list.list.reduce((acc, cur) => acc += cur.checked ? 1 : 0, 0);
         console.log(numChecked);
-        let checkAll = numChecked > Math.ceil(list.list.length / 2);
+        let checkAll = numChecked >= Math.ceil(list.list.length / 2);
         console.log(checkAll);
         this.setState({list, checkAll})
       })
@@ -75,7 +75,7 @@ class App extends React.Component {
           roomId={this.state.activeRoomID} 
           roomCode={this.state.activeRoomCode}
           roomName={this.state.activeRoomName}
-          list={this.state.list} 
+          list={this.state.list?.list} 
           checkAll={this.state.checkAll}
           fetchNewList={() => this.updateList()}
           handlePrintClick={() => this.handlePrintClick()}

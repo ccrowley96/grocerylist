@@ -14,6 +14,7 @@ class App extends React.Component {
       checkAll: false,
       checkDisabled: false
     }
+    this.updateInterval = null;
   }
 
   updateList(inititalRoomId = null){
@@ -46,7 +47,13 @@ class App extends React.Component {
       let {roomId, roomCode, roomName} = JSON.parse(localStorage.getItem('activeRoom'));
       this.setState({activeRoomID: roomId, activeRoomCode: roomCode, activeRoomName: roomName});
       this.updateList(roomId);
+      this.updateInterval = setInterval(() => this.updateList(roomId), 5000);
     }
+  }
+  
+  componentWillUnmount(){
+    // Destroy update interval
+    clearInterval(this.updateInterval);
   }
 
   handlePrintClick(){

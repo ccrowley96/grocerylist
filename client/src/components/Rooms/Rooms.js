@@ -21,6 +21,11 @@ class Rooms extends React.Component{
 
     componentDidMount() {
         const {params} = this.props.match;
+
+        // Load local storage into state (if available)
+        let localRoomsObj = JSON.parse(localStorage.getItem('rooms'));
+        this.setState({rooms: localRoomsObj});
+
         if('roomCode' in params){
             let join = async() => {
                 let roomCode = params.roomCode;
@@ -131,8 +136,11 @@ class Rooms extends React.Component{
                 roomName = roomValidated.match.roomName;
 
             // Ignore if room already in localStorage
-            if(storageToSet && storageToSet.findIndex(room => room.roomId === roomId) !== -1)
+            if(storageToSet && storageToSet.findIndex(room => room.roomId === roomId) !== -1){
+                this.setState({joinRoomInfo: 'Room already joined!'})
                 return;
+            }
+
 
             if(storageToSet) storageToSet.push({roomId, roomCode, roomName});
             else storageToSet = [{roomId, roomCode, roomName}]

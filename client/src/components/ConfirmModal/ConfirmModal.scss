@@ -22,10 +22,9 @@
         max-width: 500px;
         background-color: rgba(255,255,255, .95);
         background-color: $orange;
-
         border-radius: 10px;
         display: flex;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: center;
         flex-direction: column;
     }
@@ -35,7 +34,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 50%;
         padding: 10px 10px 10px 10px;
     }
 

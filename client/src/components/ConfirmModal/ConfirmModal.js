@@ -19,6 +19,9 @@ class ConfirmModal extends React.Component{
                     <div className="confirmSection confirmText">
                         {this.props.message}
                     </div>
+                    {this.props.children ?
+                        this.props.children
+                    : null}
                     <div className="confirmSection confirmTools">
                         <div className="buttonSection">
                             <button onClick={() => this.props.confirm()} className="green" ref={(input) => { this.confirm = input; }}>Confirm</button>

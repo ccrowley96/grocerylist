@@ -269,6 +269,27 @@ router.post('/:id/list/checkAll', validateRoom, async (req, res, next) => {
     }
 });
 
+// DELETE multiple items (used to delete selected items)
+router.delete('/:id/list/deleteChecked', /* validateRoom ,*/ async (req, res, next) => {
+    let roomId = req.params.id;
+    
+    try{
+        await Room.updateMany({'_id': new ObjectId(roomId)},
+                {
+                    $pull: { 
+                        roomList: {
+                            checked: true
+                        }
+                    }
+                }
+        );
+            res.sendStatus(200);
+    } catch(err){
+        console.log(err);
+        res.sendStatus(500);
+    }
+})
+
 //DELETE item by ID
 router.delete('/:id/list/:item_id', validateRoom, async (req, res, next) => {
     let roomId = req.params.id;
@@ -288,7 +309,6 @@ router.delete('/:id/list/:item_id', validateRoom, async (req, res, next) => {
 //DELETE all items (clear list)
 router.delete('/:id/list', validateRoom, async (req, res, next) => {
     let roomId = req.params.id;
-    
     try{
         await Room.updateOne({"_id": new ObjectId(roomId)}, {
             "$set": {"roomList" : []}

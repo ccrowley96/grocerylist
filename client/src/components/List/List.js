@@ -25,7 +25,8 @@ class List extends React.Component{
             addOpen: false,
             edit: {open: false, data: null},
             editNameOpen: false,
-            copied: false
+            copied: false,
+            deleteOnlyChecked: false
         };
         this.hotKeyListener = this.hotKeyListener.bind(this);
         this.checkAfterDelay = this.checkAfterDelay.bind(this);
@@ -199,13 +200,27 @@ class List extends React.Component{
                 
                 {this.state.confirmOpen ? 
                     <ConfirmModal
-                        triggerClose={() => this.setState({confirmOpen: false})}
-                        message={'Do you want to clear the list?'}
+                        triggerClose={() => this.setState({confirmOpen: false, deleteOnlyChecked: false})}
+                        message={this.state.deleteOnlyChecked ? 'Clear checked items?' : 'Clear the list?'}
                         confirm={() => {
-                            this.clearList();
-                            this.setState({confirmOpen: false});
+                            if(this.state.deleteOnlyChecked){
+                                this.clearOnlyChecked();
+                            } else{
+                                this.clearList();
+                            }
+                            this.setState({confirmOpen: false, deleteOnlyChecked: false});
                         }}
-                    /> : null
+                    >
+                        <div className="deleteCheckedWrapper">
+                            <label>Checked items only</label>
+                            <input
+                                name="deleteChecked"
+                                type="checkbox"
+                                checked={this.state.deleteOnlyChecked}
+                                onChange={(e) => this.toggleOnlyDeleteChecked(e)} 
+                            />
+                        </div> 
+                    </ConfirmModal> : null
                 }
 
                 {this.state.edit.open ? 
@@ -287,6 +302,10 @@ class List extends React.Component{
         );
     }
 
+    toggleOnlyDeleteChecked(event){
+        this.setState({deleteOnlyChecked: event.target.checked});
+    }
+
     async clickCheck(itemId, checkVal){
         let updatedList = this.props.list;
         updatedList = updatedList.map(item => {
@@ -347,6 +366,12 @@ class List extends React.Component{
 
     async clearList(){
         await fetch(`/api/room/${this.props.roomId}/list`, {method: 'DELETE'});
+        //Update list
+        this.props.fetchNewList();
+    }
+
+    async clearOnlyChecked(){
+        await fetch(`/api/room/${this.props.roomId}/list/deleteChecked`, {method: 'DELETE'});
         //Update list
         this.props.fetchNewList();
     }

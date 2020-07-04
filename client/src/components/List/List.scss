@@ -325,3 +325,12 @@
         box-shadow: 0 0 black;
     }
 }
+
+.deleteCheckedWrapper{
+    flex-basis: unset;
+    display:flex;
+    justify-content: center;
+    >*{
+        padding-right: 10px;
+    }
+}

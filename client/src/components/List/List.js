@@ -211,10 +211,11 @@ class List extends React.Component{
                             this.setState({confirmOpen: false, deleteOnlyChecked: false});
                         }}
                     >
-                        <div className="deleteCheckedWrapper">
-                            <label>Checked items only</label>
+                        <div className="confirmChildWrapper">
+                            <label className="confirmCheckerLabel">Checked items only</label>
                             <input
                                 name="deleteChecked"
+                                className="confirmCheckbox"
                                 type="checkbox"
                                 checked={this.state.deleteOnlyChecked}
                                 onChange={(e) => this.toggleOnlyDeleteChecked(e)} 

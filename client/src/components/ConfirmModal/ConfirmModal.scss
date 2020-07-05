@@ -17,7 +17,7 @@
     background-color: rgba(255,255,255, .5);
 
     .confirmModal{
-        height: 30%;
+        min-height: 30%;
         width: 80%;
         max-width: 500px;
         background-color: rgba(255,255,255, .95);
@@ -40,10 +40,12 @@
     .confirmText{
         font-size: larger;
         text-align: center;
+        padding-top: 20px;
     }
 
     .confirmTools{
         width: 100%;
+        padding-bottom: 20px;
         .buttonSection{
             width: 100%;
             display: flex;
@@ -54,6 +56,16 @@
             height: 50px;
             font-size: large;
         }
+    }
+}
+
+.confirmChildWrapper{
+    width: 90%;
+    padding: 10px 10px 10px 10px;
+    text-align: center;
+
+    .confirmCheckbox{
+        margin-left: 20px;
     }
 }
 

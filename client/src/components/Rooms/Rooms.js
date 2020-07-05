@@ -228,6 +228,7 @@ class Rooms extends React.Component{
                                 room={room} 
                                 joinMyRoom={this.joinMyRoom.bind(this)}
                                 deleteRoom={this.deleteRoom.bind(this)}
+                                validateRooms={this.validateRooms.bind(this)}
                             />
                         )
                     }) : <div>No Lists found!</div> 
@@ -253,8 +254,13 @@ class RoomItem extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            confirmOpen: false
+            confirmOpen: false,
+            unsubscribe: false
         }
+    }
+
+    toggleUnsubscribe(event){
+        this.setState({unsubscribe: event.target.checked});
     }
 
     render(){
@@ -279,13 +285,34 @@ class RoomItem extends React.Component{
                 </div>
                 {this.state.confirmOpen ? 
                     <ConfirmModal 
-                        triggerClose={() => this.setState({confirmOpen: false})}
-                        message={`Do you want to delete: ${this.props.room.roomCode}?`}
+                        triggerClose={() => this.setState({confirmOpen: false, unsubscribe: false})}
+                        message={!this.state.unsubscribe ? `Do you want to delete: ${this.props.room.roomCode}?` : 
+                            `Do you want to unsubscribe from: ${this.props.room.roomCode}?`}
                         confirm={() => {
-                            this.props.deleteRoom(this.props.room.roomId);
-                            this.setState({confirmOpen: false});
+                            if(this.state.unsubscribe){
+                                // Remove list from local storage
+                                let rooms = JSON.parse(localStorage.getItem('rooms'));
+                                rooms = rooms.filter(room => room.roomCode !== this.props.room.roomCode);
+                                localStorage.setItem('rooms', JSON.stringify(rooms));
+                                // Re-fetch lists from backend
+                                this.props.validateRooms();
+                            } else{
+                                this.props.deleteRoom(this.props.room.roomId);
+                            }
+                            this.setState({confirmOpen: false, unsubscribe: false});
                         }}
-                    /> : null
+                    >
+                        <div className="confirmChildWrapper">
+                            <label className="confirmCheckerLabel">Unsubscribe (other users will still have access)</label>
+                            <input
+                                name="unsubscribeChecked"
+                                className="confirmCheckbox"
+                                type="checkbox"
+                                checked={this.state.unsubscribe}
+                                onChange={(e) => this.toggleUnsubscribe(e)} 
+                            />
+                        </div> 
+                    </ConfirmModal> : null
                 }
             </div>
         )

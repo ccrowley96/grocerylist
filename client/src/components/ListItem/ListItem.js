@@ -34,12 +34,12 @@ class ListItem extends React.Component{
                             <strike>{this.props.item.content}</strike>
                             : this.props.item.content
                         }
-                        <div className={`editBtn`}>
-                            <GrEdit onClick={() => {
+                        <div className={`editBtn`} onClick={() => {
                                 let {content, category, _id} = this.props.item;
                                 this.props.edit({content, category, _id});
                             }}
-                            />
+                        >
+                            <GrEdit />
                         </div>
                     </div>
                 </div>

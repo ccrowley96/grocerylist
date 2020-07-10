@@ -9,11 +9,11 @@ class AddEditModal extends React.Component{
             this.state = {
                 itemDesc: props.populate.content
             }
-            if(!(groceryCategories.includes(props.populate.category))){
+            if(!(groceryCategories.includes(props.populate.category.toUpperCase()))){
                 this.state['itemCat'] = 'OTHER';
-                this.state['customCat'] = props.populate.category
+                this.state['customCat'] = props.populate.category.toUpperCase();
             } else{
-                this.state['itemCat'] = props.populate.category;
+                this.state['itemCat'] = props.populate.category.toUpperCase();
                 this.state['customCat'] = '';
             }
         } else{

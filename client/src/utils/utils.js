@@ -35,9 +35,8 @@ export const tips = [
     'You can print your lists - this will organize all items by category',
     'Careful: deleting a list also deletes the list for anyone who has access',
     'Copy a list link and send it to friends.  They will automatically have access.',
-    '*New: Clear all checked items from list from the list trash can button',
+    '*New: Clear all checked items from list using the list trash can button',
     '*New: Unsubscribe from list, but leave active for other members, from list delete icon',
-
 ]
 
 export default {

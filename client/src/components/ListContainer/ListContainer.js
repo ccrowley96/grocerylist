@@ -1,6 +1,11 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
-import List from '../List/List'
+import List from '../List/List';
+import CustomCategories from '../CustomCategories/CustomCategories';
+import {FiCheck} from 'react-icons/fi';
+import {MdRadioButtonUnchecked} from 'react-icons/md';
+import {AiOutlinePrinter} from 'react-icons/ai'
+
 import './ListContainer.scss';
 
 class App extends React.Component {
@@ -88,9 +93,44 @@ class App extends React.Component {
           handlePrintClick={() => this.handlePrintClick()}
           handleCheckAllClick={() => this.handleCheckAllClick()}
         />
+
+        <CustomCategories />
+
+        {this.renderFooterControls()}
       </div>
     )
   }
+
+  renderFooterControls(){
+    let empty = this.props.list && this.props.list.length === 0;
+    return (
+        <div className={`footerControlWrapper${empty ? ' empty': ''}`}>
+            <div className="footerButtonWrap checkAll">
+                <button 
+                    className={`yellow checkBtn`}
+                    onClick={() => this.handleCheckAllClick()}
+                    disabled={this.state.checkDisabled}
+                >
+                    <div className={'buttonTxt'}>{this.props.checkAll ? 'Uncheck All' : 'Check All'}</div> 
+                    <div className={'buttonIconWrap'}>
+                        {this.state.checkAll ? 
+                        <MdRadioButtonUnchecked className="buttonIcon"/> :
+                        <FiCheck className="buttonIcon"/>} 
+                    </div>
+                </button>
+            </div>
+            <div className="footerButtonWrap print">
+                <button 
+                    className={`yellow`}
+                    onClick={() => this.handlePrintClick()}
+                >
+                    <div className={'buttonTxt'}>Print List</div> 
+                    <div className={'buttonIconWrap'}><AiOutlinePrinter className="buttonIcon"/></div> 
+                </button>
+            </div>
+        </div>
+    )
+}
 }
 
 export default withRouter(App);

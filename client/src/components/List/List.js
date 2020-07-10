@@ -160,37 +160,6 @@ class List extends React.Component{
         }
     }
 
-    renderTitleBar(){
-        let empty = this.props.list && this.props.list.length === 0;
-        return (
-            <div className={`titleBarWrapper${empty ? ' empty': ''}`}>
-                <div className="titleButtonWrap checkAll">
-                    <button 
-                        className={`yellow checkBtn`}
-                        onClick={() => this.props.handleCheckAllClick()}
-                        disabled={this.props.checkDisabled}
-                    >
-                        <div className={'buttonTxt'}>{this.props.checkAll ? 'Uncheck All' : 'Check All'}</div> 
-                        <div className={'buttonIconWrap'}>
-                            {this.props.checkAll ? 
-                            <MdRadioButtonUnchecked className="buttonIcon"/> :
-                            <FiCheck className="buttonIcon"/>} 
-                        </div>
-                    </button>
-                </div>
-                <div className="titleButtonWrap print">
-                    <button 
-                        className={`yellow`}
-                        onClick={() => this.props.handlePrintClick()}
-                    >
-                        <div className={'buttonTxt'}>Print List</div> 
-                        <div className={'buttonIconWrap'}><AiOutlinePrinter className="buttonIcon"/></div> 
-                    </button>
-                </div>
-            </div>
-        )
-    }
-
     render(){
         return (
             <div className={`listWrapper`}>
@@ -249,8 +218,8 @@ class List extends React.Component{
                     /> : null
                 }
 
-                <div className={`listFooter`}>
-                    <div className="footerDiv">
+                <div className={`listHeader`}>
+                    <div className="headerDiv">
                         <button onClick={() => this.setState({confirmOpen: true})} 
                             className={`red`}
                             title={'Clear all items from this list'}
@@ -258,7 +227,7 @@ class List extends React.Component{
                             <span className="listCtrlTitle">Clear List</span><AiOutlineDelete className={`btnIcon`}/> 
                         </button>
                     </div>
-                    <div className="footerDiv">
+                    <div className="headerDiv">
                             <button className="roomsButton yellow" 
                                 onClick={() => {this.props.history.push('/rooms');}}
                                 title={'View all lists'}
@@ -266,7 +235,7 @@ class List extends React.Component{
                                 <span className="listCtrlTitle">All Lists</span><AiOutlineUnorderedList className={`btnIcon`}/> 
                             </button>
                     </div>
-                    <div className="footerDiv">
+                    <div className="headerDiv">
                         <button onClick={() => this.setState({addOpen: true})} 
                             className={`green`}
                             title={'Add item to this list'}
@@ -294,9 +263,6 @@ class List extends React.Component{
                     </CopyToClipboard>
                     {this.state.copied ? <div className="copiedFlag">Room Link Copied.</div> : null}
                 </div>
-              
-                {this.renderTitleBar() }
-                
             </div>
         );
     }

@@ -257,7 +257,7 @@ class List extends React.Component{
                             className={`red`}
                             title={'Clear all items from this list'}
                         >
-                            <AiOutlineDelete className={`btnIcon`}/> 
+                            <span className="listCtrlTitle">Clear List</span><AiOutlineDelete className={`btnIcon`}/> 
                         </button>
                     </div>
                     <div className="footerDiv">
@@ -265,7 +265,7 @@ class List extends React.Component{
                                 onClick={() => {this.props.history.push('/rooms');}}
                                 title={'View all lists'}
                             >
-                                <AiOutlineUnorderedList className={`btnIcon`}/> 
+                                <span className="listCtrlTitle">All Lists</span><AiOutlineUnorderedList className={`btnIcon`}/> 
                             </button>
                     </div>
                     <div className="footerDiv">
@@ -273,7 +273,7 @@ class List extends React.Component{
                             className={`green`}
                             title={'Add item to this list'}
                         >
-                            <GrAdd className={`btnIcon`}/> 
+                            <span className="listCtrlTitle">Add Item</span><GrAdd className={`btnIcon`}/> 
                         </button>
                     </div>
                 </div>

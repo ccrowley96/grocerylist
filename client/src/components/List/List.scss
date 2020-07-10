@@ -325,3 +325,10 @@
         box-shadow: 0 0 black;
     }
 }
+
+.listCtrlTitle{
+    padding-right: 20px;
+    @media screen and (max-width: 500px) {
+        display:none;
+    }
+}

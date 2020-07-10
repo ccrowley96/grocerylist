@@ -19,18 +19,11 @@
     flex-direction: row;
     width: 100%;
     height: 100px;
-    
     @media screen and (min-width: 800px){
         max-width: 800px;
         left:0px;
         right:0px;
         margin: auto;
-    }
-    
-    &.empty{
-        display:none;
-        position: absolute;
-        top: 150px;
     }
     
     .roomsToolWrapper{

@@ -5,13 +5,12 @@ import './AddEditModal.scss';
 class AddEditModal extends React.Component{
     constructor(props){
         super(props);
-        
         if(this.props.populate){
             this.state = {
                 itemDesc: props.populate.content
             }
             if(!(groceryCategories.includes(props.populate.category))){
-                this.state['itemCat'] = 'Other';
+                this.state['itemCat'] = 'OTHER';
                 this.state['customCat'] = props.populate.category
             } else{
                 this.state['itemCat'] = props.populate.category;
@@ -20,7 +19,7 @@ class AddEditModal extends React.Component{
         } else{
             this.state = {
                 itemDesc: '',
-                itemCat: groceryCategories[0],
+                itemCat: this.props.categories[0],
                 customCat: ''
             }
         }
@@ -58,7 +57,7 @@ class AddEditModal extends React.Component{
             this.setState({formError: 'Description cannot be empty'})
             return;
         }
-        if(this.state.itemCat === 'Other'){
+        if(this.state.itemCat === 'OTHER'){
             if(this.state.customCat === ''){
                 this.setState({formError: 'Custom category cannot be empty'})
                 return;
@@ -78,6 +77,7 @@ class AddEditModal extends React.Component{
     }
 
     render(){
+        let categories = this.props.categories;
         return(
             <div className="addEditModalBlocker">
                 <div className="addEditModal">
@@ -106,12 +106,12 @@ class AddEditModal extends React.Component{
                                         value={this.state.itemCat} 
                                         onChange={(e) => this.handleCatChange(e)}
                                     >
-                                        {groceryCategories.map((category) => {
+                                        {categories.map((category) => {
                                             return (<option key={category}>{category}</option>)
                                         })}
                                     </select>
                                     {
-                                        this.state.itemCat === 'Other' ? 
+                                        this.state.itemCat === 'OTHER' ? 
                                             <div>
                                                 <label>
                                                     Custom Category
@@ -119,7 +119,7 @@ class AddEditModal extends React.Component{
                                                 <input className="formItem customCategory" type="text" name="customCat"
                                                     value={this.state.customCat} 
                                                     onChange={(e) => this.handleCustomChange(e)}
-                                                    placeholder={'Other'}
+                                                    placeholder={'New Category...'}
                                                     maxLength={26}
                                                 />
                                             </div>

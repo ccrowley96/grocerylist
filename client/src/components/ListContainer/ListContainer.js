@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import List from '../List/List';
 import CustomCategories from '../CustomCategories/CustomCategories';
+import {groceryCategories} from '../../utils/utils';
 import {FiCheck} from 'react-icons/fi';
 import {MdRadioButtonUnchecked} from 'react-icons/md';
 import {AiOutlinePrinter} from 'react-icons/ai'
@@ -17,7 +18,8 @@ class App extends React.Component {
       activeRoomCode: null,
       activeRoomName: null,
       checkAll: false,
-      checkDisabled: false
+      checkDisabled: false,
+      categories: groceryCategories
     }
     this.updateInterval = null;
   }
@@ -38,7 +40,14 @@ class App extends React.Component {
         let numChecked = list.list.reduce((acc, cur) => acc += cur.checked ? 1 : 0, 0);
         let prevCheckAll = this.state.checkAll;
         let checkAll = numChecked === list.list.length / 2 ? prevCheckAll : numChecked >= Math.ceil(list.list.length / 2);
-        this.setState({list, checkAll, checkDisabled: false});
+
+        let categories = [...this.state.categories.map(cat => cat.toUpperCase()), ...list.list.map((el) => el.category.toUpperCase())].sort();
+        categories = categories.filter(cat => cat !== 'UNCATEGORIZED' && cat !== 'OTHER')
+        categories = ['UNCATEGORIZED', ...categories, 'OTHER'];
+
+        // Remove duplicates
+        categories = categories.filter((item, index) => categories.map(cat => cat.toUpperCase()).indexOf(item.toUpperCase()) === index)
+        this.setState({list, checkAll, checkDisabled: false, categories});
       })
       .catch(err => {
         console.log(err);
@@ -87,24 +96,24 @@ class App extends React.Component {
           roomCode={this.state.activeRoomCode}
           roomName={this.state.activeRoomName}
           list={this.state.list?.list} 
-          checkAll={this.state.checkAll}
-          checkDisabled={this.state.checkDisabled}
+          categories={this.state.categories}
           fetchNewList={() => this.updateList()}
-          handlePrintClick={() => this.handlePrintClick()}
-          handleCheckAllClick={() => this.handleCheckAllClick()}
         />
+        
+        {/* { this.state.list && this.state.list.list.length > 0 ?
+          <CustomCategories 
+            categories={this.state.categories}
+          /> : null
+        } */}
 
-        <CustomCategories />
-
-        {this.renderFooterControls()}
+        {this.state.list && this.state.list.list.length > 0 ? this.renderFooterControls() : null}
       </div>
     )
   }
 
   renderFooterControls(){
-    let empty = this.props.list && this.props.list.length === 0;
     return (
-        <div className={`footerControlWrapper${empty ? ' empty': ''}`}>
+        <div className={`footerControlWrapper`}>
             <div className="footerButtonWrap checkAll">
                 <button 
                     className={`yellow checkBtn`}

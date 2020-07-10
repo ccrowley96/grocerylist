@@ -6,7 +6,6 @@ export function formatTime(date){
 }
 
 export const groceryCategories = [
-    "Uncategorized",
     "Baking",
     "Beverages",
     "Bread/Bakery",
@@ -24,8 +23,7 @@ export const groceryCategories = [
     "Snacks",
     "Sweets/Desserts",
     "Spices",
-    "Other",
-]
+].map(cat => cat.toUpperCase())
 
 export const tips = [
     'Lists will expire in 30 days if not used',

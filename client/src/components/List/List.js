@@ -74,14 +74,14 @@ class List extends React.Component{
 
             for(let item of this.props.list){
 
-                if(item.category in categoryMap){
-                    categoryMap[item.category].push(item);
+                if(item.category.toUpperCase() in categoryMap){
+                    categoryMap[item.category.toUpperCase()].push(item);
                 } else{
-                    categoryMap[item.category] = [item];
+                    categoryMap[item.category.toUpperCase()] = [item];
                 }
             }
 
-            return Object.keys(categoryMap).map(category => {
+            return Object.keys(categoryMap).sort().map(category => {
                 return (
                     <div key={category} className="categoryWrapper">
                         <div className="categoryTitle">{category}</div>
@@ -197,6 +197,7 @@ class List extends React.Component{
                         populate={this.state.edit.data}
                         triggerClose={() => this.setState({edit: {open: false, data: null}})}
                         addItem={(item) => this.editItem(item)}
+                        categories={this.props.categories}
                     /> : null
                 }
 
@@ -215,6 +216,7 @@ class List extends React.Component{
                         context={'Add Item'}
                         triggerClose={() => this.setState({addOpen: false})}
                         addItem={(item) => this.addItem(item)}
+                        categories={this.props.categories}
                     /> : null
                 }
 

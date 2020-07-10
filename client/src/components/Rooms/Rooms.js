@@ -242,6 +242,9 @@ class Rooms extends React.Component{
                 <div className="notes">
                     <p><i>{this.state.note}</i></p>
                 </div>
+                <div className="feedback">
+                    <a href="https://forms.gle/whSyuGXyLfcP4XHN9" target="_blank">Feedback Form</a>
+                </div>
             </div>
         )
     }

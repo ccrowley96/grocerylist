@@ -14,8 +14,6 @@ import {FiShare, FiCheck} from 'react-icons/fi';
 import isMobile from 'ismobilejs';
 import './List.scss';
 
-moment().tz("America/Los_Angeles").format();
-
 class List extends React.Component{
     constructor(props){
         super(props);
@@ -67,7 +65,7 @@ class List extends React.Component{
 
     formatTime(date){
         let millis = Date.parse(date);
-        return moment(millis).tz("America/Los_Angeles").format("ddd, MMM Do, h:mm a")
+        return moment(millis).format("ddd, MMM Do, h:mm a")
     }
 
     populateListItems(){

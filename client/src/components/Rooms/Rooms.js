@@ -4,6 +4,7 @@ import {RiPlayListAddLine} from 'react-icons/ri';
 import {AiOutlineTag, AiFillDelete} from 'react-icons/ai';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import isMobile from 'ismobilejs';
+import utils from '../../utils/utils';
 import './Rooms.scss';
 
 class Rooms extends React.Component{
@@ -163,15 +164,7 @@ class Rooms extends React.Component{
 
     async displayNotes(){
         //Note: Lists will expire in 30 days if not used
-        let notes = [
-            'Lists will expire in 30 days if not used',
-            'Add this app to your phone homescreen from the browser menu',
-            'Share a 6 letter code to invite someone to your list',
-            'Adding a grocery category to list items makes shopping easier!',
-            'You can print your lists - this will organize all items by category',
-            'Careful: deleting a list also deletes the list for anyone who has access',
-            'Copy a list link and send it to friends.  They will automatically have access.'
-        ]
+        let notes = utils.tips;
         // Shuffle notes and add empty final note
         notes = (notes.sort(() => Math.random() - .5))
         notes.push('');

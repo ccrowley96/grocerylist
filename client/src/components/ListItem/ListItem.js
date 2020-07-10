@@ -1,8 +1,8 @@
 import React from 'react';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import {GrEdit} from 'react-icons/gr';
-import {AiFillDelete, AiFillCheckCircle} from 'react-icons/ai';
-import {MdRadioButtonUnchecked} from 'react-icons/md';
+import {AiFillDelete, AiFillCheckSquare, AiOutlineCheckSquare} from 'react-icons/ai';
+import {RiCheckboxBlankLine} from 'react-icons/ri';
 import './ListItem.scss';
 
 class ListItem extends React.Component{
@@ -46,8 +46,8 @@ class ListItem extends React.Component{
                 <div className={`listToolsWrapper`}>
                     <div className = "listTools">
                         <div onClick={() => this.setState({confirmOpen: true})} className={`tool`}><AiFillDelete className="listItemToolIcon deleteIcon"/></div>
-                        <div onClick={() => this.props.clickCheck(this.props.item._id, !this.props.item.checked)} className={`tool`}>
-                            {this.props.item.checked ? <AiFillCheckCircle className="listItemToolIcon checkIcon"/> : <MdRadioButtonUnchecked className="listItemToolIcon checkIcon"/>}
+                        <div onClick={() => this.props.clickCheck(this.props.item._id, !this.props.item.checked)} className={`tool checkBox`}>
+                            {this.props.item.checked ? <AiFillCheckSquare className="listItemToolIcon checkIcon"/> : <AiOutlineCheckSquare className="listItemToolIcon checkIcon"/>}
                         </div>
                     </div>
                     <div className = "listInfo">

@@ -63,10 +63,13 @@
 .listToolsWrapper{
     .tool{
         height: 80%;
-        margin-right:10px;
+        // margin-right:10px;
         margin-left: 10px;
         font-size: large;
         width: unset;
+        &.checkBox{
+            padding-top: 2px;
+        }
     }
 }
 

@@ -153,7 +153,11 @@ class Rooms extends React.Component{
     }
 
     handleJoinInputChange(e){
-        this.setState({joinRoomVal: e.target.value, joinRoomInfo: ''});
+        if(/[^a-zA-Z]/.test(e.target.value)){
+            this.setState({joinRoomInfo: 'Non-alphabetic'});
+        }else{
+            this.setState({joinRoomVal: e.target.value.toLowerCase(), joinRoomInfo: ''});
+        }
     }
 
     handleSubmit(event) {

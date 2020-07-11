@@ -2,8 +2,9 @@ import React from 'react';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import {GrEdit} from 'react-icons/gr';
 import {AiFillDelete, AiFillCheckSquare, AiOutlineCheckSquare} from 'react-icons/ai';
-import {RiCheckboxBlankLine} from 'react-icons/ri';
+import {RiShareForward2Line} from 'react-icons/ri';
 import './ListItem.scss';
+import SettingsModal from '../SettingsModal/SettingsModal';
 
 class ListItem extends React.Component{
     constructor(props){
@@ -24,6 +25,17 @@ class ListItem extends React.Component{
                         confirm={() => {
                             this.clickDelete();
                             this.setState({confirmOpen: false});
+                        }}
+                    /> : null
+                }
+
+                {this.state.settingsOpen ? 
+                    <SettingsModal
+                        triggerClose={() => this.setState({settingsOpen: false})}
+                        message={`Where do you want to move: ${this.props.item.content.slice(0,40)}?`}
+                        confirm={(targetCode) => {
+                            this.moveItem(targetCode);
+                            this.setState({settingsOpen: false});
                         }}
                     /> : null
                 }
@@ -49,6 +61,10 @@ class ListItem extends React.Component{
                         <div onClick={() => this.props.clickCheck(this.props.item._id, !this.props.item.checked)} className={`tool checkBox`}>
                             {this.props.item.checked ? <AiFillCheckSquare className="listItemToolIcon checkIcon"/> : <AiOutlineCheckSquare className="listItemToolIcon checkIcon"/>}
                         </div>
+                        {JSON.parse(localStorage.getItem('rooms')).length > 1 ?
+                            <div onClick={() => this.setState({settingsOpen: true})} className={`tool checkBox`}><RiShareForward2Line className="listItemToolIcon checkIcon"/></div>
+                            : null
+                        }
                     </div>
                     <div className = "listInfo">
                         <div className ="itemDate">
@@ -61,11 +77,22 @@ class ListItem extends React.Component{
         );
     }
 
-    
-
     async clickDelete(){
         await fetch(`/api/room/${this.props.roomId}/list/${this.props.item._id}`,{method: 'DELETE'});
         //fetch updated list
+        this.props.fetchNewList();
+    }
+
+    async moveItem(targetCode){
+        await fetch(`/api/room/moveItem/${this.props.roomId}/list/${this.props.item._id}`, 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({code: targetCode})
+            }
+        )
         this.props.fetchNewList();
     }
 }

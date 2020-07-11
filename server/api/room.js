@@ -320,4 +320,64 @@ router.delete('/:id/list', validateRoom, async (req, res, next) => {
     }
 });
 
+// Move item to new list
+router.post('/moveItem/:id/list/:item_id', validateRoom, validateItem, async (req, res, next) => {
+    let roomCode;
+    try{
+        roomCode = req.body.code;
+    } catch(err){
+        res.status(400);
+        res.send('Missing or incorrect roomCode in body');
+    }
+    
+    let roomId = req.params.id;
+    let itemId = req.params.item_id;
+
+    // Copy item from source room
+    let sourceRoom = await Room.findOne({'_id': new ObjectId(roomId), 'roomList._id': new ObjectId(itemId)});
+    let sourceItem = null;
+    sourceRoom.roomList.forEach(item => {
+        console.log(item);
+        if(String(item._id) == itemId)
+            sourceItem = item;
+    })
+    
+    // Create new item
+    const item = new Item({
+        content: sourceItem.content,
+        category: sourceItem.category,
+        date: sourceItem.date,
+        edited: sourceItem.edited,
+        checked: sourceItem.checked
+    });
+
+    // Delete source item
+    try{
+        await Room.updateOne({"_id": new ObjectId(roomId)}, {
+            "$pull": {"roomList" : {"_id": new ObjectId(itemId)}}
+        })
+    } catch(err){
+        console.log(err);
+        res.sendStatus(500);
+    }
+
+    // Save to target list
+    try {
+        let match = await Room.findOne({roomCode})
+        if(match){
+            await Room.findByIdAndUpdate(new ObjectId(match._id),
+                {$push: {roomList: item}}
+            )
+            res.sendStatus(200);
+            return;
+        } else{
+            throw new Error('Target room code not found');
+        }
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+    res.sendStatus(500);
+});
+
 module.exports = router;

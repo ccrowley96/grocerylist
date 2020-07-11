@@ -15,7 +15,8 @@ class Rooms extends React.Component{
             joinRoomVal: '',
             joinRoomInfo: '',
             confirmOpen: false,
-            note: ''
+            note: '',
+            awaitingValidation: false
         }
         this.noteTimeout = null;
     }
@@ -53,6 +54,9 @@ class Rooms extends React.Component{
     }
 
     async validateRooms(){
+        // Disable room join while awaiting room validation
+        this.setState({awaitingValidation: true});
+
         let localRooms = JSON.parse(localStorage.getItem('rooms'))
         let activeRoom = JSON.parse(localStorage.getItem('activeRoom'));
 
@@ -72,7 +76,9 @@ class Rooms extends React.Component{
             let filteredLocalRooms = localRooms.filter(room => roomsValidated.matchingRooms.findIndex(matchID => room.roomId === matchID._id) !== -1)
             if(activeRoom){
                 let activeRoomOk = roomsValidated.matchingRooms.findIndex(matchID => matchID === activeRoom.roomId) !== -1;
-                if(!activeRoomOk) localStorage.setItem('activeRoom', null);
+                if(!activeRoomOk){
+                    localStorage.setItem('activeRoom', null);
+                } 
             }
 
             // Change local room names
@@ -84,6 +90,8 @@ class Rooms extends React.Component{
             // Update local storage
             localStorage.setItem('rooms', JSON.stringify(filteredLocalRooms));
         }
+        // Rooms validated, can now join
+        this.setState({awaitingValidation: false});
         this.updateRooms();
     }
 
@@ -108,11 +116,13 @@ class Rooms extends React.Component{
     }
 
     joinMyRoom(roomId, roomCode, roomName){
-        //Set activeRoom in local storage
-        let storageToSet = {roomId, roomCode, roomName};
-        localStorage.setItem('activeRoom', JSON.stringify(storageToSet));
-        // Link to List App
-        this.props.history.push('/');
+        if(!this.state.awaitingValidation){
+            //Set activeRoom in local storage
+            let storageToSet = {roomId, roomCode, roomName};
+            localStorage.setItem('activeRoom', JSON.stringify(storageToSet));
+            // Link to List App
+            this.props.history.push('/');
+        }
     }
 
     async joinRemoteRoom(roomCode = null){
@@ -219,7 +229,8 @@ class Rooms extends React.Component{
                 { 
                     (this.state.rooms && this.state.rooms.length !== 0) ? this.state.rooms.map(room => {
                         return (
-                            <RoomItem 
+                            <RoomItem
+                                awaitingValidation={this.state.awaitingValidation}
                                 key={room.roomId}
                                 roomName={room.roomName}
                                 room={room} 
@@ -265,7 +276,7 @@ class RoomItem extends React.Component{
 
     render(){
         return(
-            <div key={this.props.room.roomId} className="roomWrapper" tabIndex={0}>
+            <div key={this.props.room.roomId} className={`roomWrapper${this.props.awaitingValidation ? ' disabled' : ''}`} tabIndex={0}>
                 <div className="joinRoomClickRegion"
                     onClick={() => this.props.joinMyRoom(this.props.room.roomId, this.props.room.roomCode, this.props.room.roomName)}>
                 </div>

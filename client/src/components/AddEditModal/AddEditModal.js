@@ -112,7 +112,7 @@ class AddEditModal extends React.Component{
                                     </select>
                                     {
                                         this.state.itemCat === 'OTHER' ? 
-                                            <div>
+                                            <div className="customCategoryWrapper">
                                                 <label>
                                                     Custom Category
                                                 </label>

@@ -120,7 +120,7 @@ class App extends React.Component {
                     onClick={() => this.handleCheckAllClick()}
                     disabled={this.state.checkDisabled}
                 >
-                    <div className={'buttonTxt'}>{this.props.checkAll ? 'Uncheck All' : 'Check All'}</div> 
+                    <div className={'buttonTxt'}>{this.state.checkAll ? 'Uncheck All' : 'Check All'}</div> 
                     <div className={'buttonIconWrap'}>
                         {this.state.checkAll ? 
                         <MdRadioButtonUnchecked className="buttonIcon"/> :

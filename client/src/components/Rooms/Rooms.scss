@@ -121,7 +121,7 @@
         height: 40px;
         display: flex;
         align-items: center;
-        color: $red;
+        color: $delete;
         // padding-left: 10px;
         top: 50px;
     }
@@ -150,7 +150,8 @@
     padding:5px 5px 5px 5px;
     border-radius: 5px;
     margin-bottom:20px;
-    background-color: $lightBlue;
+    background-color: $listItemBackground;
+    box-shadow: 1px 1px 5px black;
 
     .joinRoomClickRegion{
         position: absolute;
@@ -159,11 +160,11 @@
         margin-left: -5px;
     }
     &:hover{
-        background-color: darken($lightBlue, 20%);
+        background-color: darken($listItemBackground, 20%);
     }
 
     &.disabled{
-        background-color: $gray;
+        background-color: $listItemChecked;
     }
     
     .roomName{
@@ -191,10 +192,10 @@
             width: 50px;
             .deleteIcon{
                 font-size: xx-large;
-                color: $red;
+                color: $delete;
                 @media (hover: hover){
                     &:hover{
-                        color: darken($red, 30%);
+                        color: darken($delete, 30%);
                     }
                 }
             }

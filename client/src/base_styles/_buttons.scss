@@ -42,18 +42,14 @@
     transition: $val; 
 }
 
-.red{
-    @include btn-theme($red);
+.delete{
+    @include btn-theme($delete);
 }
 
-.green{
-    @include btn-theme($green);
+.confirm{
+    @include btn-theme($confirm);
 }
 
-.blue{
-    @include btn-theme($blue);
-}
-
-.yellow{
-    @include btn-theme($yellow);
+.settings{
+    @include btn-theme($settings);
 }

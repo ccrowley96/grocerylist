@@ -116,7 +116,7 @@ class App extends React.Component {
         <div className={`footerControlWrapper`}>
             <div className="footerButtonWrap checkAll">
                 <button 
-                    className={`yellow checkBtn`}
+                    className={`settings`}
                     onClick={() => this.handleCheckAllClick()}
                     disabled={this.state.checkDisabled}
                 >
@@ -130,7 +130,7 @@ class App extends React.Component {
             </div>
             <div className="footerButtonWrap print">
                 <button 
-                    className={`yellow`}
+                    className={`settings`}
                     onClick={() => this.handlePrintClick()}
                 >
                     <div className={'buttonTxt'}>Print List</div> 

@@ -216,7 +216,7 @@ class Rooms extends React.Component{
                                 <div className="joinRoomInfo">{this.state.joinRoomInfo}</div>
                             </div>
                             <div className="joinRoomButtonWrapper">
-                                <button className="green joinRoomButton" type="submit" value="Submit">
+                                <button className="confirm joinRoomButton" type="submit" value="Submit">
                                     Join
                                     <AiOutlineTag className="roomToolIcon"/>
                                 </button>
@@ -243,7 +243,7 @@ class Rooms extends React.Component{
                 }   
                 <div className="createRoomWrapper">
                         <button 
-                            className="green createRoom"
+                            className="confirm createRoom"
                             onClick={() => this.createRoom()}
                         >
                             Create List

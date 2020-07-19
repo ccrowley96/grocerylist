@@ -4,7 +4,7 @@
 .listItem{
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: calc(100% - 60px);
     padding: 5px 5px 5px 5px;
     height: auto;
 }
@@ -35,7 +35,10 @@
     display: flex;
     margin-top: 10px;
     margin-bottom: 10px;
-    background-color: $lightBlue;
+    background-color: $listItemBackground;
+    box-shadow: 1px 1px 5px black;
+    box-sizing: border-box;
+    border: 1px solid black;
     border-radius: 5px;
     flex-direction: column;
     position: relative;
@@ -47,35 +50,27 @@
 
 .listToolsWrapper{
     padding: 5px 5px 5px 5px;
-    width: 20%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-}
-
-.listItemWrapper{   
-    .listToolsWrapper{
-        width: 100%;
-        padding-bottom: 10px;
-    }
-}
-
-.listToolsWrapper{
+    
     .tool{
-        height: 80%;
-        // margin-right:10px;
-        margin-left: 10px;
+        height: 100%;
+        margin-left: 8px;
+        @media screen and (min-width: 375px) {
+            margin-left: 10px;
+            margin-right: 5px;
+        }
         font-size: large;
         width: unset;
         &.checkBox{
             padding-top: 2px;
         }
     }
-}
-
-.listToolsWrapper{
     .listTools{
         display: flex;
+        align-items: center;
         flex-direction: row;
         width:30%;
     }
@@ -92,39 +87,27 @@
         }
     }
     & .deleteTool{
-        background-color: $red;
+        background-color: $delete;
         border-radius: 10px;
-    }   
-}
-
-.listToolsWrapper {
-    & .checkTool{
-        background-color: $green;
-        border-radius: 10px;
-    }
+    }  
 
     .listItemToolIcon{
         font-size: xx-large;
         &.deleteIcon{
-            color: $red;
+            color: $delete;
             @media (hover: hover){
                 &:hover{
-                    color: darken($red, 30%);
+                    color: darken($delete, 30%);
                 }
             }
         }
-
-        &.checkIcon{
-            @media (hover: hover){
-                &:hover{
-                    color: white;
-                }
-            }
+        &.editIcon{
+            font-size: x-large;
         }
     }
 }
 
-.editBtn{
+.checkBtn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -134,15 +117,12 @@
     border-radius: 10px;
 
     font-size: large;
-
-    @media (hover: hover){
-        &:hover{
-            background-color: darken($lightBlue, 6%);
-        }
-    }
-
     margin-left: 0px;
     position: absolute;
     top:10px;
     right: 10px;
+
+    .checkIcon{
+        font-size: xx-large;
+    }
 }

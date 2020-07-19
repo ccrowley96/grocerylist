@@ -87,7 +87,7 @@
 
             .checkBtn{
                 &:disabled{
-                    background-color: darken($yellow, 10%);
+                    background-color: darken($settings, 10%);
                 }
             }
         }

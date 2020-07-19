@@ -51,10 +51,10 @@ class SettingsModal extends React.Component{
                     : null}
                     <div className="settingsSection settingsTools">
                         <div className="buttonSection">
-                            <button onClick={() => this.props.confirm(this.state.targetValue)} className="green" ref={(input) => { this.settings = input; }}>Move</button>
+                            <button onClick={() => this.props.confirm(this.state.targetValue)} className="confirm" ref={(input) => { this.settings = input; }}>Move</button>
                         </div>
                         <div className="buttonSection">
-                            <button onClick={() => this.props.triggerClose()} className="red">Cancel</button>
+                            <button onClick={() => this.props.triggerClose()} className="delete">Cancel</button>
                         </div>
                     </div>
                 </div>

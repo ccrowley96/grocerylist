@@ -46,20 +46,20 @@ class ListItem extends React.Component{
                             <strike>{this.props.item.content}</strike>
                             : this.props.item.content
                         }
-                        <div className={`editBtn`} onClick={() => {
-                                let {content, category, _id} = this.props.item;
-                                this.props.edit({content, category, _id});
-                            }}
-                        >
-                            <GrEdit />
+                        <div onClick={() => this.props.clickCheck(this.props.item._id, !this.props.item.checked)} className={`checkBtn`}>
+                            {this.props.item.checked ? <AiFillCheckSquare className="checkIcon"/> : <AiOutlineCheckSquare className="checkIcon"/>}
                         </div>
                     </div>
                 </div>
                 <div className={`listToolsWrapper`}>
                     <div className = "listTools">
                         <div onClick={() => this.setState({confirmOpen: true})} className={`tool`}><AiFillDelete className="listItemToolIcon deleteIcon"/></div>
-                        <div onClick={() => this.props.clickCheck(this.props.item._id, !this.props.item.checked)} className={`tool checkBox`}>
-                            {this.props.item.checked ? <AiFillCheckSquare className="listItemToolIcon checkIcon"/> : <AiOutlineCheckSquare className="listItemToolIcon checkIcon"/>}
+                        <div className={`tool`} onClick={() => {
+                                let {content, category, _id} = this.props.item;
+                                this.props.edit({content, category, _id});
+                            }}
+                        >
+                            <GrEdit className="listItemToolIcon editIcon"/>
                         </div>
                         {JSON.parse(localStorage.getItem('rooms')).length > 1 ?
                             <div onClick={() => this.setState({settingsOpen: true})} className={`tool checkBox`}><RiShareForward2Line className="listItemToolIcon checkIcon"/></div>

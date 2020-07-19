@@ -131,10 +131,10 @@ class AddEditModal extends React.Component{
                         </div>
                         <div className="tools">
                             <div className="toolSection">
-                                <button type="submit" value="Submit" className="green">{this.props.context}</button>
+                                <button type="submit" value="Submit" className="confirm">{this.props.context}</button>
                             </div>
                             <div className="toolSection">
-                                <button onClick={() => this.props.triggerClose()} className="red">Cancel</button>
+                                <button onClick={() => this.props.triggerClose()} className="delete">Cancel</button>
                             </div>
                         </div>
                     </form>

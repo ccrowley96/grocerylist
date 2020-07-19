@@ -117,19 +117,19 @@ class List extends React.Component{
                         <div className="noItems">No Items Found!</div>
                         <div className="tips title"><b><u>Info</u></b></div>
                         <div className="tips tip">
-                            <button className="red" disabled={true}>
+                            <button className="delete" disabled={true}>
                                 <AiOutlineDelete className={`btnIcon`}/> 
                             </button>
                             Delete all items on list
                         </div>
                         <div className="tips tip">
-                            <button className="yellow" disabled={true}>
+                            <button className="settings" disabled={true}>
                                 <AiOutlineUnorderedList className={`btnIcon`}/> 
                             </button>
                             Shows all of your lists
                         </div>
                         <div className="tips tip">
-                            <button className="green" disabled={true}>
+                            <button className="confirm" disabled={true}>
                                 <GrAdd className={`btnIcon`}/> 
                             </button>
                             Adds item to your list
@@ -223,14 +223,14 @@ class List extends React.Component{
                 <div className={`listHeader`}>
                     <div className="headerDiv">
                         <button onClick={() => this.setState({confirmOpen: true})} 
-                            className={`red`}
+                            className={`delete`}
                             title={'Clear all items from this list'}
                         >
                             <span className="listCtrlTitle">Clear List</span><AiOutlineDelete className={`btnIcon`}/> 
                         </button>
                     </div>
                     <div className="headerDiv">
-                            <button className="roomsButton yellow" 
+                            <button className="roomsButton settings" 
                                 onClick={() => {this.props.history.push('/rooms');}}
                                 title={'View all lists'}
                             >
@@ -239,7 +239,7 @@ class List extends React.Component{
                     </div>
                     <div className="headerDiv">
                         <button onClick={() => this.setState({addOpen: true})} 
-                            className={`green`}
+                            className={`confirm`}
                             title={'Add item to this list'}
                         >
                             <span className="listCtrlTitle">Add Item</span><GrAdd className={`btnIcon`}/> 

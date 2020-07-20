@@ -5,7 +5,8 @@ import CustomCategories from '../CustomCategories/CustomCategories';
 import {groceryCategories} from '../../utils/utils';
 import {FiCheck} from 'react-icons/fi';
 import {MdRadioButtonUnchecked} from 'react-icons/md';
-import {AiOutlinePrinter} from 'react-icons/ai'
+import {AiOutlinePrinter, AiOutlineInfoCircle} from 'react-icons/ai'
+import Help from '../Help/Help';
 
 import './ListContainer.scss';
 
@@ -19,7 +20,8 @@ class App extends React.Component {
       activeRoomName: null,
       checkAll: false,
       checkDisabled: false,
-      categories: groceryCategories
+      categories: groceryCategories,
+      helpOpen: false
     }
     this.updateInterval = null;
   }
@@ -91,6 +93,19 @@ class App extends React.Component {
     if(!this.state.activeRoomID|| !this.state.activeRoomCode || !this.state.activeRoomName) return null;
     return(
       <div className = {`appWrapper`}>
+        {
+          this.state.helpOpen ?
+          <div className="helpModalBlocker" onClick={()=> this.setState({helpOpen: false})}>
+            <div className="helpModal">
+              <Help titleText={"How to use"} subtitleText={"(Click anywhere to close)"}>
+              </Help>
+            </div>
+          </div>
+          : null
+        }
+        <div className="help">
+            <span onClick={() => this.setState({helpOpen: true})}><a className="helpLink">How to use...</a> <AiOutlineInfoCircle /></span>
+        </div>
         <List
           roomId={this.state.activeRoomID} 
           roomCode={this.state.activeRoomCode}

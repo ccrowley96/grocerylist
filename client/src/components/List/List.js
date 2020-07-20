@@ -6,12 +6,11 @@ import ListItem from '../ListItem/ListItem';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import AddEditModal from '../AddEditModal/AddEditModal';
 import EditNameModal from '../EditNameModal/EditNameModal';
-import {AiOutlinePrinter, AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag} from 'react-icons/ai'
-import {MdRadioButtonUnchecked} from 'react-icons/md';
+import {AiOutlineDelete, AiOutlineUnorderedList, AiOutlineTag, AiOutlineInfoCircle} from 'react-icons/ai'
 import {GrAdd,GrEdit} from 'react-icons/gr';
-import {FiShare, FiCheck} from 'react-icons/fi';
+import {FiLink} from 'react-icons/fi';
+import Help from '../Help/Help';
 
-import isMobile from 'ismobilejs';
 import './List.scss';
 
 class List extends React.Component{
@@ -112,42 +111,7 @@ class List extends React.Component{
     renderList(){
         if(this.props.list){
             if(this.props.list.length === 0){
-                return(
-                    <div className={`emptyListPlaceholder`}>
-                        <div className="noItems">No Items Found!</div>
-                        <div className="tips title"><b><u>Info</u></b></div>
-                        <div className="tips tip">
-                            <button className="delete" disabled={true}>
-                                <AiOutlineDelete className={`btnIcon`}/> 
-                            </button>
-                            Delete all items on list
-                        </div>
-                        <div className="tips tip">
-                            <button className="settings" disabled={true}>
-                                <AiOutlineUnorderedList className={`btnIcon`}/> 
-                            </button>
-                            Shows all of your lists
-                        </div>
-                        <div className="tips tip">
-                            <button className="confirm" disabled={true}>
-                                <GrAdd className={`btnIcon`}/> 
-                            </button>
-                            Adds item to your list
-                        </div>
-                        <div className="tips tip" style={{marginTop: '10px'}}><i>Click  <AiOutlineTag style={{paddingLeft: '5px'}}/> to share this list</i></div>
-                        <div className="tips tip"><i>Click  <GrEdit style={{paddingLeft: '5px'}}/> to change this list's name</i></div>
-                        <div className="tips tip" style={{display: `${!isMobile().any ? 'none': 'initial'}`}}>
-                            <FiShare className={`btnIcon`} style={{paddingRight: '5px'}}/> 
-                            Add this app to your home screen
-                        </div>
-                        <div className={`desktopHotkeys${isMobile().any ? ' mobile' : ''}`}>
-                            <div className="tips title"><b><u>Hotkeys</u></b></div>
-                            <div className="tips tip"><i><b>'space'</b> or <b>'enter'</b> creates a new item</i></div>
-                            <div className="tips tip"><i><b>'esc'</b> closes pop-up menu (if open)</i></div>
-                            <div className="tips tip"><i><b>'esc'</b> returns to list menu</i></div>
-                        </div>
-                    </div>
-                )
+                return(<Help titleText={"No Items Found!"}/>)
             } else{
                 return(
                     <div className={`list`}>
@@ -164,7 +128,6 @@ class List extends React.Component{
         return (
             <div className={`listWrapper`}>
                 {this.renderList()}
-                
                 {this.state.confirmOpen ? 
                     <ConfirmModal
                         triggerClose={() => this.setState({confirmOpen: false, deleteOnlyChecked: false})}
@@ -260,7 +223,7 @@ class List extends React.Component{
                         }}
                     >
                         <div className="roomCode" title={'Copy sharable list URL'}>
-                            <AiOutlineTag className="roomCodeIcon"/>{this.props.roomCode}
+                            <FiLink className="roomCodeIcon"/>{this.props.roomCode}
                         </div>
                     </CopyToClipboard>
                     {this.state.copied ? <div className="copiedFlag">Room Link Copied.</div> : null}

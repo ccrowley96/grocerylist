@@ -32,6 +32,7 @@
     }
     
     .roomName{
+        cursor: pointer;
         padding-left: 20px;
         width: 70%;
         overflow-wrap: break-word;
@@ -51,6 +52,7 @@
         }
     }
     .roomCode{
+        cursor: pointer;
         width: 30%;
         padding-right: 20px;
         display: flex;
@@ -122,61 +124,6 @@
     }
 }
 
-.emptyListPlaceholder{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    font-size: larger;
-    position: fixed;
-    height: 100%;
-    top:0px;
-    bottom: 0px;
-    .desktopHotkeys{
-        &.mobile{
-            display: none;
-        }
-    }
-    .noItems{
-        font-size: x-large;
-    }
-    .tips{
-        font-size: medium;
-        padding-left: 15px;
-        padding-right: 15px;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        hyphens: auto;
-        text-align: center;
-        &.title{
-            margin-top: 10px;
-            text-decoration: underline;
-        }
-        &.tip{
-            display: flex;
-            justify-content: center;
-            padding-top: 5px;
-            button{
-                margin-right: 5px;
-                border-radius: 3px;
-            }
-            .btnIcon{
-                font-size: medium;
-                padding: unset;
-            }
-        }
-        @media screen and (max-width: 425px) {
-            font-size: small;
-            &.tip{
-                .btnIcon{
-                    font-size: small;
-                }
-            }
-        }
-    }
-}
-
 .list{
     overflow-y: scroll;
     display: flex;
@@ -186,7 +133,6 @@
     padding: 10px 10px 10px 10px;
     margin-bottom: 0px;
     margin-top:150px;
-    
 
     @media screen and (min-width: 800px){
         width:100%;

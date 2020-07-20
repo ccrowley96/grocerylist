@@ -1,0 +1,65 @@
+.emptyListPlaceholder{
+    display: flex;
+    left: 0px; 
+    right: 0px;
+    margin: auto;
+    max-width: 800px;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+    position: fixed;
+    height: 100%;
+    top:0px;
+    bottom: 0px;
+
+    .subtitleText{
+        font-size: medium;
+    }
+
+    .tipWrapper{
+    }
+
+    .desktopHotkeys{
+        &.mobile{
+            display: none;
+        }
+    }
+    .titleText{
+        font-size: x-large;
+    }
+    .tips{
+        font-size: medium;
+        padding-left: 15px;
+        padding-right: 15px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+        text-align: center;
+        &.title{
+            margin-top: 10px;
+            text-decoration: underline;
+        }
+        &.tip{
+            display: flex;
+            padding-top: 5px;
+            button{
+                margin-right: 5px;
+                border-radius: 3px;
+            }
+            .btnIcon{
+                font-size: medium;
+                padding: unset;
+            }
+        }
+        @media screen and (max-width: 425px) {
+            font-size: small;
+            &.tip{
+                .btnIcon{
+                    font-size: small;
+                }
+            }
+        }
+    }
+}

@@ -1,7 +1,7 @@
 const {Room } = require('../db/db_index');
 var ObjectId = require('mongoose').Types.ObjectId; 
 
-const secondsUntilExpire = 1000 * 60 * 60 * 24 * 30; // 30 days in seconds
+const secondsUntilExpire = 1000 * 60 * 60 * 24 * 30 * 6; // 6 months in seconds
 exports.secondsUntilExpire = secondsUntilExpire;
 
 // Validate that room exists (Middleware)

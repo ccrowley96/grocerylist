@@ -26,8 +26,8 @@ export const groceryCategories = [
 ].map(cat => cat.toUpperCase())
 
 export const tips = [
-    'Lists will expire in 30 days if not used',
-    'Add this app to your phone homescreen from the browser menu',
+    'Lists will expire in 6 months if not used',
+    'Add this app to your phone home screen from the browser menu',
     'Share a 6 letter code to invite someone to your list',
     'Adding a grocery category to list items makes shopping easier!',
     'You can print your lists - this will organize all items by category',

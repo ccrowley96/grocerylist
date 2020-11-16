@@ -256,7 +256,7 @@ class Rooms extends React.Component{
                                 className="settings footerTool"
                                 onClick={() => this.setState({backupOpen: true})}
                             >
-                                Backup lists
+                                Backup codes
                                 <RiSave3Line className="roomToolIcon"/>
                             </button>}
                             <button 

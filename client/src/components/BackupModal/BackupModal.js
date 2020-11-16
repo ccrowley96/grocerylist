@@ -1,42 +1,37 @@
 import React from 'react';
 import './BackupModal.scss';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 class BackupModal extends React.Component{
+
+    defaultBackupMessage = 'Click text area to copy backup codes';
+
     constructor(props){
         super(props);
         this.state = {
-            email: '',
+            backupMessage: this.defaultBackupMessage
         }
         this.state.formError = '';
     }
 
     componentDidMount(){
         document.body.style.overflow = 'hidden';
-        this.itemInput.focus(); 
-        console.log('backup mounted')
     }
 
     componentWillUnmount(){
         document.body.style.overflow = 'unset';
     }
 
-    handleEmailChange(event) {
-        let formError = this.state.formError
-        if(event.target.value !== '') formError = '';
-        this.setState({email: event.target.value, formError});
-    }
 
-    handleSubmit(event) {
-        event.preventDefault();
-
-        if(this.state.email === ''){
-            this.setState({formError: 'Email cannot be empty'})
-            return;
+    formatBackupCodes(){
+        let rooms = JSON.parse(localStorage.getItem('rooms'));
+        console.log(rooms);
+        let formattedBackup = '';
+        for(let room of rooms){
+            let roomLink = process.env.NODE_ENV === 'development' ? window.location.href + `/${room.roomCode}` : `https://www.grocerylist.us/rooms/${room.roomCode}`;
+            formattedBackup += room.roomName + ': ' + room.roomCode + '\n' + roomLink + '\n\n';
         }
-
-        this.props.confirm(this.state.email);
-
-        this.setState({roomName: ''});
+        return formattedBackup;
     }
 
     render(){
@@ -45,37 +40,46 @@ class BackupModal extends React.Component{
                 <div className="backupModal">
                     <form className="modalWrapper" onSubmit={(e) => this.handleSubmit(e)}>
                         <div className="addTitle">
-                            Backup lists
+                            Backup codes
                         </div>
                         <div className ="formWrapper">
                             <div className="addForm" onSubmit={(e) => this.handleSubmit(e)}>
                                 <div className="addFormItemDesc">
-                                    <label>
-                                        Email
+                                    <label className={`textAreaLabel ${this.state.copied ? 'copied' : ''}`}>
+                                        {this.state.backupMessage}
                                     </label>
-                                    <input className="formItem" type="text" name="roomName" 
-                                        ref={(input) => { this.itemInput = input; }} 
-                                        value={this.state.roomName} 
-                                        onChange={(e) => this.handleEmailChange(e)}
-                                        placeholder={'jonsnow@gmail.com'} 
-                                    />
+                                    <CopyToClipboard 
+                                        text={this.formatBackupCodes()}
+                                        onCopy={() => {
+                                            this.setState({backupMessage: 'Codes copied...', copied: true})
+                                            setTimeout(() => {this.setState({backupMessage: this.defaultBackupMessage, copied: false})}, 5000);
+                                        }}
+                                    >
+                                        <textarea
+                                            className={'backupTextArea'}
+                                            readOnly={true}
+                                            value={this.formatBackupCodes()}
+                                        />
+                                    </CopyToClipboard>
+                                    
                                     <div className ="formError">{this.state.formError}</div>
                                     <div className="backupDetails">
-                                        A reference to each of your lists is stored in your browsers storage. This allows you to save lists without ever creating a 'Grocery list' account.                                          
-                                        However, if the storage (browser cache) is ever cleared, you may see your lists disappear.  To prevent this, you can email all your list codes to yourself at anytime from here.
+                                        <div className="daTips">Then paste and save somewhere safe.</div>
+                                        <br></br>
+                                        <b>Why can't I see my list?</b> - a reference to each of your lists is stored in your browsers storage. This allows you to save lists without ever creating a 'Grocery list' account.                                          
+                                        However, if the storage (browser cache) is ever cleared, you may see your lists disappear.  To prevent this, it's recommended that you save your list codes somewhere safe.
                                         <br></br>
                                         <br></br>
-                                        <b>Note</b> - your email is not saved and will only be used to email you a backup of your list codes upon request.
+                                        <b>More info</b>  - even if you don't see your list, don't worry!  It still exists in the grocerylist database.  You just need to 'rejoin' the list with it's code.
+                                        You can rejoin a list at any time by either following the list link or entering the list code in the 'join room' box.
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="tools">
+                            
                             <div className="toolSection">
-                                <button type="submit" value="Submit" className="confirm">Backup</button>
-                            </div>
-                            <div className="toolSection">
-                                <button onClick={() => this.props.triggerClose()} className="delete">Cancel</button>
+                                <button onClick={() => this.props.triggerClose()} className="delete">Close</button>
                             </div>
                         </div>
                     </form>

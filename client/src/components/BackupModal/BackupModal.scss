@@ -1,0 +1,102 @@
+@import '../../base_styles/colors.scss';
+
+.backupModalBlocker{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(255,255,255, .5);
+
+    .backupDetails{
+        font-size: 12px;
+    }
+
+    .backupModal{
+        width: 100%;
+        max-width: 500px;
+        background-color: rgba(255,255,255, .95);
+        border-radius: 10px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px 0px;
+        min-height: 50%;
+    }
+
+    .addTitle{
+        font-size: x-large;
+        height: 20%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modalWrapper{
+        width: 100%;
+        height: 100%;
+    }
+
+    .formWrapper{
+        height: 60%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .addForm{
+        height: 100%;
+        width: 90%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .addFormItemDesc{
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: column;
+            width: 100%;
+            font-size: large;
+        }
+
+        .formItem{
+            background-color: #DDDDDD;
+            font-size: x-large;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .formError{
+            color: $delete;
+        }
+    }
+
+    .tools{
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        width: 100%;
+        height: 20%;
+        margin-top: 10px;
+
+        .toolSection{
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button{
+            width: 80%;
+            height: 50px;
+            font-size: large;
+        }
+    }
+}
+

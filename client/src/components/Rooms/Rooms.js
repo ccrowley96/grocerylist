@@ -1,8 +1,9 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
-import {RiPlayListAddLine} from 'react-icons/ri';
+import {RiPlayListAddLine, RiSave3Line} from 'react-icons/ri';
 import {AiOutlineTag, AiFillDelete} from 'react-icons/ai';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
+import BackupModal from '../BackupModal/BackupModal';
 import isMobile from 'ismobilejs';
 import utils from '../../utils/utils';
 import './Rooms.scss';
@@ -16,7 +17,8 @@ class Rooms extends React.Component{
             joinRoomInfo: '',
             confirmOpen: false,
             note: '',
-            awaitingValidation: false
+            awaitingValidation: false,
+            backupOpen: false
         }
         this.noteTimeout = null;
     }
@@ -198,63 +200,79 @@ class Rooms extends React.Component{
 
     render(){
         return(
-            <div className="roomsWrapper">
-                <div className="roomTopToolbarWrapper">
-                    <div className={`designedBy${isMobile().any ? ' mobile' : ''}`}>Designed By &nbsp;<a href="https://corycrowley.me" target="_blank"> Cory</a></div>
-                    <form onSubmit={(e) => this.handleSubmit(e)} className="joinRoomForm">
-                        <div className="joinRoomWrapper">
-                            <div className="joinRoomInputWrapper">
-                                <input 
-                                    type="text" 
-                                    value={this.state.joinRoomVal} 
-                                    onChange={(e) => this.handleJoinInputChange(e)}
-                                    placeholder={"Enter code..."}
-                                    className="joinRoomInput"
-                                    maxLength={6}
-                                >
-                                </input>
-                                <div className="joinRoomInfo">{this.state.joinRoomInfo}</div>
+            <div className="applicationWrapper">
+                    {
+                        this.state.backupOpen ?
+                        <BackupModal 
+                            confirm={(email) => console.log('confirming backup: ', email)}
+                            triggerClose={() => this.setState({backupOpen: false})}
+                        /> : null
+                    }
+                <div className="roomsWrapper">
+                    <div className="roomTopToolbarWrapper">
+                        <div className={`designedBy${isMobile().any ? ' mobile' : ''}`}>Designed By &nbsp;<a href="https://corycrowley.me" target="_blank"> Cory</a></div>
+                        <form onSubmit={(e) => this.handleSubmit(e)} className="joinRoomForm">
+                            <div className="joinRoomWrapper">
+                                <div className="joinRoomInputWrapper">
+                                    <input 
+                                        type="text" 
+                                        value={this.state.joinRoomVal} 
+                                        onChange={(e) => this.handleJoinInputChange(e)}
+                                        placeholder={"Enter code..."}
+                                        className="joinRoomInput"
+                                        maxLength={6}
+                                    >
+                                    </input>
+                                    <div className="joinRoomInfo">{this.state.joinRoomInfo}</div>
+                                </div>
+                                <div className="joinRoomButtonWrapper">
+                                    <button className="confirm joinRoomButton" type="submit" value="Submit">
+                                        Join
+                                        <AiOutlineTag className="roomToolIcon"/>
+                                    </button>
+                                </div>
                             </div>
-                            <div className="joinRoomButtonWrapper">
-                                <button className="confirm joinRoomButton" type="submit" value="Submit">
-                                    Join
-                                    <AiOutlineTag className="roomToolIcon"/>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                
-                <h2>Grocery Lists</h2>
-                { 
-                    (this.state.rooms && this.state.rooms.length !== 0) ? this.state.rooms.map(room => {
-                        return (
-                            <RoomItem
-                                awaitingValidation={this.state.awaitingValidation}
-                                key={room.roomId}
-                                roomName={room.roomName}
-                                room={room} 
-                                joinMyRoom={this.joinMyRoom.bind(this)}
-                                deleteRoom={this.deleteRoom.bind(this)}
-                                validateRooms={this.validateRooms.bind(this)}
-                            />
-                        )
-                    }) : <div>No Lists found!</div> 
-                }   
-                <div className="createRoomWrapper">
-                        <button 
-                            className="confirm createRoom"
-                            onClick={() => this.createRoom()}
-                        >
-                            Create List
-                            <RiPlayListAddLine className="roomToolIcon"/>
-                        </button>
-                </div>
-                <div className="notes">
-                    <p><i>{this.state.note}</i></p>
-                </div>
-                <div className="feedback">
-                    <a href="https://forms.gle/whSyuGXyLfcP4XHN9" target="_blank">Feedback Form</a>
+                        </form>
+                    </div>
+                    
+                    <h2>Your lists</h2>
+                    { 
+                        (this.state.rooms && this.state.rooms.length !== 0) ? this.state.rooms.map(room => {
+                            return (
+                                <RoomItem
+                                    awaitingValidation={this.state.awaitingValidation}
+                                    key={room.roomId}
+                                    roomName={room.roomName}
+                                    room={room} 
+                                    joinMyRoom={this.joinMyRoom.bind(this)}
+                                    deleteRoom={this.deleteRoom.bind(this)}
+                                    validateRooms={this.validateRooms.bind(this)}
+                                />
+                            )
+                        }) : <div className="noListsFound">No Lists found!</div> 
+                    }   
+                    <div className={`footerControlsWrapper ${!(this.state.rooms && this.state.rooms.length !== 0) ? 'right' : ''}`}>
+                            {this.state.rooms && this.state.rooms.length !== 0 && <button 
+                                className="settings footerTool"
+                                onClick={() => this.setState({backupOpen: true})}
+                            >
+                                Backup lists
+                                <RiSave3Line className="roomToolIcon"/>
+                            </button>}
+                            <button 
+                                className="confirm footerTool"
+                                onClick={() => this.createRoom()}
+                            >
+                                Create list
+                                <RiPlayListAddLine className="roomToolIcon"/>
+                            </button>
+                    </div>
+                    <div className="notes">
+                        <p><i>{this.state.note}</i></p>
+                    </div>
+                    <div className="feedback">
+                        <a href="https://forms.gle/whSyuGXyLfcP4XHN9" target="_blank">Feedback Form</a>
+                    </div>
                 </div>
             </div>
         )

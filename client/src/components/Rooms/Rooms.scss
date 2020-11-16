@@ -9,7 +9,7 @@
     right: 0px;
     margin-left:auto;
     margin-right:auto;
-    
+    position: relative;
     h1, h2, h3, h4{
         font-weight: 100;
     }
@@ -27,10 +27,18 @@
     }
 }
 
-.createRoomWrapper{
+.noListsFound{
+    text-align: center;
+    font-style: italic;
+}
+
+.footerControlsWrapper{
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    &.right{
+        justify-content: flex-end;
+    }
     button{
         height:  36px;
     }
@@ -127,7 +135,7 @@
     }
 }
 
-.createRoom{
+.footerTool{
     font-size: large;
     height: 40px;
     button{

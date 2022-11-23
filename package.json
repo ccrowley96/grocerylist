@@ -29,5 +29,8 @@
     "randomstring": "^1.1.5",
     "react-icons": "^3.10.0",
     "react-router-dom": "^5.2.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

@@ -4,6 +4,7 @@ import {RiPlayListAddLine, RiSave3Line} from 'react-icons/ri';
 import {AiOutlineTag, AiFillDelete} from 'react-icons/ai';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import BackupModal from '../BackupModal/BackupModal';
+import DeprecateModal from '../DeprecateModal/DeprecateModal';
 import isMobile from 'ismobilejs';
 import utils from '../../utils/utils';
 import './Rooms.scss';
@@ -18,13 +19,18 @@ class Rooms extends React.Component{
             confirmOpen: false,
             note: '',
             awaitingValidation: false,
-            backupOpen: false
+            backupOpen: false,
+            deprecateOpen: false
         }
         this.noteTimeout = null;
     }
 
     componentDidMount() {
         const {params} = this.props.match;
+
+        // Read deprecation splash local storage
+        let isDeprectationSplashConfirmed = JSON.parse(localStorage.getItem('isDeprectationSplashConfirmed'))
+        this.setState({deprecateOpen: !isDeprectationSplashConfirmed})
 
         // Load local storage into state (if available)
         let localRoomsObj = JSON.parse(localStorage.getItem('rooms'));
@@ -208,6 +214,13 @@ class Rooms extends React.Component{
                             triggerClose={() => this.setState({backupOpen: false})}
                         /> : null
                     }
+                    {
+                        this.state.deprecateOpen ?
+                        <DeprecateModal 
+                            confirm={() => null}
+                            triggerClose={() => this.setState({deprecateOpen: false})}
+                        /> : null
+                    }
                 <div className="roomsWrapper">
                     <div className="roomTopToolbarWrapper">
                         <div className={`designedBy${isMobile().any ? ' mobile' : ''}`}>Designed By &nbsp;<a href="https://corycrowley.me" target="_blank"> Cory</a></div>
@@ -268,7 +281,7 @@ class Rooms extends React.Component{
                             </button>
                     </div>
                     <div className="notes">
-                        <p><i>{this.state.note}</i></p>
+                        <p><b>⚠️ Grocery list is shutting down.  Please transfer your lists to another list app by January 1, 2023 to avoid losing data.  <a className={'learnMore'} onClick={() => this.setState({deprecateOpen: true})}>Learn more here</a></b></p>
                     </div>
                     <div className="feedback">
                         <a href="https://forms.gle/whSyuGXyLfcP4XHN9" target="_blank">Feedback Form</a>

@@ -58,6 +58,16 @@
     }
 }
 
+.learnMore{
+    color: $blue;
+    text-decoration: underline;
+    @media (hover: hover){
+        &:hover{
+            color: darken($blue, 20%);
+        }
+    }
+}
+
 .roomTopToolbarWrapper{
     display: flex;
     margin-bottom: 30px;

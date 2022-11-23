@@ -1,0 +1,135 @@
+@import '../../base_styles/colors.scss';
+
+.DeprecateModalBlocker{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(255,255,255, .5);
+
+    .backupTextArea{
+        min-height: 128px;
+        margin-bottom: 8px;
+    }
+
+    .backupDetails{
+        font-size: 12px;
+        .daTips{
+            font-size: 16px;
+            text-align: center;
+        }
+    }
+
+    .DeprecateModal{
+        width: 100%;
+        max-width: 500px;
+        background-color: rgba(255,255,255, .95);
+        border-radius: 10px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px 0px;
+        min-height: 50%;
+    }
+
+    .addTitle{
+        font-size: x-large;
+        color:$delete;
+        font-weight: bold;
+        height: 20%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modalWrapper{
+        width: 100%;
+        height: 100%;
+    }
+
+    .formWrapper{
+        height: 60%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .addForm{
+        height: 100%;
+        width: 90%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .addFormItemDesc{
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: column;
+            width: 100%;
+            font-size: 16px;
+
+            .textAreaLabel{
+                text-align: center;
+                padding: 8px 0px;
+                &.copied{
+                    color: green;
+                }
+            }
+        }
+
+        .formItem{
+            background-color: #DDDDDD;
+            font-size: x-large;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .formError{
+            color: $delete;
+        }
+    }
+
+    .tools{
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        width: 100%;
+        height: 20%;
+        margin-top: 10px;
+
+        .toolSection{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .closeBtn{
+            width: 160px;
+        }
+
+        .disable{
+            color: $blue;
+            text-decoration: underline;
+            @media (hover: hover){
+                &:hover{
+                    color: darken($blue, 20%);
+                }
+            }
+        }
+
+        button{
+            width: 80%;
+            height: 50px;
+            font-size: large;
+        }
+    }
+}
+
